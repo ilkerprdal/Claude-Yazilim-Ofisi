@@ -1,5 +1,6 @@
 ---
-description: "Mimariden uygulanabilir hikayelere bölme — her hikaye bağımsız, test edilebilir ve kabul kriterli."
+description: "Mimari ve gereksinimden uygulanabilir hikayelere bolme. 'Hikayeleri olustur', 'tasklar cikar', 'sprint backlogu hazirla', 'user story' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Write, Edit
 ---
 
 # /hikaye-olustur

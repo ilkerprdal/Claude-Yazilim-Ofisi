@@ -1,5 +1,6 @@
 ---
-description: "Teknik mimari dokümanı yazımı — sistem sınırları, veri akışı, teknoloji seçimleri."
+description: "Teknik mimari dokumani yazimi - sistem siniri, veri akisi, teknoloji secimleri, ADRler. 'Mimari hazirla', 'teknik tasarim', 'stack secelim', 'ADR' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, AskUserQuestion
 ---
 
 # /mimari

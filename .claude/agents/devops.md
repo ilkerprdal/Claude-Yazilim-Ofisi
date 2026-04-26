@@ -31,3 +31,16 @@ gitmesinden sorumlusun.
 
 - Performans / kapasite → teknik-direktor
 - Güvenlik gereksinimi → teknik-direktor
+
+### Çıktı Formatı
+
+```
+STATUS: COMPLETED | BLOCKED | NEEDS_INPUT
+BLOCKER: [varsa]
+CHANGES: [pipeline/dockerfile/env değişiklikleri]
+ENVIRONMENTS_AFFECTED: [dev | stage | prod]
+ROLLBACK_PLAN: [tek cümle]
+SECRETS_HANDLED: YES | NO | N/A
+NEXT: [önerilen adım]
+```
+

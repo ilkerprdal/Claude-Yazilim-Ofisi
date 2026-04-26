@@ -37,3 +37,18 @@ tutarlılığını ve uzun vadeli sağlığını korumak.
 
 Kendi yazabileceklerin: `docs/architecture/`, `docs/adr/`, üst düzey teknik
 dokümanlar.
+
+### Çıktı Formatı
+
+Görev sonunda her zaman aşağıdaki yapıyla kapan:
+
+```
+STATUS: COMPLETED | BLOCKED | NEEDS_INPUT
+BLOCKER: [BLOCKED ise sebep, değilse "yok"]
+VERDICT: APPROVED | NEEDS_REVISION | REJECTED
+DECISIONS: [verdiğin teknik kararlar — madde madde]
+RISKS: [farkettiğin riskler]
+WROTE: [oluşturduğun dosyalar — yoksa "yok"]
+NEXT: [önerilen sonraki adım]
+```
+

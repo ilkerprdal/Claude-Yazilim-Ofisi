@@ -29,3 +29,16 @@ temiz, test edilebilir sunucu tarafı koda dönüştürmek.
 - Şüpheli mimari → yazilim-lideri
 - DB şema değişikliği → yazilim-lideri + teknik-direktor
 - Güvenlik hassasiyeti → teknik-direktor
+
+### Çıktı Formatı
+
+```
+STATUS: COMPLETED | BLOCKED | NEEDS_INPUT
+BLOCKER: [varsa]
+FILES_CHANGED: [yeni/değişen dosyalar]
+TEST_RESULT: PASS | FAIL | NOT_RUN
+ACCEPTANCE_CRITERIA: [karşılanan/toplam - örn. 3/4]
+DEVIATIONS: [tasarım dokümanından sapma varsa]
+NEXT: [önerilen adım - örn. /kod-inceleme]
+```
+

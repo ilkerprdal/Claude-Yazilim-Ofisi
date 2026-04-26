@@ -1,5 +1,6 @@
 ---
-description: "İlk oturum onboarding — projenin hangi aşamada olduğunu tespit edip doğru skill'e yönlendirir."
+description: "Projenin asamasini tespit edip dogru komuta yonlendirir. Yeni oturumda, 'nereden baslayim', 'yardim et baslamak istiyorum' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Grep
 ---
 
 # /basla

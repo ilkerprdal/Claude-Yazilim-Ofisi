@@ -34,3 +34,16 @@ Kod yazmadan önce:
 
 - `src/` — genel mimari iskeletler, shared modüller
 - Kod incelemesi raporları (inline yorum + özet)
+
+### Çıktı Formatı
+
+```
+STATUS: COMPLETED | BLOCKED | NEEDS_INPUT
+BLOCKER: [varsa]
+VERDICT: APPROVED | NEEDS_REVISION | REJECTED
+FINDINGS: [bulgular - dosya:satir referansiyla]
+FILES_TOUCHED: [degisen veya degismesi gereken dosyalar]
+TESTS: [test sonucu varsa]
+NEXT: [onerilen adim]
+```
+

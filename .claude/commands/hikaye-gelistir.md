@@ -1,5 +1,7 @@
 ---
-description: "Bir hikayeyi uçtan uca uygula — bağlam yükle, doğru ajana yönlendir, kodu ve testi yaz."
+description: "Bir hikayeyi uctan uca uygula - kod ve test. 'X hikayesini gelistir', 'story 003 u yap', 'bu task i implementle' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task
+argument-hint: '[hikaye-id veya slug, ornek: 003 veya 003-login]'
 ---
 
 # /hikaye-gelistir

@@ -33,3 +33,17 @@ Sen QA lideri rolündesin. Ürünün iddialarının doğruluğundan sorumlusun.
 
 - `tests/` — üst düzey test yapısı ve stratejisi
 - `production/qa/` — test planları, duman test raporları
+
+### Çıktı Formatı
+
+```
+STATUS: COMPLETED | BLOCKED | NEEDS_INPUT
+BLOCKER: [varsa]
+GATE: PASS | CONCERNS | FAIL
+EVIDENCE_TYPE: UNIT | INTEGRATION | MANUAL | SMOKE
+COVERAGE: [kapsanan/eksik kabul kriteri sayısı]
+GAPS: [eksik test alanları]
+WROTE: [test planı/rapor dosyası]
+NEXT: [önerilen adım]
+```
+

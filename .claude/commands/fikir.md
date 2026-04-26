@@ -1,5 +1,6 @@
 ---
-description: "Proje veya özellik fikrini yapılandırılmış bir konsept dokümanına dönüştür."
+description: "Proje veya ozellik fikrini yapilandirilmis konsept dokumanina cevirir. 'Yeni bir uygulama yapmak istiyorum', 'fikir gelistirmek istiyorum', 'X icin proje', 'konsept' denildiginde tetiklenir."
+allowed-tools: Read, Write, Edit, AskUserQuestion
 ---
 
 # /fikir

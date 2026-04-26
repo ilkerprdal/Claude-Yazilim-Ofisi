@@ -1,5 +1,7 @@
 ---
-description: "Gereksinim analizi — yeni proje için paydaş soruları + spec, veya mevcut sistemin analizi."
+description: "Yeni proje icin gereksinim toplama (FR/NFR/kisit) veya mevcut sistemin teknik analizi. 'Gereksinimleri cikar', 'mevcut sistemi analiz et', 'bu kodu incele', 'spec hazirla' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
+argument-hint: '[opsiyonel: yeni veya mevcut]'
 ---
 
 # /analiz

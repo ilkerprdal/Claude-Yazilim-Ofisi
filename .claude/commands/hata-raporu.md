@@ -1,5 +1,6 @@
 ---
-description: "Yapılandırılmış hata raporu oluştur — tekrarlama adımları, beklenen/gerçekleşen, önem derecesi."
+description: "Yapilandirilmis bug raporu olusturur. 'Bug var', 'hata buldum', 'X calismiyor', 'crash oluyor', 'bug raporu hazirla' denildiginde tetiklenir."
+allowed-tools: Read, Write, Edit, AskUserQuestion
 ---
 
 # /hata-raporu

@@ -1,5 +1,6 @@
 ---
-description: "Kullanılabilir komutları ve temel iş akışını göster."
+description: "Mevcut tum komutlari ve temel is akisini gosterir. 'Yardim', 'komutlar nedir', 'ne yapabilirim', '/help' denildiginde tetiklenir."
+allowed-tools: Read
 ---
 
 # /yardim

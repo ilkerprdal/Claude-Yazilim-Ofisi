@@ -1,5 +1,6 @@
 ---
-description: "Bir özellik veya sprint için test planı üret."
+description: "Sprint veya ozellik icin test plani uretir. 'Test plani hazirla', 'QA plani', 'test stratejisi', 'neyi test edelim' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Grep, Write, Edit
 ---
 
 # /qa-plan

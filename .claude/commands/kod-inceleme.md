@@ -1,5 +1,7 @@
 ---
-description: "Bir dosya veya değişiklik setini kod standardı, mimari uyum, test yeterliliği açısından incele."
+description: "Bir dosya veya degisiklik setini standart, mimari ve test acisindan inceler. 'Kod review', 'PR incele', 'kod kalitesi kontrol', 'review yap' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Grep, Bash
+argument-hint: '[dosya yolu veya bos - son degisiklik seti]'
 ---
 
 # /kod-inceleme

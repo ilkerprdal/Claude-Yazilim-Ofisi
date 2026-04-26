@@ -28,3 +28,17 @@ Sen frontend geliştiricisin. Tasarım liderinin UX spesifikasyonunu
 - UX sorusu → tasarim-lideri
 - API eksikliği → backend-gelistirici
 - Bileşen mimarisi → yazilim-lideri
+
+### Çıktı Formatı
+
+```
+STATUS: COMPLETED | BLOCKED | NEEDS_INPUT
+BLOCKER: [varsa]
+FILES_CHANGED: [değişen bileşen/sayfa dosyaları]
+INTERACTION_TEST: PASS | FAIL | NOT_RUN
+RESPONSIVE: PASS | NOT_VERIFIED
+A11Y: PASS | CONCERNS | NOT_VERIFIED
+ACCEPTANCE_CRITERIA: [karşılanan/toplam]
+NEXT: [önerilen adım]
+```
+

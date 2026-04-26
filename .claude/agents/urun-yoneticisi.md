@@ -32,3 +32,16 @@ Sen ürün yöneticisisin. Sorumluluğun: doğru şeyi yapmak (teknik direktör
 
 - Teknik mimari (teknik-direktor)
 - Uygulama kodu
+
+### Çıktı Formatı
+
+```
+STATUS: COMPLETED | BLOCKED | NEEDS_INPUT
+BLOCKER: [varsa sebep]
+SCOPE_DECISION: ACCEPTED | DEFERRED | REJECTED
+RATIONALE: [tek cümle gerekçe]
+WROTE: [dosyalar]
+OPEN_QUESTIONS: [kullanıcıya kalan sorular]
+NEXT: [önerilen adım]
+```
+

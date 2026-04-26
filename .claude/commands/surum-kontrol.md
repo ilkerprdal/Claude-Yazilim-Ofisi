@@ -1,5 +1,6 @@
 ---
-description: "Sürüm öncesi hazırlık kontrol listesi — kod, test, dağıtım, doküman."
+description: "Surum oncesi go/no-go kontrol listesi. 'Surume hazir miyiz', 'release checklist', 'yayinlamadan once kontrol et', 'go/no-go' denildiginde tetiklenir."
+allowed-tools: Read, Glob, Grep, Bash
 ---
 
 # /surum-kontrol
