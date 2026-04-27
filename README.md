@@ -11,6 +11,8 @@
 Turn your Claude Code session into a small, organized software office.
 **11 agents. 22 slash commands. Brownfield-friendly. Scale-adaptive.**
 
+🇹🇷 **Türkçe**: [README.tr.md](README.tr.md)
+
 > **Status: early preview** (v0.1.x). Verified locally on the maintainer's
 > machine and through the included example. APIs (agent names, command
 > behavior, output formats) may change before 1.0. Community feedback wanted.
