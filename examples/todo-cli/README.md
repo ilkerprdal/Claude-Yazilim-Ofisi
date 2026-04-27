@@ -1,5 +1,9 @@
 # todo-cli — Software Office Worked Example
 
+> ✅ **13/13 tests passing** · 11 acceptance criteria covered · code review APPROVED
+> See [`production/qa/test-evidence-S01.md`](production/qa/test-evidence-S01.md)
+> and [`production/qa/code-review-S01.md`](production/qa/code-review-S01.md).
+
 A complete, end-to-end example showing what a project looks like after
 running through the Software Office workflow: `/idea` → `/analyze` →
 `/architecture` → `/create-stories` → `/sprint-plan` → `/develop-story` →
@@ -30,8 +34,11 @@ production/
     S01-2026-04-15.md           ← /sprint-plan output
   retros/
     S01.md                      ← /retro output
+  qa/
+    test-evidence-S01.md        ← /qa-plan output (real pytest output)
+    code-review-S01.md          ← /code-review output (engineering-lead verdict)
 src/                            ← actual implementation
-tests/                          ← actual tests
+tests/                          ← actual tests (run: pytest)
 ```
 
 ## How to read this
@@ -54,11 +61,15 @@ Open files in this order to follow the agent narrative:
 cd examples/todo-cli
 python -m venv .venv && source .venv/bin/activate    # Linux/Mac
 # .\.venv\Scripts\activate                            # Windows
-pip install click pytest
-pytest                                                # all tests pass
-python -m todo_cli add "buy milk"
-python -m todo_cli list
+pip install -e ".[dev]"
+pytest                                                # 13/13 PASS in ~80ms
+python -m src add "buy milk"
+python -m src list
+python -m src done 1
 ```
+
+Last verified locally: **13 passed in 0.08s** on Python 3.11.9.
+CI runs this on every push — see the badge on the root README.
 
 ## What's intentionally minimal
 

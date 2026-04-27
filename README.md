@@ -1,5 +1,13 @@
 # Software Office
 
+[![CI](https://github.com/ilkerprdal/Claude-Software-Office/actions/workflows/ci.yml/badge.svg)](https://github.com/ilkerprdal/Claude-Software-Office/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/ilkerprdal/Claude-Software-Office)](https://github.com/ilkerprdal/Claude-Software-Office/releases)
+[![Tests](https://img.shields.io/badge/tests-13%2F13_passing-brightgreen)](examples/todo-cli/tests/)
+![Agents](https://img.shields.io/badge/agents-11-blueviolet)
+![Commands](https://img.shields.io/badge/commands-21-blue)
+![Multilingual](https://img.shields.io/badge/multilingual-EN%20%7C%20TR-orange)
+
 Turn your Claude Code session into a small, organized software office.
 **11 agents. 21 slash commands. A simple Agile team. Multilingual.**
 

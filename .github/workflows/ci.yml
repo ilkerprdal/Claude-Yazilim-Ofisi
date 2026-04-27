@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate frontmatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run frontmatter validator
+        run: python scripts/validate.py --strict
+
+  example-tests:
+    name: Worked example tests (todo-cli)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/todo-cli
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install click pytest
+      - name: Run pytest
+        run: pytest -v
+
+  installer-syntax:
+    name: Installer syntax checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: bash -n install.sh
+        run: bash -n install.sh
+      - name: shellcheck install.sh (best-effort)
+        run: |
+          if command -v shellcheck >/dev/null 2>&1; then
+            shellcheck install.sh || true
+          else
+            echo "shellcheck not available — skipped"
+          fi
+      - name: Validate PowerShell syntax
+        shell: pwsh
+        run: |
+          $errors = $null
+          $content = Get-Content install.ps1 -Raw
+          [System.Management.Automation.Language.Parser]::ParseInput($content, [ref]$null, [ref]$errors) | Out-Null
+          if ($errors) {
+            $errors | ForEach-Object { Write-Error $_ }
+            exit 1
+          }
+          Write-Host "install.ps1 parses cleanly"

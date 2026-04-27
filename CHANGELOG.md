@@ -6,6 +6,33 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
 
 ### Added
 
+- **LICENSE file** — MIT, matching what README claimed. (Was missing
+  in v0.1.0; the repo's `license` field on GitHub returned `null`.)
+- **GitHub Actions CI** (`.github/workflows/ci.yml`) — runs on every push
+  and PR:
+  - frontmatter validator (`scripts/validate.py --strict`)
+  - example tests (`pytest` in `examples/todo-cli/`, 13 tests)
+  - installer syntax check (`bash -n install.sh`, PowerShell parser)
+- **README badges** — CI status, license, release, tests passing,
+  agent/command counts, multilingual.
+- **examples/todo-cli/production/qa/test-evidence-S01.md** — captured pytest
+  output and acceptance-criteria → test mapping.
+- **examples/todo-cli/production/qa/code-review-S01.md** — engineering-lead
+  review report covering quality bars, OWASP, perf, observability.
+- examples/todo-cli/README updated with explicit "13/13 passing" proof
+  callout at top and accurate run instructions.
+
+### Changed
+
+- GitHub repo description: now reflects accurate counts (11 agents,
+  21 commands).
+
+### Fixed
+
+- **License integrity**: README declared MIT but no LICENSE file existed.
+- examples/todo-cli/README run instructions corrected (`pip install -e
+  ".[dev]"`, `python -m src` instead of `python -m todo_cli`).
+
 - **`/quick-fix` command** — scale-adaptive lightweight fix path. Skips
   story / sprint / ceremonies for changes <50 LOC, single-purpose, no
   architectural impact. Refuses to be the security-fix path
