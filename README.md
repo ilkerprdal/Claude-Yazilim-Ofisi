@@ -95,7 +95,21 @@ If you need **maximum simplicity with structure**, this is for you.
 
 ## Installation
 
-### One-liner (recommended)
+Three ways to install — pick the one that fits.
+
+### A. Plugin install (recommended for Claude Code 2.x)
+
+In a Claude Code session:
+
+```
+/plugin marketplace add ilkerprdal/Claude-Software-Office
+/plugin install claude-software-office@claude-software-office-marketplace
+```
+
+This wires up agents, commands, and hooks as a Claude Code plugin —
+auto-update via `/plugin update`, scoped to user or project as you choose.
+
+### B. One-liner (for any project, no plugin support needed)
 
 **macOS / Linux / Git Bash on Windows:**
 ```bash
@@ -111,25 +125,25 @@ Run from inside your project's root folder. The script downloads the latest
 release, installs `.claude/`, `CLAUDE.md`, `.gitignore`, and a `production/`
 scaffold. Existing `CLAUDE.md` is backed up as `CLAUDE.legacy.md`.
 
-### Manual
+### C. Manual
 
 ```bash
 git clone https://github.com/ilkerprdal/Claude-Software-Office.git
 cd your-project
-bash /path/to/Claude-Software-Office/install.sh           # Mac/Linux
-.\\path\\to\\Claude-Software-Office\\install.ps1           # Windows
+bash /path/to/Claude-Software-Office/install.sh        # Mac/Linux
+.\path\to\Claude-Software-Office\install.ps1           # Windows
 ```
 
-Or just copy `.claude/`, `CLAUDE.md` from the cloned repo.
+Or just copy `.claude/` and `CLAUDE.md` from the cloned repo into your project.
 
 ### After install
 
 ```bash
 claude
-/start         # or /takeover if you have prior AI context (context.md, .cursorrules, etc.)
+/start         # or /takeover if you have prior AI context
 ```
 
-Agents auto-detect your language (English, Turkish, more).
+Agents auto-detect your language (verified: English, Turkish).
 
 ---
 
@@ -375,12 +389,14 @@ Each agent has a **Language Protocol** in its system prompt:
 > Default: English. Tech terms (API, REST, ADR, Docker, etc.) stay in English.
 > Files you write follow the user's language preference.
 
-So whether you write in English, Turkish, German, or Japanese, agents
-respond in your language. Code stays in English (industry convention).
-Documentation files follow your language.
+**Verified locally**: English, Turkish.
+**Designed for**: any language Claude supports — but other languages are
+unverified by us. If you've used it in Spanish, German, French, Japanese,
+Arabic, Mandarin, or anywhere else, we'd love a screenshot in
+[Discussions](https://github.com/ilkerprdal/Claude-Software-Office/discussions).
 
-Tested with: English, Turkish.
-Should work with: any language Claude supports.
+Code stays in English (industry convention). Comments, docs, chat all
+follow your language.
 
 ---
 

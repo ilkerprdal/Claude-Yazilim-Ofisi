@@ -24,6 +24,14 @@ import sys
 import re
 from pathlib import Path
 
+# Force UTF-8 output so Unicode markers don't crash on Windows cp1254 etc.
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+except Exception:
+    # Fallback: replace markers with ASCII if reconfigure fails
+    pass
+
 ROOT = Path(__file__).resolve().parent.parent
 AGENT_DIR = ROOT / ".claude" / "agents"
 COMMAND_DIR = ROOT / ".claude" / "commands"
@@ -45,8 +53,11 @@ class Issue:
         self.msg = msg
 
     def __str__(self):
-        rel = self.path.relative_to(ROOT) if self.path.is_relative_to(ROOT) else self.path
-        marker = "✗" if self.level == "error" else "!"
+        try:
+            rel = self.path.relative_to(ROOT) if self.path.is_relative_to(ROOT) else self.path
+        except (ValueError, AttributeError):
+            rel = self.path
+        marker = "[ERROR]" if self.level == "error" else "[WARN] "
         return f"  {marker} {rel}: {self.msg}"
 
 

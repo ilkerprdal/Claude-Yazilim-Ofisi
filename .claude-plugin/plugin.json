@@ -1,0 +1,27 @@
+{
+  "name": "claude-software-office",
+  "version": "0.1.1",
+  "description": "Turn Claude Code into a small, organized software office. 11 curated agents (Director/Lead/Specialist hierarchy) and 21 commands covering full Agile workflow. Multilingual.",
+  "author": {
+    "name": "ilkerprdal",
+    "url": "https://github.com/ilkerprdal"
+  },
+  "homepage": "https://github.com/ilkerprdal/Claude-Software-Office",
+  "repository": "https://github.com/ilkerprdal/Claude-Software-Office",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "agents",
+    "subagents",
+    "agile",
+    "scrum",
+    "workflow",
+    "multilingual",
+    "software-development",
+    "agentic-workflow",
+    "ai-pair-programming"
+  ],
+  "agents": ["./.claude/agents/"],
+  "commands": ["./.claude/commands/"],
+  "hooks": "./hooks/hooks.json"
+}

@@ -4,53 +4,67 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
 
 ## [Unreleased]
 
+## [0.1.1] — 2026-04-27
+
 ### Added
 
-- **LICENSE file** — MIT, matching what README claimed. (Was missing
-  in v0.1.0; the repo's `license` field on GitHub returned `null`.)
-- **GitHub Actions CI** (`.github/workflows/ci.yml`) — runs on every push
-  and PR:
+- **Plugin format** — Software Office is now installable as a Claude Code
+  plugin:
+  - `.claude-plugin/plugin.json` manifest with custom paths pointing into
+    `.claude/agents/` and `.claude/commands/` (existing structure preserved).
+  - `.claude-plugin/marketplace.json` so users can subscribe via
+    `/plugin marketplace add ilkerprdal/Claude-Software-Office`.
+- **Safe hooks** under `hooks/`:
+  - `post-edit-validate.sh` — runs the frontmatter validator after
+    Write/Edit/MultiEdit. Warns to stderr; never blocks.
+  - `pre-bash-hint.sh` — reminds to run tests before `git push` if a test
+    framework is detected. Hint only; never blocks.
+  - All hooks fail-open: missing Python, missing git, missing test manifest,
+    or missing validator → silent no-op.
+  - Windows-Store-stub Python detection (the stub passes `command -v` but
+    errors on actual run; we now verify with `--version`).
+- **LICENSE file** — MIT, matching what README claimed. Was missing in
+  v0.1.0; the repo's `license` field on GitHub returned `null`.
+- **GitHub Actions CI** (`.github/workflows/ci.yml`):
   - frontmatter validator (`scripts/validate.py --strict`)
   - example tests (`pytest` in `examples/todo-cli/`, 13 tests)
   - installer syntax check (`bash -n install.sh`, PowerShell parser)
 - **README badges** — CI status, license, release, tests passing,
   agent/command counts, multilingual.
-- **examples/todo-cli/production/qa/test-evidence-S01.md** — captured pytest
-  output and acceptance-criteria → test mapping.
+- **`/quick-fix` command** — scale-adaptive lightweight fix path. Skips
+  story / sprint / ceremonies for changes <50 LOC, single-purpose, no
+  architectural impact. Delegates security fixes to `security-reviewer`.
+- **examples/todo-cli/production/qa/test-evidence-S01.md** — captured
+  pytest output and acceptance-criteria → test mapping.
 - **examples/todo-cli/production/qa/code-review-S01.md** — engineering-lead
   review report covering quality bars, OWASP, perf, observability.
-- examples/todo-cli/README updated with explicit "13/13 passing" proof
-  callout at top and accurate run instructions.
+- examples/todo-cli/README updated with explicit "13/13 passing" callout.
+- **FAQ + Troubleshooting** sections in README.
+- **CONTRIBUTING.md** — agent/command authoring format, validation,
+  commit conventions, code-of-conduct expectations.
+- **Issue templates** (`.github/ISSUE_TEMPLATE/bug_report.yml`,
+  `feature_request.yml`, `agent_proposal.yml`, `config.yml`).
+- **PR template** (`.github/PULL_REQUEST_TEMPLATE.md`).
+- README "Installation" section now lists three install paths
+  (plugin, one-liner, manual).
 
 ### Changed
 
+- **Multilingual claim tightened in README**: "verified: EN + TR;
+  designed for any language Claude supports". Asks the community for
+  screenshots in other languages via Discussions.
 - GitHub repo description: now reflects accurate counts (11 agents,
   21 commands).
+- Total commands: 20 → 21 (added `/quick-fix`).
 
 ### Fixed
 
-- **License integrity**: README declared MIT but no LICENSE file existed.
+- `scripts/validate.py` now forces UTF-8 stdout/stderr and uses
+  ASCII-only severity markers (`[ERROR]`, `[WARN]`), avoiding
+  `UnicodeEncodeError` on Windows console encodings (cp1254 etc.).
 - examples/todo-cli/README run instructions corrected (`pip install -e
   ".[dev]"`, `python -m src` instead of `python -m todo_cli`).
-
-- **`/quick-fix` command** — scale-adaptive lightweight fix path. Skips
-  story / sprint / ceremonies for changes <50 LOC, single-purpose, no
-  architectural impact. Refuses to be the security-fix path
-  (delegates to `security-reviewer`).
-- **FAQ + Troubleshooting** sections in README covering common questions
-  (other AI tools, language detection, install errors, validator usage).
-- **CONTRIBUTING.md** — agent / command authoring format, validation,
-  commit conventions, code-of-conduct expectations.
-- **Issue templates** (`.github/ISSUE_TEMPLATE/`):
-  - `bug_report.yml`
-  - `feature_request.yml`
-  - `agent_proposal.yml`
-- **PR template** (`.github/PULL_REQUEST_TEMPLATE.md`).
-- GitHub Discussions linked from issue config (questions go there, not issues).
-
-### Changed
-
-- Total commands: 20 → 21 (added `/quick-fix`).
+- License integrity — README declared MIT but no LICENSE file existed.
 
 ## [0.1.0] — 2026-04-27
 
@@ -66,10 +80,9 @@ The first tagged release. The project is functional and usable, but APIs
   Specialists (backend-developer, frontend-developer, devops).
 - **20 slash commands** in `.claude/commands/` covering onboarding,
   design, sprint cycle, development, QA, security, and release.
-- **Single-file Windows installer** (`software-office-install.bat`) with
-  embedded payload — no external dependencies.
-- **Bash installer** (`software-office-install.sh`) for Linux and macOS.
-- **PowerShell installer** (`software-office-install.ps1`) for Windows.
+- **Bash installer** (`install.sh`) for macOS/Linux.
+- **PowerShell installer** (`install.ps1`) for Windows.
+- **`install.bat`** thin wrapper for double-click users.
 - **Multilingual agents** — Language Protocol auto-detects user language
   and responds in it (tested EN + TR).
 - **`/takeover` command** to import context from prior AI tools
@@ -85,7 +98,7 @@ The first tagged release. The project is functional and usable, but APIs
 - **30-second animated SVG demo** in README.
 - **Quality bars** for code review (function/file/complexity limits).
 - **Coverage targets**: 90% for critical paths, 70% standard.
-- **`examples/todo-cli/`** — a complete worked example.
+- **`examples/todo-cli/`** — a complete worked example with passing tests.
 - Frontmatter linter script (`scripts/validate.py`).
 
 ### Changed
@@ -96,8 +109,9 @@ The first tagged release. The project is functional and usable, but APIs
 ### Documentation
 
 - README with installation, workflow, command table, anti-personas.
-- `SECURITY.md`, `CHANGELOG.md`.
+- `SECURITY.md`.
 - `.claude/docs/`: collaboration, coordination, coding standards.
 
-[Unreleased]: https://github.com/ilkerprdal/Claude-Software-Office/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/ilkerprdal/Claude-Software-Office/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/ilkerprdal/Claude-Software-Office/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ilkerprdal/Claude-Software-Office/releases/tag/v0.1.0
