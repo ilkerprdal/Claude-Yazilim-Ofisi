@@ -49,34 +49,79 @@ questions, knows its boundaries, and consults each other.
 
 ---
 
+## Why Use This (and Why Not)
+
+### ✅ Use Software Office if you are...
+- A **solo developer** wanting team-style discipline
+- A **small team (2–5 people)** without a formal process yet
+- Building an **MVP, prototype, or internal tool** that will live ≥ 2 months
+- On **web / API / CLI / mobile** stacks (frontend + backend)
+- Joining an **existing project** with prior AI context (Cursor, Copilot, etc.) — `/takeover` brings it forward
+- Working in a **non-English** language and tired of English-only tools
+
+### ❌ Skip Software Office if you are...
+- Writing a **5-line script** — `claude` directly is faster
+- In a **hackathon** — speed > discipline
+- Part of a **20+ person company** with established Jira/ADRs/retros — it'll clash
+- Doing **bleeding-edge AI/ML R&D** — agents' domain knowledge is general
+- Working in **embedded / hardware / blockchain** — niche stacks aren't covered
+- Just want to **chat about code** — overkill for Q&A
+
+### How It Compares
+
+| Need | Direct Claude | Software Office | Big Frameworks (BMAD, etc.) |
+|------|---------------|-----------------|-----------------------------|
+| Quick fix / 1-shot | ✅ Best | ❌ Overkill | ❌ Overkill |
+| Long-running project | ❌ Loses context | ✅ Built for it | ✅ Built for it |
+| Setup complexity | None | Single `.bat`/`.sh` | Node + npm + plugins |
+| Number of agents | 1 (generic) | **11 (curated)** | 50+ (overwhelming) |
+| Multilingual | Implicit | **Explicit Protocol** | Mostly English-only |
+| Sprint / Agile loop | ❌ | ✅ | ✅ |
+| Existing-project takeover | ❌ Manual | ✅ `/takeover` | Varies |
+| Bus factor risk | N/A | High (solo maintainer) | Lower (community) |
+
+If you need **maximum sophistication**, look at BMAD-METHOD.
+If you need **maximum simplicity with structure**, this is for you.
+
+---
+
 ## Installation
 
-**One file: `software-office-install.bat`**
+### One-liner (recommended)
 
-1. Copy the `.bat` into your project's **root folder**
-2. Double-click
-3. Type `e` and Enter (Turkish for "yes" — works for confirmation)
-4. Done — you can delete the `.bat`
+**macOS / Linux / Git Bash on Windows:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/ilkerprdal/Claude-Software-Office/main/install.sh | bash
+```
 
-The `.bat` carries 10 agents, 19 commands, docs and settings embedded.
-No external dependencies. Drop it on a USB stick, email it, run on any
-Windows machine (PowerShell ships with Windows).
+**Windows PowerShell:**
+```powershell
+irm https://raw.githubusercontent.com/ilkerprdal/Claude-Software-Office/main/install.ps1 | iex
+```
 
-After install, in the project folder:
+Run from inside your project's root folder. The script downloads the latest
+release, installs `.claude/`, `CLAUDE.md`, `.gitignore`, and a `production/`
+scaffold. Existing `CLAUDE.md` is backed up as `CLAUDE.legacy.md`.
+
+### Manual
+
+```bash
+git clone https://github.com/ilkerprdal/Claude-Software-Office.git
+cd your-project
+bash /path/to/Claude-Software-Office/install.sh           # Mac/Linux
+.\\path\\to\\Claude-Software-Office\\install.ps1           # Windows
+```
+
+Or just copy `.claude/`, `CLAUDE.md` from the cloned repo.
+
+### After install
 
 ```bash
 claude
-/start
+/start         # or /takeover if you have prior AI context (context.md, .cursorrules, etc.)
 ```
 
-If you're installing into an **existing project** with prior AI context
-(context.md, .cursorrules, etc.):
-
-```bash
-claude
-/takeover    # imports prior context into our memory
-/start       # then proceeds normally
-```
+Agents auto-detect your language (English, Turkish, more).
 
 ---
 
