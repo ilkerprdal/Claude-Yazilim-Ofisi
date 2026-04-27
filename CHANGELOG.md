@@ -4,6 +4,30 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
 
 ## [Unreleased]
 
+### Changed
+
+- **`design-lead` and `product-manager` agents deepened** with the same
+  framework rigor as backend-developer / security-reviewer. Previously these
+  two were thin (1.3–1.4 KB) compared to peers (4.6–6.6 KB) — now ~7.6 KB
+  each, with concrete frameworks instead of generic role prompts:
+  - `design-lead.md` now includes Discovery Questions, Nielsen's 10
+    Usability Heuristics review checklist, WCAG 2.1 Level AA mandatory
+    accessibility floor (11-point checklist), Atomic Design component
+    thinking (Atom/Molecule/Organism/Template), text-wireframe and
+    component-spec templates with examples, frontend handoff package
+    definition, and a Definition of Done.
+  - `product-manager.md` now includes mandatory hypothesis-driven framing
+    template, INVEST story criteria, Given/When/Then acceptance criteria
+    format with bad-vs-good examples, prioritization framework comparison
+    (MoSCoW, RICE, Kano, Cost of Delay, Opportunity Scoring) with
+    when-to-use guidance, Now/Next/Later roadmap horizons, user segment
+    discipline, separate Definition of Ready and Definition of Done
+    (product perspective, distinct from engineering's DoD), and a scope
+    control playbook.
+  - Output format blocks expanded to surface the new frameworks in
+    completion reports (e.g., `HEURISTICS`, `WCAG`, `INVEST_CHECK`,
+    `DOR_CHECK`, `HYPOTHESIS`).
+
 ## [0.1.1] — 2026-04-27
 
 ### Added
