@@ -4,8 +4,49 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
 
 ## [Unreleased]
 
+### Added
+
+- **`/feature` command** — mid-tier scale-adaptive path between `/quick-fix`
+  and full sprint cycle. Story + AC + implementation + code review, but no
+  sprint planning or retro. Designed for 50–500 LOC self-contained features
+  (~1–3 days of work). Mandatory `security-reviewer` pass when feature
+  touches auth/PII/payments/files.
+- **README "Differentiators" section** — explicitly calls out what this
+  project does differently from larger Agile-agent frameworks: brownfield-first
+  (`/takeover`), scale-adaptive workflow (three explicit tiers),
+  defensive infrastructure (fail-open hooks, three install paths),
+  explicit boundaries (anti-personas, vertical delegation, memory layer),
+  honest scope (single-maintainer, early-preview status).
+- **Total commands: 21 → 22** (added `/feature`).
+
 ### Changed
 
+- **README rewritten in response to reviewer feedback**:
+  - "How It Compares" table (with adjective-laden BMAD comparison) replaced
+    by a neutral "When to use what" routing table — points users to BMAD
+    explicitly when their need (50+ agents, enterprise greenfield) is a
+    better fit there.
+  - "Why Use This (and Why Not)" → "Who Is This For" — narrower, more
+    honest scope. Mid-size-project / mainstream-stack focus made explicit.
+  - Header tagline updated: dropped "Multilingual" as a primary
+    differentiator (it's mostly Claude's existing capability), added
+    "Brownfield-friendly. Scale-adaptive." which are project-specific.
+  - Added explicit **early-preview** status note (v0.1.x, APIs may change).
+  - "Multilingual" section renamed to **"Language Support"** and rewritten
+    honestly: leverages Claude's existing multilingual ability rather than
+    shipping localized templates. Localized story/sprint/retro templates
+    listed as roadmap, not as shipped feature.
+- **Badge cleanup** (reviewer-flagged manipulation):
+  - `tests-13/13_passing` (which tested the example, not the framework)
+    split into two: `frontmatter-validated` (framework) +
+    `example-13/13_passing` (example).
+  - `multilingual-EN|TR` badge removed — was overstating the feature.
+- **Count consistency** — `11 agents, 22 commands` synced across README
+  badges, header, FAQ, folder layout, `CLAUDE.md`, `plugin.json`, and
+  `demo/social-preview.svg`. Previously the same file had three different
+  numbers.
+- `plugin.json` keywords: dropped `multilingual`, added `brownfield`
+  and `scale-adaptive`.
 - **`design-lead` and `product-manager` agents deepened** with the same
   framework rigor as backend-developer / security-reviewer. Previously these
   two were thin (1.3–1.4 KB) compared to peers (4.6–6.6 KB) — now ~7.6 KB

@@ -3,16 +3,20 @@
 [![CI](https://github.com/ilkerprdal/Claude-Software-Office/actions/workflows/ci.yml/badge.svg)](https://github.com/ilkerprdal/Claude-Software-Office/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/ilkerprdal/Claude-Software-Office)](https://github.com/ilkerprdal/Claude-Software-Office/releases)
-[![Tests](https://img.shields.io/badge/tests-13%2F13_passing-brightgreen)](examples/todo-cli/tests/)
+[![Validator](https://img.shields.io/badge/frontmatter-validated-brightgreen)](scripts/validate.py)
+[![Example tests](https://img.shields.io/badge/example-13%2F13_passing-brightgreen)](examples/todo-cli/tests/)
 ![Agents](https://img.shields.io/badge/agents-11-blueviolet)
-![Commands](https://img.shields.io/badge/commands-21-blue)
-![Multilingual](https://img.shields.io/badge/multilingual-EN%20%7C%20TR-orange)
+![Commands](https://img.shields.io/badge/commands-22-blue)
 
 Turn your Claude Code session into a small, organized software office.
-**11 agents. 21 slash commands. A simple Agile team. Multilingual.**
+**11 agents. 22 slash commands. Brownfield-friendly. Scale-adaptive.**
 
-> Inspired by Claude Code Game Studios + BMAD-METHOD, targeted at general
-> software development. Agents detect your language and respond in it.
+> **Status: early preview** (v0.1.x). Verified locally on the maintainer's
+> machine and through the included example. APIs (agent names, command
+> behavior, output formats) may change before 1.0. Community feedback wanted.
+>
+> Inspired by Claude Code Game Studios and the broader Agile-agent ecosystem
+> (BMAD-METHOD and others). Deliberately curated and smaller than those.
 
 ## ▶ Demo
 
@@ -28,15 +32,17 @@ approve every change.
 ## Table of Contents
 
 1. [What It Does](#what-it-does)
-2. [Installation](#installation)
-3. [How It Works](#how-it-works)
-4. [The Team](#the-team)
-5. [Slash Commands](#slash-commands)
-6. [A Typical Workflow](#a-typical-workflow)
-7. [Folder Layout](#folder-layout)
-8. [Collaboration Protocol](#collaboration-protocol)
-9. [Multilingual](#multilingual)
-10. [Customization](#customization)
+2. [Who Is This For](#who-is-this-for)
+3. [Differentiators](#differentiators)
+4. [Installation](#installation)
+5. [How It Works](#how-it-works)
+6. [The Team](#the-team)
+7. [Slash Commands](#slash-commands)
+8. [A Typical Workflow](#a-typical-workflow)
+9. [Folder Layout](#folder-layout)
+10. [Collaboration Protocol](#collaboration-protocol)
+11. [Language Support](#language-support)
+12. [Customization](#customization)
 
 ---
 
@@ -57,39 +63,76 @@ questions, knows its boundaries, and consults each other.
 
 ---
 
-## Why Use This (and Why Not)
+## Who Is This For
 
-### ✅ Use Software Office if you are...
-- A **solo developer** wanting team-style discipline
-- A **small team (2–5 people)** without a formal process yet
-- Building an **MVP, prototype, or internal tool** that will live ≥ 2 months
-- On **web / API / CLI / mobile** stacks (frontend + backend)
-- Joining an **existing project** with prior AI context (Cursor, Copilot, etc.) — `/takeover` brings it forward
-- Working in a **non-English** language and tired of English-only tools
+### ✅ A good fit if you are...
+- A **solo developer** or **small team (2–5)** wanting just enough Agile discipline
+- Working on a **small-to-mid size project** (~500–10,000 LOC) in a **mainstream stack**
+  (web, REST/GraphQL API, CLI, library) that will live ≥ 2 months
+- Joining a **brownfield project** — existing code, possibly with prior AI assistant
+  context (Cursor, Copilot, Aider) — `/takeover` brings it forward
+- Building **end-to-end with a single AI session** as your team
 
-### ❌ Skip Software Office if you are...
-- Writing a **5-line script** — `claude` directly is faster
-- In a **hackathon** — speed > discipline
-- Part of a **20+ person company** with established Jira/ADRs/retros — it'll clash
-- Doing **bleeding-edge AI/ML R&D** — agents' domain knowledge is general
-- Working in **embedded / hardware / blockchain** — niche stacks aren't covered
-- Just want to **chat about code** — overkill for Q&A
+### ❌ Probably the wrong tool if you are...
+- Writing a **one-shot script** (< 100 LOC) — direct Claude Code is faster
+- In a **hackathon / time-boxed sprint** — process overhead doesn't pay off
+- Part of a **20+ person org** with established Jira / ADRs / retros — it will clash
+- Doing **bleeding-edge AI/ML research**, **embedded firmware**, **hardware drivers**,
+  **blockchain protocol design** — agent domain knowledge is general-purpose
+- Just want to **chat about code** — slash-command overhead is overkill for Q&A
+- Need **enterprise multi-team coordination** with 50+ specialized agents → look at
+  [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
 
-### How It Compares
+### When to use what
 
-| Need | Direct Claude | Software Office | Big Frameworks (BMAD, etc.) |
-|------|---------------|-----------------|-----------------------------|
-| Quick fix / 1-shot | ✅ Best | ❌ Overkill | ❌ Overkill |
-| Long-running project | ❌ Loses context | ✅ Built for it | ✅ Built for it |
-| Setup complexity | None | Single `.bat`/`.sh` | Node + npm + plugins |
-| Number of agents | 1 (generic) | **11 (curated)** | 50+ (overwhelming) |
-| Multilingual | Implicit | **Explicit Protocol** | Mostly English-only |
-| Sprint / Agile loop | ❌ | ✅ | ✅ |
-| Existing-project takeover | ❌ Manual | ✅ `/takeover` | Varies |
-| Bus factor risk | N/A | High (solo maintainer) | Lower (community) |
+| If you... | Use |
+|---|---|
+| Want a single conversation, no structure | Direct Claude Code |
+| Want lightweight Agile, solo / small team | **Software Office** |
+| Need 50+ agents, enterprise greenfield | BMAD-METHOD |
+| Have an existing project with prior AI context | **Software Office** (`/takeover`) |
+| Want change-size-aware process (one-liner ↔ feature ↔ sprint) | **Software Office** (`/quick-fix`, `/feature`, `/sprint-plan`) |
+| Want pair-programming chat, no ceremony | Direct Claude Code |
 
-If you need **maximum sophistication**, look at BMAD-METHOD.
-If you need **maximum simplicity with structure**, this is for you.
+---
+
+## Differentiators
+
+What this project deliberately does differently from larger Agile-agent frameworks:
+
+### Brownfield-first
+- **`/takeover`** imports prior AI context (`.cursorrules`, `.windsurfrules`,
+  `context.md`, generic project notes), backs it up, and distills it into
+  the memory layer. You don't start from zero.
+- Existing `CLAUDE.md` is preserved as `CLAUDE.legacy.md` — nothing overwritten silently.
+- `.gitignore` is **merged**, not replaced.
+
+### Scale-adaptive workflow
+Process matches the change size. Three explicit tiers:
+
+| Change | Command | Skips |
+|---|---|---|
+| < 50 LOC, no design impact | `/quick-fix` | story, sprint, retro, full review |
+| 50–500 LOC, single feature | `/feature` | sprint planning, retro |
+| > 500 LOC, multi-story | `/sprint-plan` + `/develop-story` | nothing |
+
+No forced ceremony for trivial fixes.
+
+### Defensive infrastructure
+- **Hooks fail open** — missing Python, missing test framework, missing git
+  → silent no-op. Hooks never block your work.
+- **Cross-platform installers** (bash + PowerShell + bat wrapper) — no Node/npm dependency.
+- **Three install paths**: plugin, one-liner, manual. Pick what works for your setup.
+
+### Explicit boundaries
+- **Anti-personas listed** — README tells you when *not* to use this (above).
+- **Vertical delegation rules** — Director → Lead → Specialist, no shortcuts.
+- **Memory layer** (`.claude/memory/`) — accumulated lessons across sessions, 5 categories.
+
+### Honest scope
+- **Single-maintainer project** — bus factor risk acknowledged.
+- **Verified vs. designed-for** distinction in multilingual claim (see below).
+- **Early preview status** (v0.1.x) — APIs may change.
 
 ---
 
@@ -261,8 +304,9 @@ Specialists (Sonnet)
 | `/standup` | Daily status + blockers | scrum-master |
 | `/retro` | Sprint retrospective | scrum-master |
 | **Development** | | |
-| `/develop-story` | Implement a story end-to-end | backend/frontend |
-| `/quick-fix` | Lightweight fix path (no sprint ceremonies) | backend/frontend/devops |
+| `/develop-story` | Implement a story end-to-end (full sprint context) | backend/frontend |
+| `/feature` | Mid-tier: story + AC + implementation, no sprint ceremonies (50–500 LOC) | engineering-lead → specialist |
+| `/quick-fix` | Lightweight fix path, no story (< 50 LOC) | backend/frontend/devops |
 | `/code-review` | Code quality / architecture / test review | engineering-lead |
 | **QA & Security** | | |
 | `/qa-plan` | Test plan for sprint or feature | qa-lead |
@@ -335,8 +379,8 @@ your-project/
 ├── CLAUDE.md                       # Auto-loaded each session
 ├── .claude/
 │   ├── settings.json               # Permissions (allow/deny)
-│   ├── agents/                     # 10 agent definitions
-│   ├── commands/                   # 19 slash commands
+│   ├── agents/                     # 11 agent definitions
+│   ├── commands/                   # 22 slash commands
 │   ├── memory/                     # Accumulated learnings
 │   └── docs/                       # Collaboration, coordination, standards
 ├── src/                            # Source code
@@ -381,22 +425,29 @@ Detail: [.claude/docs/collaboration.md](.claude/docs/collaboration.md)
 
 ---
 
-## Multilingual
+## Language Support
 
-Each agent has a **Language Protocol** in its system prompt:
+Honest framing: this project **leverages Claude's existing multilingual
+ability** rather than shipping localized templates. There are no per-language
+story/sprint/retro shells (yet — see roadmap).
 
-> Detect the user's language from their messages and respond in the same language.
-> Default: English. Tech terms (API, REST, ADR, Docker, etc.) stay in English.
-> Files you write follow the user's language preference.
+What it actually does:
+- Each agent has a one-paragraph **Language Protocol** that says "detect the
+  user's language and respond in it" — making the behavior explicit and
+  consistent across the team.
+- Tech terms (API, REST, ADR, Docker) stay in English.
+- Code stays in English (industry convention).
+- Comments, docs, chat output follow the user's language.
 
 **Verified locally**: English, Turkish.
-**Designed for**: any language Claude supports — but other languages are
-unverified by us. If you've used it in Spanish, German, French, Japanese,
-Arabic, Mandarin, or anywhere else, we'd love a screenshot in
+**Designed for**: any language Claude itself supports — Spanish, German,
+French, Japanese, Arabic, Mandarin, etc. — but unverified by us. If you've
+used it in another language, share a screenshot in
 [Discussions](https://github.com/ilkerprdal/Claude-Software-Office/discussions).
 
-Code stays in English (industry convention). Comments, docs, chat all
-follow your language.
+**On the roadmap (not yet shipped)**: localized story/sprint/retro template
+files (`templates/<lang>/`) so non-English users get native-language
+scaffolding instead of English-only blanks.
 
 ---
 
@@ -423,15 +474,17 @@ commands, and `Task` calls are Claude Code features. If you're migrating from
 Cursor / Copilot / Windsurf, `/takeover` imports their context files into our
 memory layer.
 
-**Q: Do I have to use all 20 commands?**
+**Q: Do I have to use all 22 commands?**
 A: No. Even with zero commands, ~60% of the value applies passively:
 agents auto-trigger on natural questions ("review this code", "fix the bug"),
 `CLAUDE.md` enforces the collaboration protocol, memory persists across
 sessions. Commands add explicit workflow discipline (sprint, retro, etc.).
 
-**Q: What if I just want a quick fix, not a full sprint?**
-A: Use `/quick-fix [description]` — it skips story creation, sprint planning,
-and ceremonies. Goes straight to code + test.
+**Q: What if my change is too small for a sprint?**
+A: Three tiers, pick by size:
+- **< 50 LOC, no design impact** → `/quick-fix` (no story, just fix + test)
+- **50–500 LOC, single feature** → `/feature` (story + AC, no sprint ceremony)
+- **> 500 LOC, multi-story** → `/sprint-plan` + `/develop-story` (full loop)
 
 **Q: My language isn't English. Will it still work?**
 A: Yes. Each agent has a Language Protocol — it detects your language and
@@ -445,8 +498,8 @@ Restart your Claude session to load them. See
 
 **Q: Will it conflict with my company's existing process?**
 A: Likely yes for 20+ person orgs with established Jira/ADRs/retros — see
-"Why Not" above. For solo / small teams, this is the process; it doesn't
-fight an existing one.
+"Who Is This For" above. For solo / small teams, this is the process; it
+doesn't fight an existing one.
 
 **Q: Does it call out to external services?**
 A: No. Everything is local files + your existing Claude Code session.
