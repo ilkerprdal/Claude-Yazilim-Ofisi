@@ -1,35 +1,34 @@
-# Memory — Proje Öğrenmeleri
+# Memory — Project Learnings
 
-Bu klasör projeye özel birikmiş öğrenmeleri tutar. Her dosya bir kategori.
+This folder holds project-specific accumulated learnings. Each file is a category.
 
-`/memory` komutuyla yönetilir. CLAUDE.md'den otomatik yüklenir.
+Managed via `/memory`. Auto-loaded by `CLAUDE.md`.
 
-## Kategoriler (varsayılan)
+## Categories (default)
 
-- `teknik.md` — kütüphane, pattern, mimari tercihler
-- `kacinilacak.md` — yapılmaması gerekenler
-- `surec.md` — iş süreci kuralları
-- `domain.md` — alana özel terim/kural
-- `araclar.md` — kullanılan araçlar/ayarlar
+- `technical.md` — library, pattern, architecture preferences
+- `avoid.md` — things not to do
+- `process.md` — workflow rules
+- `domain.md` — domain-specific terms/rules
+- `tools.md` — tools/configs used
 
-Boş kategoriler oluşturulmasına gerek yok — `/memory ekle` komutu kategori
-dosyasını otomatik oluşturur.
+Empty categories don't need to exist — `/memory add` creates the file.
 
 ## Format
 
-Her satır bir not, başında tarih + kaynak:
+Each line is a note with date + source:
 
 ```
-- [yyyy-mm-dd] Not metni — kaynak: ADR-005
-- [yyyy-mm-dd] Başka not — kaynak: retro-S03
+- [yyyy-mm-dd] Note text — source: ADR-005
+- [yyyy-mm-dd] Another note — source: retro-S03
 ```
 
-## Örnek
+## Example
 
-`teknik.md`:
+`technical.md`:
 ```
-# Teknik Tercihler
+# Technical Preferences
 
-- [2026-04-26] HTTP istemci olarak `httpx` (requests yerine) — async destek — kaynak: ADR-003
-- [2026-04-26] Loglar JSON formatta — kaynak: retro-S01
+- [2026-04-26] HTTP client: `httpx` (over requests) — async support — source: ADR-003
+- [2026-04-26] Logs in JSON — source: retro-S01
 ```

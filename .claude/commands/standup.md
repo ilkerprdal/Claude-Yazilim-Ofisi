@@ -1,47 +1,43 @@
 ---
-description: "Günlük standup - aktif sprint hikayelerinin durumu, engeller, bugünkü riskler. 'Standup', 'durum nasıl', 'günlük rapor', 'nerede kaldık' denildiginde tetiklenir."
+description: "Daily standup — active sprint story status, blockers, today's risks. Triggers on 'standup', 'how's it going', 'daily report', 'where were we'."
 allowed-tools: Read, Glob, Grep, Write, Edit
 ---
 
 # /standup
 
-`scrum-master` ajanını devreye al.
+Engage `scrum-master`.
 
-### Adımlar
+### Steps
 
-1. Aktif sprint dosyasını bul (`production/sprints/` altında en güncel)
-2. Sprint'in her hikayesi için **dosya durumunu** oku (`production/stories/`)
-3. Tabloyu özetle:
+1. Find the active sprint file (most recent in `production/sprints/`)
+2. For each story in the sprint, **read its file status** (`production/stories/`)
+3. Summarize:
 
 ```
-SPRINT: SXX (gün X / Y)
-PROGRESS: [tamamlanan]/[toplam] hikaye
+SPRINT: SXX (day X / Y)
+PROGRESS: [completed]/[total] stories
 
-YAPILIYOR:
-- 003 Kullanıcı girişi (backend-gelistirici, dün başladı)
-- 005 Login ekranı (frontend-gelistirici, %50)
+IN PROGRESS:
+- 003 User login (backend-developer, started yesterday)
+- 005 Login screen (frontend-developer, 50%)
 
-İNCELEMEDE:
-- 002 Şifre kuralları (kod-inceleme bekliyor)
+IN REVIEW:
+- 002 Password rules (awaiting code-review)
 
-ENGELLENDI:
-- 007 OAuth — auth provider seçimi yok (sahip: urun-yoneticisi)
+BLOCKED:
+- 007 OAuth — auth provider not chosen (owner: product-manager)
 
-BUGÜNÜN RİSKLERİ:
-- 005 yarınki sprint sonuna yetişmeyebilir (UX henüz onaylanmadı)
+TODAY'S RISKS:
+- 005 may slip to next sprint (UX not yet approved)
 
-TAMAM:
+DONE:
 - 001, 004
 ```
 
-4. `production/standup-log.md` dosyasına tarih başlığıyla append
+4. Append to `production/standup-log.md` with date heading
 
-### Kurallar
+### Rules
 
-- Hikaye dosyalarındaki `Durum:` alanından oku, varsayma
-- Engelleri net göster — kim çözecek, ne lazım
-- Risk varsa erken bildir
-
-### Çıktı
-
-`scrum-master` standart formatla.
+- Read from story file `Status:` field, don't assume
+- Show blockers clearly — who solves, what's needed
+- Surface risks early

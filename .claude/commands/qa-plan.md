@@ -1,41 +1,41 @@
 ---
-description: "Sprint veya ozellik icin test plani uretir. 'Test plani hazirla', 'QA plani', 'test stratejisi', 'neyi test edelim' denildiginde tetiklenir."
+description: "Generate a test plan for a sprint or feature. Triggers on 'prepare test plan', 'QA plan', 'test strategy', 'what to test'."
 allowed-tools: Read, Glob, Grep, Write, Edit
 ---
 
 # /qa-plan
 
-`qa-lideri` ajanını devreye al.
+Engage `qa-lead`.
 
-### Girdi
+### Input
 
-- Hikaye dosyaları (sprint'in hikayeleri veya tek özellik)
-- İlgili GDD / spec / mimari referansı
+- Story files (sprint stories or single feature)
+- Related GDD / spec / architecture references
 
-### Çıktı
+### Output
 
-`production/qa/plan-[tarih].md`:
+`production/qa/plan-[date].md`:
 
 ```markdown
-# Test Planı — [Sprint / Özellik]
+# Test Plan — [Sprint / Feature]
 
-## Kapsam
-[Hangi hikayeler]
+## Scope
+[Which stories]
 
-## Otomatik Test Gereksinimleri
-| Hikaye | Test Tipi | Dosya Yeri |
-|--------|-----------|------------|
-| 003    | Unit      | tests/unit/auth/ |
+## Automated Test Requirements
+| Story | Test Type | File Location |
+|-------|-----------|---------------|
+| 003   | Unit      | tests/unit/auth/ |
 
-## Manuel Test Senaryoları
-1. [Adım adım senaryo]
+## Manual Test Scenarios
+1. [Step-by-step scenario]
 2. ...
 
-## Duman Testi Kapsamı
-- [Kritik yol listesi]
+## Smoke Test Coverage
+- [Critical path list]
 
-## Kabul Kanıtı
-- [Her hikayenin Durum=Tamam olması için neye ihtiyaç var]
+## Acceptance Evidence
+- [What's needed for each story to be Status=Done]
 ```
 
-Plan taslağını kullanıcıya onaylatmadan yazma.
+Don't write the plan draft without user approval.

@@ -1,60 +1,56 @@
 ---
-description: "Yeni sprint planlama. Backlog'tan hikaye seç, kapasite hesabı yap, sprint dosyası oluştur. 'Sprint başlatalım', 'yeni sprint planı', 'haftalık plan' denildiginde tetiklenir."
+description: "Plan a new sprint — pick stories from backlog, capacity estimate, create sprint file. Triggers on 'start sprint', 'new sprint plan', 'weekly plan'."
 allowed-tools: Read, Glob, Grep, Write, Edit
-argument-hint: "[opsiyonel: sprint suresi - 1w | 2w]"
+argument-hint: "[optional: sprint length — 1w | 2w]"
 ---
 
 # /sprint-plan
 
-`scrum-master` ajanını devreye al.
+Engage `scrum-master`.
 
-### Adımlar
+### Steps
 
-1. **Bağlam topla**
-   - `production/backlog.md` (yoksa `production/stories/*.md` listele)
-   - `production/sprints/` altındaki son sprint dosyası (velocity için)
-   - Aktif sprint var mı? Varsa kapatılması lazım önce
+1. **Gather context**
+   - `production/backlog.md` (or list `production/stories/*.md`)
+   - Last sprint file in `production/sprints/` (for velocity)
+   - Active sprint? Must close first
 
-2. **Kapasite hesabı**
-   - Kullanıcıya sor: "Bu sprint kaç gün? (1 hafta / 2 hafta)"
-   - Önceki sprint velocity (varsa) → bu sprint hedef
-   - Yoksa: "Bilmiyoruz, küçük başlayalım — 3-5 hikaye"
+2. **Capacity estimate**
+   - Ask: "Sprint length? (1 week / 2 weeks)"
+   - Previous velocity (if any) → target this sprint
+   - If no history: "Start small — 3-5 stories"
 
-3. **Hikaye seçimi**
-   - Backlog'tan **kabul kriterleri net** olanlardan başla
-   - Bağımlılığı olmayanları öne al
-   - Karışım: 1-2 büyük + 2-3 orta + 1-2 küçük
-   - Her seçimi kullanıcıya onaylat
+3. **Story selection**
+   - Pick stories with **clear acceptance criteria**
+   - Prefer stories without dependencies
+   - Mix: 1-2 large + 2-3 medium + 1-2 small
+   - Confirm each pick with user
 
-4. **Sprint dosyası oluştur**
+4. **Create sprint file**
 
 ```markdown
 # Sprint SXX — [yyyy-mm-dd → yyyy-mm-dd]
 
-## Hedef
-[1-2 cümle — bu sprint sonunda ne olmuş olmalı]
+## Goal
+[1-2 sentences — what should be true at the end]
 
-## Hikayeler
+## Stories
 
-| ID | Başlık | Tip | Tahmin | Durum | Sahip |
-|----|--------|-----|--------|-------|-------|
-| 003 | Kullanıcı girişi | Backend | M | Yapılıyor | backend-gelistirici |
+| ID | Title | Type | Estimate | Status | Owner |
+|----|-------|------|----------|--------|-------|
+| 003 | User login | Backend | M | In Progress | backend-developer |
 
-## Kabul Kriteri (Sprint için)
-- [ ] Tüm hikayeler `Tamam`
-- [ ] Smoke test geçti
-- [ ] Kullanıcı kabul etti
+## Sprint Acceptance Criteria
+- [ ] All stories `Done`
+- [ ] Smoke test passing
+- [ ] User accepted
 
-## Riskler
-- [Bilinen riskler]
+## Risks
+- [Known risks]
 
-## Notlar
-- [Toplantıda alınan notlar]
+## Notes
+- [Meeting notes]
 ```
 
-5. `production/sprints/SXX-yyyy-mm-dd.md` olarak yaz
-6. `active.md` STATUS bloğunu güncelle
-
-### Çıktı
-
-`scrum-master` standart çıktı formatıyla kapan.
+5. Write to `production/sprints/SXX-yyyy-mm-dd.md`
+6. Update `active.md` STATUS block

@@ -1,344 +1,338 @@
-# Yazılım Ofisi
+# Software Office
 
-Claude Code oturumunu küçük ve düzenli bir yazılım ofisine dönüştürür.
-**10 ajan. 19 slash komut. Sade ve Agile bir ekip.**
+Turn your Claude Code session into a small, organized software office.
+**10 agents. 19 slash commands. A simple Agile team.**
 
-
----
-
-## İçindekiler
-
-1. [Bu Ne İşe Yarar](#bu-ne-işe-yarar)
-2. [Kurulum](#kurulum)
-3. [Nasıl Çalışır](#nasıl-çalışır)
-4. [Ekip (Ajanlar)](#ekip-ajanlar)
-5. [Slash Komutlar](#slash-komutlar)
-6. [Tipik Bir Akış](#tipik-bir-akış)
-7. [Klasör Yapısı](#klasör-yapısı)
-8. [İşbirliği Protokolü](#işbirliği-protokolü)
-9. [Özelleştirme](#özelleştirme)
-10. [Sınırlar](#sınırlar)
+> A simplified, multilingual fork inspired by Claude Code Game Studios + BMAD-METHOD,
+> targeted at general software (not games). Agents speak whatever language you do.
 
 ---
 
-## Bu Ne İşe Yarar
+## Table of Contents
 
-Tek bir Claude oturumu güçlüdür ama yapısızdır. Kimse "bu gerçekten gerekli
-mi?" diye sormaz, kod incelemesi yapmaz, test atlamanı engellemez.
-
-**Yazılım Ofisi** Claude'a küçük bir ekip yapısı verir:
-
-- **Karar verenler** (Direktörler): vizyon ve teknik kalite
-- **Uygulayanlar** (Liderler): kod yapısı, UX, kalite
-- **Yapanlar** (Uzmanlar): backend, frontend, devops kodu
-
-Siz yine her kararı verirsiniz — ama doğru soruları soran, sınırlarını bilen
-ve birbirine danışan bir ekibin arasında.
+1. [What It Does](#what-it-does)
+2. [Installation](#installation)
+3. [How It Works](#how-it-works)
+4. [The Team](#the-team)
+5. [Slash Commands](#slash-commands)
+6. [A Typical Workflow](#a-typical-workflow)
+7. [Folder Layout](#folder-layout)
+8. [Collaboration Protocol](#collaboration-protocol)
+9. [Multilingual](#multilingual)
+10. [Customization](#customization)
 
 ---
 
-## Kurulum
+## What It Does
 
-**Tek dosya: `yazilim-ofisi-kur.bat`**
+A single Claude session is powerful but unstructured. Nobody asks "do we
+really need this?", nobody enforces code review, nobody catches when you
+skip tests.
 
-1. Bu .bat dosyasını projenizin **kök klasörüne** kopyalayın
-2. Çift tıklayın
-3. "e" yazıp Enter
-4. Tamam — `.bat`'i silebilirsiniz
+**Software Office** gives Claude a small team structure:
 
-`.bat` içinde 8 ajan, 10 komut, dokümanlar ve ayarlar gömülü olarak gelir.
-Hiçbir başka dosyaya bağımlılık yoktur. USB'ye atın, mail atın, herhangi bir
-Windows makinesinde çalışır (PowerShell hazır gelir).
+- **Decision makers** (Directors): vision and technical quality
+- **Implementers** (Leads): code structure, UX, quality
+- **Doers** (Specialists): backend, frontend, devops code
 
-Kurulumdan sonra proje klasöründe:
+You still make every decision — but inside a team that asks the right
+questions, knows its boundaries, and consults each other.
+
+---
+
+## Installation
+
+**One file: `software-office-install.bat`**
+
+1. Copy the `.bat` into your project's **root folder**
+2. Double-click
+3. Type `e` and Enter (Turkish for "yes" — works for confirmation)
+4. Done — you can delete the `.bat`
+
+The `.bat` carries 10 agents, 19 commands, docs and settings embedded.
+No external dependencies. Drop it on a USB stick, email it, run on any
+Windows machine (PowerShell ships with Windows).
+
+After install, in the project folder:
 
 ```bash
 claude
-/basla
+/start
+```
+
+If you're installing into an **existing project** with prior AI context
+(context.md, .cursorrules, etc.):
+
+```bash
+claude
+/takeover    # imports prior context into our memory
+/start       # then proceeds normally
 ```
 
 ---
 
-## Nasıl Çalışır
+## How It Works
 
-Yazılım Ofisi üç sistem üzerine kuruludur:
+Software Office is built on three systems:
 
-### 1. Slash Komutlar (`/komut`)
+### 1. Slash Commands (`/command`)
 
-`.claude/commands/` altındaki her `.md` dosyası bir slash komuttur.
-Chat'te `/` yazınca otomatik tamamlanır.
+Each `.md` file in `.claude/commands/` is a slash command.
+Type `/` in chat, autocomplete shows them.
 
-Komut dosyası iki bölümden oluşur:
+Command file structure:
 
 ```markdown
 ---
-description: "Komutun ne yaptığını anlatan tek satır"
+description: "What this does and when it triggers"
+allowed-tools: Read, Write, ...
 ---
 
-[Komut çağrıldığında Claude'un takip edeceği talimatlar]
+[Instructions Claude follows when this command runs]
 ```
 
-Komutu çağırdığında Claude, dosyanın gövdesini bir görev tanımı olarak
-okur ve adımları takip eder. Çoğu komut "şu ajanı devreye al" diye başlar.
+When you call a command, Claude reads the body as a task description
+and follows the steps. Most commands start with "engage [agent]".
 
-### 2. Ajanlar (Subagent)
+### 2. Agents (Subagents)
 
-`.claude/agents/` altındaki her `.md` dosyası bir uzmanlaşmış alt-ajandır.
-Her ajan kendi alanını bilir, sınırlarını bilir.
+Each `.md` file in `.claude/agents/` is a specialized subagent.
+Each knows its domain and its boundaries.
 
-Ajan dosyasının yapısı:
+Agent file structure:
 
 ```markdown
 ---
-name: ajan-adi
-description: "Ne zaman bu ajan kullanılmalı"
-tools: Read, Write, Edit, ...    # erişebileceği araçlar
-model: opus / sonnet              # model atama
+name: agent-name
+description: "When to use this agent"
+tools: Read, Write, Edit, ...    # accessible tools
+model: opus / sonnet              # model assignment
 ---
 
-[Ajanın sistem prompt'u — sorumluluklar, kurallar, sınırlar]
+[Agent's system prompt — responsibilities, rules, boundaries]
 ```
 
-Bir komut "ajan-adi devreye al" derse, Claude o ajanın sistem prompt'unu
-yükleyip görevi onun bakış açısıyla yapar. Ajan kendi sınırı dışına
-çıkamaz — örneğin `backend-gelistirici` UI dosyasına dokunmaz.
+When a command says "engage agent-name", Claude loads that agent's
+system prompt and works from its perspective. The agent stays in its
+sandbox — e.g. `backend-developer` doesn't touch UI files.
 
-### 3. CLAUDE.md ve Yapılandırma
+### 3. CLAUDE.md and Configuration
 
-Proje köküne kopyalanan `CLAUDE.md` dosyası **her oturumda otomatik
-yüklenir**. Burada:
+`CLAUDE.md` (in project root) **auto-loads every session**:
 
-- Teknoloji yığını
-- Klasör yapısı
-- İşbirliği protokolü
-- Kodlama standartları (`@` ile referansla yüklenir)
+- Tech stack
+- Folder layout
+- Collaboration protocol
+- Coding standards (loaded via `@` references)
+- Project memory (loaded via `@.claude/memory/*.md`)
 
-bulunur. Yani Claude her oturuma "bu projede nasıl çalışıyoruz" bilgisiyle
-girer.
+So Claude enters every session knowing how this project works.
 
-`.claude/settings.json` izinleri kontrol eder: hangi komutlar otomatik
-çalışsın, hangileri yasak (örnek: `rm -rf` yasak, `.env` okuması yasak).
-
----
-
-## Ekip (Ajanlar)
-
-```
-Direktörler (Opus modeli)
-├── teknik-direktor       → mimari, teknoloji seçimi, teknik çatışma
-└── urun-yoneticisi       → kapsam, öncelik, ürün kararı
-
-Liderler (Sonnet modeli)
-├── yazilim-lideri        → kod yapısı, API, kod review
-├── qa-lideri             → test stratejisi, kalite kapısı
-├── tasarim-lideri        → UX, ekran tasarımı, kullanıcı akışı
-├── is-analisti           → gereksinim, mevcut sistem analizi, süreç
-└── scrum-master          → sprint, standup, retro, backlog yönetimi
-
-Uzmanlar (Sonnet modeli)
-├── backend-gelistirici   → API, servis, DB, iş mantığı
-├── frontend-gelistirici  → UI bileşenleri, ekranlar
-└── devops                → CI/CD, dağıtım, ortam
-```
-
-### Hiyerarşi Nasıl Çalışır
-
-- **Dikey delege**: Direktör → Lider → Uzman. Direktör doğrudan uzmana
-  delege etmez (liderden geçer).
-- **Yatay danışma**: Aynı katman birbirine sorar ama karar veremez.
-  Backend ↔ Frontend API sözleşmesi konuşur, ama mimari kararı
-  yazilim-lideri verir.
-- **Çatışma**: Tasarım çatışması → urun-yoneticisi.
-  Teknik çatışma → teknik-direktor.
+`.claude/settings.json` controls permissions: which commands auto-allow,
+which are forbidden (`rm -rf` blocked, `.env` reads blocked).
 
 ---
 
-## Slash Komutlar
+## The Team
 
-| Komut | Ne Yapar | Hangi Ajan |
-|-------|----------|------------|
+```
+Directors (Opus)
+├── tech-director         → architecture, tech selection, technical conflicts
+└── product-manager       → scope, priority, product decisions
+
+Leads (Sonnet)
+├── engineering-lead      → code structure, API, code review
+├── qa-lead               → test strategy, quality gate
+├── design-lead           → UX, screen design, user flow
+├── business-analyst      → requirements, existing system analysis, process
+└── scrum-master          → sprint, standup, retro, backlog management
+
+Specialists (Sonnet)
+├── backend-developer     → APIs, services, DB, business logic
+├── frontend-developer    → UI components, screens
+└── devops                → CI/CD, deployment, environments
+```
+
+### How the Hierarchy Works
+
+- **Vertical delegation**: Director → Lead → Specialist. Directors don't
+  delegate directly to specialists (they go through leads).
+- **Horizontal consultation**: Same-tier agents consult but don't decide.
+  Backend ↔ Frontend talk about API contract, but architectural decisions
+  go through engineering-lead.
+- **Conflicts**: Design conflicts → product-manager.
+  Technical conflicts → tech-director.
+
+---
+
+## Slash Commands
+
+| Command | What It Does | Agent |
+|---------|--------------|-------|
 | **Onboarding** | | |
-| `/devral` | Mevcut projeyi devral — context.md, .cursorrules vb. oku, memory'ye aktar | — |
-| `/basla` | Akıllı: aşama + tech stack tespit, yönlendir | — |
-| `/yardim` | Bağlamlı yardım: en mantıklı sonraki komutu öner | — |
-| **Tasarım** | | |
-| `/fikir` | Proje/özellik fikrini konsept dokümanına çevir | urun-yoneticisi |
-| `/analiz` | Gereksinim toplama / mevcut sistem analizi | is-analisti |
-| `/mimari` | Teknik mimari + ADR | teknik-direktor |
+| `/takeover` | Import existing project context (context.md, .cursorrules, etc.) | — |
+| `/start` | Smart: stage + tech stack detection, route | — |
+| `/help` | Context-aware suggestion + full command list | — |
+| **Design** | | |
+| `/idea` | Turn idea into concept doc | product-manager |
+| `/analyze` | Requirements / existing system analysis | business-analyst |
+| `/architecture` | Technical architecture + ADRs | tech-director |
 | **Sprint (Agile)** | | |
-| `/hikaye-olustur` | Mimariden uygulanabilir hikayelere böl | urun-yoneticisi |
+| `/create-stories` | Break work into stories | product-manager |
 | `/backlog` | Backlog refinement | scrum-master |
-| `/sprint-plan` | Sprint planlama (kapasite + hikaye seçimi) | scrum-master |
-| `/standup` | Günlük durum + engel raporu | scrum-master |
-| `/retro` | Sprint retrospektifi | scrum-master |
-| **Geliştirme** | | |
-| `/hikaye-gelistir` | Bir hikayeyi uçtan uca uygula | backend/frontend |
-| `/kod-inceleme` | Kod kalite/mimari/test incelemesi | yazilim-lideri |
+| `/sprint-plan` | Sprint planning (capacity + selection) | scrum-master |
+| `/standup` | Daily status + blockers | scrum-master |
+| `/retro` | Sprint retrospective | scrum-master |
+| **Development** | | |
+| `/develop-story` | Implement a story end-to-end | backend/frontend |
+| `/code-review` | Code quality / architecture / test review | engineering-lead |
 | **QA** | | |
-| `/qa-plan` | Sprint veya özellik için test planı | qa-lideri |
-| `/hata-raporu` | Yapılandırılmış bug raporu | qa-lideri |
-| `/hata-duzelt` | QA→Dev→QA bug fix döngüsü | bug sahibi |
-| **Karar / Bilgi** | | |
-| `/danisma` | Çoklu ajan paralel danışma (party mode) | (panel) |
-| `/memory` | Proje öğrenmelerini yönet | — |
-| `/surum-kontrol` | Sürüm öncesi go/no-go kontrol listesi | teknik-direktor |
-
-Her komut çağrıldığında Claude:
-
-1. Komut dosyasının gövdesini okur
-2. İlgili ajanı (varsa) devreye alır
-3. Sırayla soru sorar, seçenek sunar
-4. Onayınızı alıp dosya oluşturur
+| `/qa-plan` | Test plan for sprint or feature | qa-lead |
+| `/bug-report` | Structured bug report | qa-lead |
+| `/bug-fix` | QA→Dev→QA bug fix loop | bug owner |
+| **Decision / Knowledge** | | |
+| `/consult` | Multi-agent parallel consultation (party mode) | (panel) |
+| `/memory` | Manage project learnings | — |
+| `/release-check` | Pre-release go/no-go checklist | tech-director |
 
 ---
 
-## Tipik Bir Akış
+## A Typical Workflow
 
-Yeni bir TODO uygulaması yaptığınızı düşünün:
+Building a TODO app:
 
-### 1. Konsept (`/fikir`)
-- urun-yoneticisi: "Hangi problemi çözüyoruz? Kim kullanacak?"
-- Sen yanıtlarsın, o seçenek üretir, sen seçersin
-- Çıktı: `docs/urun/konsept.md`
+### 1. Concept (`/idea`)
+- product-manager: "What problem? Who uses it?"
+- You answer, it generates options, you pick
+- Output: `docs/product/concept.md`
 
-### 2. Gereksinim Analizi (`/analiz`)
-- is-analisti: paydaş soruları, FR/NFR/kısıt listesi
-- Mevcut sistem varsa: modüller, bağımlılıklar, etki bölgeleri
-- Çıktı: `docs/analiz/gereksinimler.md` (veya `mevcut-sistem.md`)
+### 2. Requirements (`/analyze`)
+- business-analyst: stakeholder questions, FR/NFR/constraints list
+- If existing system: modules, dependencies, impact zones
+- Output: `docs/analysis/requirements.md`
 
-### 3. Mimari (`/mimari`)
-- teknik-direktor: "Web mi mobil mi? Hangi backend? DB?"
-- Her bölüm için 2-3 seçenek + artı/eksi
-- Çıktı: `docs/architecture/mimari.md` + `docs/adr/0001-*.md`
+### 3. Architecture (`/architecture`)
+- tech-director: "Web or mobile? Backend? DB?"
+- 2-3 options per section + pros/cons
+- Output: `docs/architecture/architecture.md` + `docs/adr/0001-*.md`
 
-### 4. Hikayelere Bölme (`/hikaye-olustur`)
-- urun-yoneticisi mimariye bakıp hikaye listesi önerir
-- Çıktı: `production/stories/001-kullanici-girisi.md`,
-  `002-todo-listesi.md`, `003-todo-ekleme.md`...
+### 4. Stories (`/create-stories`)
+- product-manager generates story list from architecture
+- Output: `production/stories/001-user-login.md`,
+  `002-todo-list.md`, `003-todo-add.md`...
 
-### 5. Hikaye Geliştirme (`/hikaye-gelistir 001`)
-- yazilim-lideri hikayeyi okur, doğru uzmana yönlendirir
-- backend-gelistirici (örn.) dosya listesi sunar, onay alır
-- Kod + birim test aynı anda yazılır
-- Test çalıştırılır, kabul kriterleri tek tek işaretlenir
+### 5. Sprint Plan (`/sprint-plan`)
+- scrum-master: capacity + story selection from backlog
+- Output: `production/sprints/S01-2026-04-26.md`
 
-### 6. Kod İnceleme (`/kod-inceleme`)
-- yazilim-lideri kod kalitesi, mimari uyum, test yeterliliği inceler
-- Markdown rapor: ONAYLANDI / DÜZELTME / BÜYÜK REVİZYON
+### 6. Develop (`/develop-story 001`)
+- engineering-lead reads story, routes to right specialist
+- backend-developer (e.g.) proposes file list, gets approval
+- Code + unit test together
+- Test runs, acceptance criteria checked off
 
-### 7. QA (`/qa-plan` + `/hata-raporu`)
-- qa-lideri test planı çıkarır
-- Hata bulunursa `/hata-raporu` ile yapılandırılmış kayıt
+### 7. Code Review (`/code-review`)
+- engineering-lead checks quality, architecture fit, tests
+- Markdown report: APPROVED / REVISION / MAJOR REVISION
 
-### 8. Sürüm (`/surum-kontrol`)
-- teknik-direktor: kod, test, dağıtım, doküman kontrol listesi
-- Bloklayıcı kalemler geçmeden GO denmez
+### 8. QA (`/qa-plan` + `/bug-report` + `/bug-fix`)
+- qa-lead generates test plan
+- If bug: structured `/bug-report`, then `/bug-fix` closes the loop
+
+### 9. Standup, Retro, Memory
+- `/standup` daily, `/retro` at sprint end
+- Lessons go into `.claude/memory/`
+
+### 10. Release (`/release-check`)
+- tech-director: code, test, deployment, doc checklist
+- Blocking items must pass — otherwise no GO
 
 ---
 
-## Klasör Yapısı
+## Folder Layout
 
 ```
-projen/
-├── CLAUDE.md                       # Her oturumda yüklenen ana yapılandırma
+your-project/
+├── CLAUDE.md                       # Auto-loaded each session
 ├── .claude/
-│   ├── settings.json               # İzinler (allow/deny)
-│   ├── agents/                     # 8 ajan tanımı
-│   │   ├── teknik-direktor.md
-│   │   ├── urun-yoneticisi.md
-│   │   └── ...
-│   ├── commands/                   # 10 slash komut
-│   │   ├── basla.md
-│   │   ├── fikir.md
-│   │   └── ...
-│   ├── skills/                     # Aynı şeyin skill formatı (yedek)
-│   └── docs/                       # İşbirliği, koordinasyon, kodlama std.
-├── src/                            # Kaynak kod
-├── tests/                          # Testler
-├── docs/                           # Mimari, ADR, ürün dokümanı
-│   ├── urun/                       # Konsept, vizyon (urun-yoneticisi)
-│   ├── analiz/                     # Gereksinim, mevcut sistem (is-analisti)
-│   ├── architecture/               # Mimari (teknik-direktor)
+│   ├── settings.json               # Permissions (allow/deny)
+│   ├── agents/                     # 10 agent definitions
+│   ├── commands/                   # 19 slash commands
+│   ├── memory/                     # Accumulated learnings
+│   └── docs/                       # Collaboration, coordination, standards
+├── src/                            # Source code
+├── tests/                          # Tests
+├── docs/
+│   ├── product/                    # Concept, vision (product-manager)
+│   ├── analysis/                   # Requirements, existing system (business-analyst)
+│   ├── architecture/               # Architecture (tech-director)
 │   ├── adr/                        # Architecture Decision Records
-│   └── ux/                         # Ekran spec'leri (tasarim-lideri)
+│   └── ux/                         # Screen specs (design-lead)
 └── production/
-    ├── backlog.md                  # Sıralı hikaye listesi
-    ├── stories/                    # Hikaye/task dosyaları
-    ├── sprints/                    # Sprint planları (SXX-yyyy-mm-dd.md)
-    ├── retros/                     # Sprint retrospektifleri
+    ├── backlog.md                  # Ordered story list
+    ├── stories/                    # Story files
+    ├── sprints/                    # Sprint plans (SXX-yyyy-mm-dd.md)
+    ├── retros/                     # Retrospectives
     ├── qa/
-    │   ├── hatalar/                # Bug raporları
-    │   └── plan-*.md               # Test planları
-    ├── standup-log.md              # Günlük durum kayıtları
+    │   ├── bugs/                   # Bug reports
+    │   └── plan-*.md               # Test plans
+    ├── standup-log.md              # Daily status
     └── session-state/
-        └── active.md               # Oturum bağlamı
-
-.claude/memory/                     # Birikmiş proje öğrenmeleri (CLAUDE.md ile yüklenir)
-├── teknik.md                       # Kütüphane, pattern tercihleri
-├── kacinilacak.md                  # Yapılmaması gerekenler
-├── surec.md                        # İş süreci kuralları
-├── domain.md                       # Alana özel terim/kural
-└── araclar.md                      # Kullanılan araçlar
+        └── active.md               # Session context
 ```
 
 ---
 
-## İşbirliği Protokolü
+## Collaboration Protocol
 
-**Kullanıcı sürücü koltuğunda. Ajanlar otonom değil.**
+**The user drives. Agents don't go autonomous.**
 
-Her görev şu sırayı izler:
+Each task: **Question → Options → Decision → Draft → Approval**
 
-```
-Soru → Seçenekler → Karar → Taslak → Onay
-```
+1. **Question**: agent asks what it doesn't know
+2. **Options**: 2-4 alternatives with pros/cons
+3. **Decision**: you pick
+4. **Draft**: preview of what will be written
+5. **Approval**: "May I write this to [path]?" — explicit
 
-1. **Soru**: Ajan bilmediğini sorar, varsaymaz
-2. **Seçenekler**: 2-4 alternatif, artı/eksi ile
-3. **Karar**: Sen seçersin
-4. **Taslak**: Yazılacak şeyin önizlemesi
-5. **Onay**: "Bunu şu dosyaya yazayım mı?" — açık onay
+Agents stay within their domain. When unsure, they escalate
+(specialist → lead → director).
 
-Ajanlar kendi alanları dışına çıkamaz. Şüphede yukarı sorarlar
-(uzman → lider → direktör).
-
-Detay: [.claude/docs/isbirligi.md](.claude/docs/isbirligi.md)
+Detail: [.claude/docs/collaboration.md](.claude/docs/collaboration.md)
 
 ---
 
-## Özelleştirme
+## Multilingual
 
-Bu bir **şablondur**, kilitli sistem değil.
+Each agent has a **Language Protocol** in its system prompt:
 
-- **Ajan ekle/çıkar**: `.claude/agents/` altında `.md` dosyası
-- **Komut ekle/çıkar**: `.claude/commands/` altında `.md` dosyası
-- **Ajan davranışı değiştir**: ilgili ajanın `.md`'sindeki sistem prompt'u düzenle
-- **Kuralları sıkılaştır/gevşet**: `.claude/docs/kodlama-standartlari.md`
-- **İzinler**: `.claude/settings.json`
+> Detect the user's language from their messages and respond in the same language.
+> Default: English. Tech terms (API, REST, ADR, Docker, etc.) stay in English.
+> Files you write follow the user's language preference.
 
-Bir dosya eklediğinde Claude oturumunu yeniden başlat (yeni dosyalar
-yüklensin diye).
+So whether you write in English, Turkish, German, or Japanese, agents
+respond in your language. Code stays in English (industry convention).
+Documentation files follow your language.
 
----
-
-## Sınırlar
-
-Bu sistem **kararları senin yerine vermez**. Her aşamada onay ister.
-Otomatik commit, otomatik push, otomatik dağıtım yoktur — bunları sen
-açıkça istersin.
-
-Önerilen kullanım:
-- Solo veya küçük ekip projelerinde
-- MVP / prototip / orta ölçekli projelerde
-- Düzeni/disiplini hatırlatan dış bir kuvvet istediğinde
-
-Önerilmeyen kullanım:
-- Çok büyük kurumsal projelerde (kendi süreciniz vardır)
-- Ajanların alan bilgisini test etmediğin domain'lerde
-  (örn. embedded, gömülü güvenlik) — önce küçük bir görevle dene
+Tested with: English, Turkish.
+Should work with: any language Claude supports.
 
 ---
 
-## Lisans
+## Customization
+
+This is a **template**, not a locked framework.
+
+- **Add/remove agent**: `.md` file in `.claude/agents/`
+- **Add/remove command**: `.md` file in `.claude/commands/`
+- **Change agent behavior**: edit the system prompt in its `.md`
+- **Tighten/relax rules**: `.claude/docs/coding-standards.md`
+- **Permissions**: `.claude/settings.json`
+
+After adding a file, restart your Claude session (so new files load).
+
+---
+
+## License
 
 MIT

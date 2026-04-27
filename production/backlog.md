@@ -1,18 +1,18 @@
 # Backlog
 
-> Sıralı hikaye listesi. Yukarı = öncelikli.
-> `/backlog` ile refinement, `/sprint-plan` ile sprint'e çek.
+> Ordered story list. Top = highest priority.
+> Use `/backlog` for refinement, `/sprint-plan` to pull into a sprint.
 
-## Hazır (sprint'e alınabilir)
+## Ready (sprintable)
 
-<!-- Hikayeler buraya gelir. Format:
-- [ID] Başlık — Tahmin (XS/S/M/L/XL)
+<!-- Stories go here. Format:
+- [ID] Title — Estimate (XS/S/M/L/XL)
 -->
 
-## Refinement Gerekli
+## Needs Refinement
 
-<!-- Belirsiz veya çok büyük hikayeler -->
+<!-- Unclear or oversized stories -->
 
-## Buz Dolabı
+## Icebox
 
-<!-- Şimdilik ertelenenler -->
+<!-- Deferred for now -->

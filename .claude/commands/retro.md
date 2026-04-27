@@ -1,56 +1,52 @@
 ---
-description: "Sprint retrospektifi - ne iyi gitti, ne kötü, ne deneyelim, aksiyon maddeleri. 'Retro', 'sprint sonu', 'değerlendirme', 'retrospective' denildiginde tetiklenir."
+description: "Sprint retrospective — what went well, what didn't, what to try, action items. Triggers on 'retro', 'sprint review', 'retrospective'."
 allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
 ---
 
 # /retro
 
-`scrum-master` ajanını devreye al.
+Engage `scrum-master`.
 
-### Adımlar
+### Steps
 
-1. Kapanan sprint dosyasını oku
-2. Velocity hesapla:
-   - Planlanan vs tamamlanan hikaye sayısı
-   - Tahmin sapması (M demiştik, gerçekte L olduysa not et)
-3. Kullanıcıya 3 soru sor (sırayla):
-   - **Ne iyi gitti?** Hangi pratik / araç / yaklaşım işe yaradı?
-   - **Ne kötü gitti?** Engeller, gecikmeler, sürtünmeler?
-   - **Ne deneyelim?** Bir sonraki sprint için 1-3 küçük değişiklik
+1. Read closed sprint file
+2. Calculate velocity:
+   - Planned vs completed story count
+   - Estimate variance (said M, actually L? note)
+3. Ask user 3 questions (in order):
+   - **What went well?** Practices / tools / approaches that worked?
+   - **What went badly?** Blockers, delays, friction?
+   - **What to try?** 1-3 small changes for next sprint
 
-4. Aksiyon maddeleri üret:
-   - Her aksiyona **sahip** ve **tarih** ata
-   - "Genel olarak iyileştir" gibi muğlak şeyleri reddet, somut yap
+4. Generate action items:
+   - Each gets **owner** and **date**
+   - Reject vague items ("improve in general") — make concrete
 
-5. Dosyayı yaz:
+5. Write file:
 
 ```markdown
 # Retro — Sprint SXX
 
-**Tarih**: yyyy-mm-dd
-**Süre**: X gün
+**Date**: yyyy-mm-dd
+**Duration**: X days
 
 ## Velocity
-- Planlanan: 5 hikaye
-- Tamamlanan: 4
-- Sapma sebebi: 1 hikaye OAuth bağımlılığında engellendi
+- Planned: 5 stories
+- Completed: 4
+- Variance reason: 1 story blocked on OAuth dependency
 
-## İyi Giden
-- Kod inceleme döngüsü hızlandı
+## Went Well
+- Code review cycle sped up
 - ...
 
-## Kötü Giden
-- Mimari kararı sprint ortasında değişti — fakir backlog refinement
+## Went Badly
+- Architecture decision changed mid-sprint — poor backlog refinement
 - ...
 
-## Deneyelim
-- [ ] Backlog refinement her Cuma 30 dk (sahip: scrum-master, bitiş: sprint sonu)
-- [ ] Mimari kararlar sprint öncesi netleşsin (sahip: teknik-direktor)
+## Try Next
+- [ ] Backlog refinement every Friday 30 min (owner: scrum-master, by: end of sprint)
+- [ ] Architecture decisions resolved pre-sprint (owner: tech-director)
 ```
 
-6. `production/retros/SXX.md` olarak yaz
-7. Sonraki sprint için `.claude/memory/` altına öğrenilen dersler özetini ekle (varsa)
-
-### Çıktı
-
-`scrum-master` standart formatla.
+6. Write to `production/retros/SXX.md`
+7. For next sprint, add learned lessons summary to `.claude/memory/` (if any)

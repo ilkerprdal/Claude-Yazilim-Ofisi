@@ -1,68 +1,83 @@
-# Yazılım Ofisi — Ajan Yapılandırması
+# Software Office — Agent Configuration
 
-Küçük bir yazılım ofisinin Claude Code içinde çalışan hali.
-8 ajan, 10 skill, minimum gürültü.
+A small software office living inside a Claude Code session.
+10 agents, 19 commands, minimal noise.
 
-## Teknoloji
+## Language
 
-- **Dil / Framework**: [Yapılandırılacak]
-- **Veritabanı**: [Yapılandırılacak]
-- **Versiyon Kontrol**: Git
-- **Test Çerçevesi**: [Yapılandırılacak]
+Agents detect the user's language automatically and respond in it.
+Default: English. Tech terms (API, REST, ADR, Docker) stay in English.
 
-## Klasör Yapısı
+## Tech Stack
+
+- **Language / Framework**: [To be configured]
+- **Database**: [To be configured]
+- **Version Control**: Git
+- **Test Framework**: [To be configured]
+
+## Folder Layout
 
 ```
-src/         # Kaynak kod
-tests/       # Unit + entegrasyon testleri
-docs/        # Mimari, ADR'ler, teknik dokümanlar
+src/         # Source code
+tests/       # Unit + integration tests
+docs/
+  product/        # Product vision, concept (product-manager)
+  analysis/       # Requirements, existing system (business-analyst)
+  architecture/   # Architecture (tech-director)
+  adr/            # Architecture Decision Records
+  ux/             # Screen specs (design-lead)
 production/
-  stories/          # Hikaye/task dosyaları
-  session-state/    # active.md (oturum durumu)
+  backlog.md           # Ordered story list
+  stories/             # Story / task files
+  sprints/             # Sprint plans
+  retros/              # Sprint retrospectives
+  qa/                  # Test plans, bug reports
+  session-state/       # active.md (session context)
 ```
 
-## İşbirliği Protokolü
+## Collaboration Protocol
 
-**Kullanıcı sürücü koltuğunda. Ajanlar otonom değil.**
+**User in the driver seat. Agents not autonomous.**
 
-Her görev: **Soru → Seçenekler → Karar → Taslak → Onay**
+Each task: **Question → Options → Decision → Draft → Approval**
 
-- Write/Edit öncesi "bunu [dosya]'ya yazayım mı?" sorulur
-- Çok dosyalı değişikliklerde tüm değişiklik seti tek seferde onaya sunulur
-- Kullanıcı açıkça istemediği sürece commit atılmaz
+- Before Write/Edit, ask "May I write this to [path]?"
+- Multi-file changes presented for approval as a set
+- No commits without an explicit user request
 
-Detay: @.claude/docs/isbirligi.md
+Detail: @.claude/docs/collaboration.md
 
-## Koordinasyon
+## Coordination
 
-**Dikey delege**: Direktörler → Liderler → Uzmanlar.
-**Yatay danışma**: Aynı katman birbirine danışır ama karar vermez.
-**Çatışma**: Tasarım çatışması → ürün-yöneticisi. Teknik çatışma → teknik-direktör.
+**Vertical delegation**: Directors → Leads → Specialists.
+**Horizontal consultation**: Same-tier consult but don't decide.
+**Conflict**: Design conflicts → product-manager. Technical conflicts → tech-director.
 
-Detay: @.claude/docs/koordinasyon.md
+Detail: @.claude/docs/coordination.md
 
-## Kodlama Standartları
+## Coding Standards
 
-@.claude/docs/kodlama-standartlari.md
+@.claude/docs/coding-standards.md
 
-## Bağlam Yönetimi
+## Context Management
 
-- Uzun oturumlarda `production/session-state/active.md` dosyasını canlı tut.
-- Belgeleri bölüm bölüm yaz; her onaydan sonra dosyaya işle.
-- Compaction sonrası önce `active.md`'yi oku.
+- For long sessions, keep `production/session-state/active.md` live.
+- Write documents section-by-section; commit each on approval.
+- After compaction, read `active.md` first.
 
-## Proje Öğrenmeleri (Memory)
+## Project Memory
 
-Aşağıdaki dosyalar varsa otomatik yüklenir — ajanlar bunlara göre tutarlı davranır:
+These files are auto-loaded if present — agents stay consistent with them:
 
-@.claude/memory/teknik.md
-@.claude/memory/kacinilacak.md
-@.claude/memory/surec.md
+@.claude/memory/technical.md
+@.claude/memory/avoid.md
+@.claude/memory/process.md
 @.claude/memory/domain.md
-@.claude/memory/araclar.md
+@.claude/memory/tools.md
 
-Yeni öğrenme `/memory ekle [kategori] [not]` ile eklenir.
+Add new lessons via `/memory add [category] [note]`.
 
-## İlk Oturum
+## First Session
 
-Proje taze ise `/basla` ile başlayın.
+If the project is fresh, run `/start`.
+If you're joining an existing project with prior AI context, run `/takeover` first.

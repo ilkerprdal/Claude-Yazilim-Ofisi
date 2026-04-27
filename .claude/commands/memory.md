@@ -1,72 +1,72 @@
 ---
-description: "Projeye özel öğrenilen dersleri görüntüle veya ekle. Her oturumda yüklenir, ajanlar tutarlı davranır. 'Memory', 'öğrenilen dersler', 'proje notları', 'şunu hatırla' denildiginde tetiklenir."
+description: "View or add project-specific learnings. Loaded each session, agents stay consistent. Triggers on 'memory', 'lessons learned', 'project notes', 'remember this'."
 allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion
-argument-hint: "[opsiyonel: 'goster' | 'ekle' | 'temizle']"
+argument-hint: "[optional: 'show' | 'add' | 'cleanup']"
 ---
 
 # /memory
 
-`.claude/memory/` altında biriken proje-özel öğrenmeler. Bunlar her oturumda
-`CLAUDE.md` üzerinden otomatik yüklenir → ajanlar tutarlı davranır.
+Project-specific learnings under `.claude/memory/`. Loaded automatically by
+`CLAUDE.md` each session → agents behave consistently.
 
-### Modlar
+### Modes
 
-#### `/memory goster` (varsayılan)
-Mevcut tüm öğrenmeleri kategoride listele:
+#### `/memory show` (default)
+List all current learnings by category:
 
 ```
-## Teknik Tercihler
-- HTTP istemci olarak `httpx` (requests yerine) — async destek
-- Loglar JSON formatta — analiz kolaylığı
+## Technical Preferences
+- HTTP client: `httpx` (over requests) — async support
+- Logs in JSON format — easier analysis
 
-## Kaçınılacaklar
-- Direkt SQL çalıştırma — her zaman ORM
-- Setting'leri os.environ'dan değil config sınıfından al
+## Avoid
+- Direct SQL — always use ORM
+- Don't read settings from os.environ — use config class
 
-## İş Süreci
-- PR'lar 200 satırı geçmesin
-- Her bug fix'e regresyon testi
+## Process
+- PRs under 200 lines
+- Every bug fix gets a regression test
 ```
 
-#### `/memory ekle [kategori] [not]`
-Yeni öğrenmeyi `.claude/memory/[kategori].md` dosyasına ekle.
+#### `/memory add [category] [note]`
+Add a new learning to `.claude/memory/[category].md`.
 
-Kategoriler:
-- `teknik` — kütüphane, pattern, mimari tercihler
-- `kacinilacak` — yapılmaması gerekenler
-- `surec` — iş süreci kuralları
-- `domain` — alana özel terim/kural
-- `araclar` — kullanılan araçlar/ayarlar
+Categories:
+- `technical` — library, pattern, architecture preferences
+- `avoid` — things not to do
+- `process` — workflow rules
+- `domain` — domain-specific terms/rules
+- `tools` — tools/configs used
 
-#### `/memory temizle`
-Eski/güncelliğini yitirmiş notları kullanıcıyla beraber gözden geçir.
+#### `/memory cleanup`
+Review old/outdated notes with the user.
 
-### Otomatik Tetiklenme
+### Auto-Trigger
 
-Bu komutu **kullanıcı çağırmadan** da düşün:
-- Retrospektifte iyi giden bir şey öğrenildiyse → `/memory ekle surec`
-- ADR yazıldığında → `/memory ekle teknik` ile özet ekle
-- Tekrarlanan bir hata gözlemlendiyse → `/memory ekle kacinilacak`
+Suggest this without user asking:
+- After retro highlights something positive → `/memory add process`
+- After ADR written → `/memory add technical` with summary
+- After repeated bug observed → `/memory add avoid`
 
 ### Format
 
-`.claude/memory/[kategori].md` dosyaları:
+`.claude/memory/[category].md` files:
 
 ```markdown
-# [Kategori Adı]
+# [Category Name]
 
-- [yyyy-mm-dd] [Not] — [kaynak: ADR-005 / retro-S03 / vs]
-- [yyyy-mm-dd] [Not] — [kaynak]
+- [yyyy-mm-dd] [Note] — [source: ADR-005 / retro-S03 / etc]
+- [yyyy-mm-dd] [Note] — [source]
 ```
 
-CLAUDE.md'den `@.claude/memory/teknik.md` gibi yüklenir.
+Loaded via `@.claude/memory/technical.md` etc. from CLAUDE.md.
 
-### Çıktı
+### Output
 
 ```
 STATUS: COMPLETED
-ACTION: GOSTER | EKLE | TEMIZLE
-KATEGORI: [varsa]
-EKLENDI: [yeni notlar]
-TOPLAM_NOT_SAYISI: [memory'deki toplam]
+ACTION: SHOW | ADD | CLEANUP
+CATEGORY: [if any]
+ADDED: [new notes]
+TOTAL_NOTE_COUNT: [total notes in memory]
 ```
