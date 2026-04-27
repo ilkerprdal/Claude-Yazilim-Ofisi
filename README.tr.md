@@ -5,11 +5,11 @@
 [![Release](https://img.shields.io/github/v/release/ilkerprdal/Claude-Software-Office)](https://github.com/ilkerprdal/Claude-Software-Office/releases)
 [![Validator](https://img.shields.io/badge/frontmatter-validated-brightgreen)](scripts/validate.py)
 [![Example tests](https://img.shields.io/badge/example-13%2F13_passing-brightgreen)](examples/todo-cli/tests/)
-![Agents](https://img.shields.io/badge/agents-11-blueviolet)
-![Commands](https://img.shields.io/badge/commands-22-blue)
+![Agents](https://img.shields.io/badge/agents-12-blueviolet)
+![Commands](https://img.shields.io/badge/commands-23-blue)
 
 Claude Code oturumunu küçük ve düzenli bir yazılım ofisine dönüştürür.
-**11 ajan. 22 slash komutu. Brownfield-friendly. Scale-adaptive.**
+**12 ajan. 23 slash komutu. Brownfield-friendly. Scale-adaptive.**
 
 🇬🇧 **English version**: [README.md](README.md)
 
@@ -268,12 +268,13 @@ Directors (Opus)
 └── product-manager       → kapsam, öncelik, ürün kararları
 
 Leads (Sonnet, security-reviewer Opus)
-├── engineering-lead      → kod yapısı, API, code review
-├── qa-lead               → test stratejisi, kalite kapısı
-├── design-lead           → UX, ekran tasarımı, kullanıcı akışı
-├── business-analyst      → gereksinim, mevcut sistem analizi, süreç
-├── scrum-master          → sprint, standup, retro, backlog
-└── security-reviewer     → STRIDE tehdit modeli, OWASP audit, uyumluluk
+├── engineering-lead      → kod yapısı, API, code review, refactoring patterns
+├── qa-lead               → test pyramid, contract testing, kalite kapısı
+├── design-lead           → UX, ekran tasarımı, kullanıcı akışı, erişilebilirlik
+├── business-analyst      → gereksinim, JTBD, mevcut sistem analizi
+├── scrum-master          → sprint, velocity, blocker SLA, retro
+├── security-reviewer     → STRIDE tehdit modeli, OWASP audit, uyumluluk
+└── technical-writer      → README, CHANGELOG, ADR, API docs, drift audit
 
 Specialists (Sonnet)
 ├── backend-developer     → API, servis, DB, business logic
@@ -312,6 +313,7 @@ Specialists (Sonnet)
 | `/standup` | Günlük durum + blocker | scrum-master |
 | `/retro` | Sprint retrospektifi | scrum-master |
 | **Geliştirme** | | |
+| `/api-design` | Schema-first API tasarımı (OpenAPI / GraphQL / .proto) — koddan önce | engineering-lead → backend/qa |
 | `/develop-story` | Story'i uçtan uca implement et (full sprint context) | backend/frontend |
 | `/feature` | Mid-tier: story + AC + implementation, sprint ceremonisi yok (50–500 LOC) | engineering-lead → specialist |
 | `/quick-fix` | Hafif fix yolu, story yok (< 50 LOC) | backend/frontend/devops |
@@ -387,8 +389,8 @@ projen/
 ├── CLAUDE.md                       # Her oturumda otomatik yüklenir
 ├── .claude/
 │   ├── settings.json               # İzinler (allow/deny)
-│   ├── agents/                     # 11 ajan tanımı
-│   ├── commands/                   # 22 slash komut
+│   ├── agents/                     # 12 ajan tanımı
+│   ├── commands/                   # 23 slash komut
 │   ├── memory/                     # Birikmiş öğrenmeler
 │   └── docs/                       # Collaboration, coordination, standards
 ├── src/                            # Kaynak kod
@@ -483,7 +485,7 @@ slash komutlar ve `Task` çağrıları Claude Code feature'ları. Cursor /
 Copilot / Windsurf'tan geçiyorsan `/takeover` o context dosyalarını
 memory layer'a import eder.
 
-**22 komutun hepsini kullanmak zorunda mıyım?**
+**23 komutun hepsini kullanmak zorunda mıyım?**
 Hayır. Sıfır komutla bile değerin ~%60'ı pasif olarak çalışır:
 ajanlar doğal sorularda ("şu kodu review et", "bu bug'ı düzelt")
 otomatik tetiklenir, `CLAUDE.md` collaboration protocol'ünü zorlar,

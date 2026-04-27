@@ -16,8 +16,8 @@ prefer fewer, well-thought-out changes over many speculative ones.
 
 ```
 .claude/
-  agents/          # 11 agent definitions (markdown)
-  commands/        # 20 slash commands (markdown)
+  agents/          # 12 agent definitions (markdown)
+  commands/        # 23 slash commands (markdown)
   docs/            # Collaboration / coordination / standards
   memory/          # Project learning categories
   settings.json    # Permissions

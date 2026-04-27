@@ -1,7 +1,7 @@
 {
   "name": "claude-software-office",
   "version": "0.1.1",
-  "description": "Turn Claude Code into a small, organized software office. 11 curated agents (Director/Lead/Specialist hierarchy) and 22 commands covering full Agile workflow. Brownfield-friendly, scale-adaptive.",
+  "description": "Turn Claude Code into a small, organized software office. 12 curated agents (Director/Lead/Specialist hierarchy) and 23 commands covering full Agile workflow. Brownfield-friendly, scale-adaptive.",
   "author": {
     "name": "ilkerprdal",
     "url": "https://github.com/ilkerprdal"

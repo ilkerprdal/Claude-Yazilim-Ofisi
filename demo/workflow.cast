@@ -2,7 +2,7 @@
 [0.0, "o", "$ "]
 [0.5, "o", "claude"]
 [1.0, "o", "\r\n"]
-[1.3, "o", "\u001b[36mClaude Code v2.1\u001b[0m  |  Software Office (11 agents)\r\n\r\n"]
+[1.3, "o", "\u001b[36mClaude Code v2.1\u001b[0m  |  Software Office (12 agents)\r\n\r\n"]
 [2.0, "o", "> "]
 [2.3, "o", "/start"]
 [3.0, "o", "\r\n"]

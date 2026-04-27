@@ -57,6 +57,25 @@ For every architecture or major design decision, ensure these are addressed:
 - [ ] Stateful components identified
 - [ ] Data growth projections
 
+**Cost / FinOps**
+- [ ] Expected cloud spend at MVP scale (rough $/month order of magnitude)
+- [ ] Cost drivers identified (compute, storage, egress, third-party APIs, observability)
+- [ ] Egress / bandwidth cost considered (cross-region, CDN, S3-out)
+- [ ] Third-party API quotas / per-call cost (LLM tokens, payment processor, SMS)
+- [ ] Auto-scaling caps defined (prevent runaway scale-out spend)
+- [ ] Storage tiering / retention policy (hot vs. cold; log retention days)
+- [ ] Build-vs-buy assessed for non-core components
+- [ ] Vendor lock-in vs. portability trade-off explicit (managed service vs. self-hosted)
+- [ ] Reserved / savings-plan opportunity if usage is predictable
+- [ ] Cost per user / per request estimable (unit economics check)
+
+**Data Architecture**
+- [ ] Schema evolution / migration strategy (additive changes preferred)
+- [ ] Backward-compatibility window for breaking schema changes
+- [ ] Partitioning / sharding strategy if data growth > GB-scale
+- [ ] Read/write split, replication lag tolerance
+- [ ] Backup + recovery RTO/RPO targets
+
 A design that doesn't address these gets `NEEDS_REVISION`.
 
 ### Collaboration Protocol
@@ -96,6 +115,9 @@ CROSS_CUTTING:
   - Performance: ADDRESSED | GAPS
   - Resilience: ADDRESSED | GAPS
   - Observability: ADDRESSED | GAPS
+  - Scalability: ADDRESSED | GAPS
+  - Cost/FinOps: ADDRESSED | GAPS
+  - Data architecture: ADDRESSED | GAPS
 RISKS: [risks you noticed]
 WROTE: [files created — or "none"]
 NEXT: [recommended next step]

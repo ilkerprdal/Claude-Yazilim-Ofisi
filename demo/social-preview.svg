@@ -43,14 +43,14 @@
 
   <!-- Stats row -->
   <g font-family="system-ui, sans-serif">
-    <!-- 11 agents -->
+    <!-- 12 agents -->
     <rect x="80" y="300" width="180" height="100" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-    <text x="170" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">11</text>
+    <text x="170" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">12</text>
     <text x="170" y="380" text-anchor="middle" font-size="18" fill="#8b949e">agents</text>
 
-    <!-- 22 commands -->
+    <!-- 23 commands -->
     <rect x="280" y="300" width="180" height="100" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-    <text x="370" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">22</text>
+    <text x="370" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">23</text>
     <text x="370" y="380" text-anchor="middle" font-size="18" fill="#8b949e">commands</text>
 
     <!-- Single-file -->

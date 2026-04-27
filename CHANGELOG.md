@@ -6,6 +6,18 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
 
 ### Added
 
+- **`technical-writer` agent** (Lead-tier, sonnet) — owns README freshness,
+  CHANGELOG discipline, ADR hygiene, API docs (rendered from schema), user
+  help, drift detection. Closes the long-standing gap where project
+  documentation had no explicit owner. README freshness audit (counts,
+  badges, links, install instructions) is now a release-gate checklist.
+- **`/api-design` command** — schema-first API design path. Produces
+  OpenAPI / GraphQL SDL / `.proto` schemas before any implementation.
+  Engineering-lead drives, backend-developer reviews feasibility, qa-lead
+  reviews testability (contract tests), security-reviewer engaged for
+  auth/PII/payments/files. Includes mandatory OWASP API Security Top 10
+  pass at schema time. Closes the "API contract sahipsiz" gap raised in
+  reviewer feedback.
 - **`/feature` command** — mid-tier scale-adaptive path between `/quick-fix`
   and full sprint cycle. Story + AC + implementation + code review, but no
   sprint planning or retro. Designed for 50–500 LOC self-contained features
@@ -17,10 +29,78 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
   defensive infrastructure (fail-open hooks, three install paths),
   explicit boundaries (anti-personas, vertical delegation, memory layer),
   honest scope (single-maintainer, early-preview status).
-- **Total commands: 21 → 22** (added `/feature`).
+- **Total agents: 11 → 12** (added `technical-writer`).
+- **Total commands: 21 → 23** (added `/feature`, `/api-design`).
 
 ### Changed
 
+- **`business-analyst` agent deepened** (2.5 KB → ~10 KB) with concrete
+  elicitation methodology: 5 Whys / Jobs-to-be-Done / Event Storming /
+  User Story Mapping / Stakeholder Interview / Document Mining / System
+  Walkthrough — with "when to use which" guidance. Added ambiguity
+  reduction protocol (Subject/Action/Object/Quantifier/Conditions/Negation),
+  requirement categorization with mandatory source attribution, BPMN
+  notation guidance, compliance discovery checklist (KVKK/GDPR/HIPAA/PCI/
+  COPPA), stakeholder conflict resolution framing, brownfield existing-system
+  analysis protocol, and a Definition of Done.
+- **`scrum-master` agent deepened** (2.5 KB → ~10 KB) with operational
+  rigor: velocity calculation (median over 3-5 sprints, not single
+  number), capacity formula with focus-factor (typical 0.6-0.7 for
+  solo / small team), sprint-goal one-sentence discipline, planning poker
+  process, blocker escalation SLA (24h owner / 24-48h Lead / 48-72h
+  Director / 72h+ User), burn-down / burn-up tracking, structured retro
+  template with mandatory experiments-with-owner-and-checkpoint, backlog
+  refinement rules (90-day stale, 13+ point split, vague-AC bounce-back),
+  cross-team coordination guidance, and per-ceremony Definitions of Done.
+- **`tech-director` cross-cutting concerns extended** with two new axes:
+  - **Cost / FinOps**: cloud spend at MVP scale, cost drivers, egress,
+    third-party API quotas (LLM tokens, payments, SMS), auto-scaling caps,
+    storage tiering, build-vs-buy, vendor lock-in, reserved/savings plans,
+    unit economics check.
+  - **Data Architecture**: schema evolution / migration strategy,
+    backward-compatibility windows, partitioning / sharding,
+    read/write split + replication lag, backup RTO/RPO targets.
+  Output format updated to surface all 7 cross-cutting axes (was 4).
+- **`qa-lead` agent deepened** with full test discipline:
+  - **Test pyramid** (70/20/10 unit/integration/E2E) with anti-pattern
+    callouts (ice cream cone, hourglass, single-tier).
+  - **Contract testing** guidance per stack (Pact, OpenAPI+Schemathesis,
+    GraphQL schema diffing, gRPC `buf breaking`, in-repo contract suite).
+  - **Performance testing** taxonomy (smoke / load / stress / soak / spike)
+    with tool hints (k6, Locust, JMeter, Vegeta, wrk, Lighthouse CI).
+  - **Flaky test management**: detection (3-5 reruns), tracking by
+    failure rate, **48-hour fix-or-delete rule**, common causes ordered
+    by frequency.
+  - **Mutation testing** guidance (Stryker / mutmut / cosmic-ray / PIT)
+    for critical-path modules, > 70% mutation score target.
+  - **Test data management** rules (no real PII, transaction-rolled-back
+    integration tests, builder/factory patterns).
+  - **Accessibility test automation** (axe-core, pa11y, lighthouse-ci)
+    paired with design-lead's WCAG checklist.
+  - Output format updated to surface pyramid distribution, contract
+    tests, perf detail, a11y, flaky queue.
+- **`engineering-lead` agent deepened**:
+  - **Review verdict granularity**: APPROVE / APPROVE_WITH_NITS /
+    REQUEST_CHANGES / BLOCK (was binary). Findings tagged
+    `nit` / `suggestion` / `concern` / `blocker`.
+  - **API design discipline**: schema-first preferred (OpenAPI / GraphQL
+    SDL / `.proto` / AsyncAPI), naming + envelope + pagination + versioning
+    conventions.
+  - **Breaking change policy**: explicit definition of what counts as
+    breaking, deprecation window (1+ minor version), mandatory migration
+    guide, CHANGELOG `[BREAKING]` flagging, semver bump rules.
+  - **Refactoring patterns** named (Strangler Fig, Branch by Abstraction,
+    Parallel Change / Expand-Migrate-Contract, Feature Toggle, Boy Scout,
+    Big Bang Rewrite) with when-to-use and trade-offs. Default to
+    Strangler Fig for live systems; Parallel Change for schema/API breaks;
+    avoid Big Bang.
+  - **Profiling & performance investigation**: tool categories (APM,
+    flame graphs, memory, DB EXPLAIN, frontend devtools), measurement-first
+    rule.
+- Slash command table updated (added `/api-design` under Development).
+- Team hierarchy diagram updated (added `technical-writer` under Leads).
+- **Count consistency**: 12 agents / 23 commands synced across README,
+  README.tr, CLAUDE.md, plugin.json, social-preview.svg, workflow.cast.
 - **README rewritten in response to reviewer feedback**:
   - "How It Compares" table (with adjective-laden BMAD comparison) replaced
     by a neutral "When to use what" routing table — points users to BMAD

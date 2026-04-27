@@ -5,11 +5,11 @@
 [![Release](https://img.shields.io/github/v/release/ilkerprdal/Claude-Software-Office)](https://github.com/ilkerprdal/Claude-Software-Office/releases)
 [![Validator](https://img.shields.io/badge/frontmatter-validated-brightgreen)](scripts/validate.py)
 [![Example tests](https://img.shields.io/badge/example-13%2F13_passing-brightgreen)](examples/todo-cli/tests/)
-![Agents](https://img.shields.io/badge/agents-11-blueviolet)
-![Commands](https://img.shields.io/badge/commands-22-blue)
+![Agents](https://img.shields.io/badge/agents-12-blueviolet)
+![Commands](https://img.shields.io/badge/commands-23-blue)
 
 Turn your Claude Code session into a small, organized software office.
-**11 agents. 22 slash commands. Brownfield-friendly. Scale-adaptive.**
+**12 agents. 23 slash commands. Brownfield-friendly. Scale-adaptive.**
 
 🇹🇷 **Türkçe**: [README.tr.md](README.tr.md)
 
@@ -263,11 +263,12 @@ Directors (Opus)
 
 Leads (Sonnet, security-reviewer Opus)
 ├── engineering-lead      → code structure, API, code review
-├── qa-lead               → test strategy, quality gate
-├── design-lead           → UX, screen design, user flow
-├── business-analyst      → requirements, existing system analysis, process
-├── scrum-master          → sprint, standup, retro, backlog management
-└── security-reviewer     → STRIDE threat model, OWASP audit, compliance
+├── qa-lead               → test pyramid, contract testing, quality gate
+├── design-lead           → UX, screen design, user flow, accessibility
+├── business-analyst      → requirements, JTBD, existing system analysis
+├── scrum-master          → sprint, velocity, blocker SLA, retro
+├── security-reviewer     → STRIDE threat model, OWASP audit, compliance
+└── technical-writer      → README, CHANGELOG, ADR, API docs, drift audit
 
 Specialists (Sonnet)
 ├── backend-developer     → APIs, services, DB, business logic
@@ -306,6 +307,7 @@ Specialists (Sonnet)
 | `/standup` | Daily status + blockers | scrum-master |
 | `/retro` | Sprint retrospective | scrum-master |
 | **Development** | | |
+| `/api-design` | Schema-first API design (OpenAPI / GraphQL / .proto) before any code | engineering-lead → backend/qa |
 | `/develop-story` | Implement a story end-to-end (full sprint context) | backend/frontend |
 | `/feature` | Mid-tier: story + AC + implementation, no sprint ceremonies (50–500 LOC) | engineering-lead → specialist |
 | `/quick-fix` | Lightweight fix path, no story (< 50 LOC) | backend/frontend/devops |
@@ -381,8 +383,8 @@ your-project/
 ├── CLAUDE.md                       # Auto-loaded each session
 ├── .claude/
 │   ├── settings.json               # Permissions (allow/deny)
-│   ├── agents/                     # 11 agent definitions
-│   ├── commands/                   # 22 slash commands
+│   ├── agents/                     # 12 agent definitions
+│   ├── commands/                   # 23 slash commands
 │   ├── memory/                     # Accumulated learnings
 │   └── docs/                       # Collaboration, coordination, standards
 ├── src/                            # Source code
@@ -476,7 +478,7 @@ commands, and `Task` calls are Claude Code features. If you're migrating from
 Cursor / Copilot / Windsurf, `/takeover` imports their context files into our
 memory layer.
 
-**Q: Do I have to use all 22 commands?**
+**Q: Do I have to use all 23 commands?**
 A: No. Even with zero commands, ~60% of the value applies passively:
 agents auto-trigger on natural questions ("review this code", "fix the bug"),
 `CLAUDE.md` enforces the collaboration protocol, memory persists across
