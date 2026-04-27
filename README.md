@@ -1,7 +1,7 @@
 # Yazılım Ofisi
 
 Claude Code oturumunu küçük ve düzenli bir yazılım ofisine dönüştürür.
-**10 ajan. 17 slash komut. Sade ve Agile bir ekip.**
+**10 ajan. 19 slash komut. Sade ve Agile bir ekip.**
 
 
 ---
@@ -158,6 +158,7 @@ Uzmanlar (Sonnet modeli)
 | Komut | Ne Yapar | Hangi Ajan |
 |-------|----------|------------|
 | **Onboarding** | | |
+| `/devral` | Mevcut projeyi devral — context.md, .cursorrules vb. oku, memory'ye aktar | — |
 | `/basla` | Akıllı: aşama + tech stack tespit, yönlendir | — |
 | `/yardim` | Bağlamlı yardım: en mantıklı sonraki komutu öner | — |
 | **Tasarım** | | |

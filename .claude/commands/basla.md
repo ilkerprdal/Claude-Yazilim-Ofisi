@@ -7,6 +7,26 @@ allowed-tools: Read, Glob, Grep, AskUserQuestion
 
 Proje durumunu **otomatik** tespit et, sonra yönlendir.
 
+### Adım 0: Önceki Bağlam Var mı? (Devralma Kontrolü)
+
+Önce bunları tara — varsa kullanıcıya **`/devral` öner**, sonra durdur:
+
+- `context.md`, `CONTEXT.md`, `MEMORY.md`, `NOTES.md`
+- `.cursorrules`, `.cursor/rules/*`, `.windsurfrules`, `.windsurf/rules/*`
+- `.github/copilot-instructions.md`
+- `AGENTS.md`, `STATE.md`
+
+Bulundu mu?
+```
+⚠️ Eski AI bağlam dosyaları tespit ettim:
+- context.md
+- .cursorrules
+
+Önce `/devral` ile bunları sistemimize aktar, sonra `/basla`'ya dön.
+```
+
+Bulunmadıysa Adım 1'e geç.
+
 ### Adım 1: Proje Aşaması Tespiti
 
 Şu sırayla kontrol et:

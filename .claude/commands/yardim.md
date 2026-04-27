@@ -13,6 +13,7 @@ Proje durumuna bak ve **en mantıklı 1-3 komut** öner:
 
 | Durum | Öneri |
 |-------|-------|
+| Eski AI bağlam dosyaları var (context.md, .cursorrules vb.) | `/devral` (önce) |
 | Boş proje | `/basla` veya `/fikir` |
 | Konsept var, analiz yok | `/analiz` |
 | Mimari yok | `/mimari` |
@@ -55,6 +56,7 @@ Alternatif:
 | Komut | Ne Yapar | Ajan |
 |-------|----------|------|
 | **Onboarding** | | |
+| `/devral` | Mevcut projeyi devral - context.md/.cursorrules vb. oku | — |
 | `/basla` | Aşama + tech stack tespit, yönlendir | — |
 | `/yardim` | Bu ekran (bağlamlı öneri ile) | — |
 | **Tasarım** | | |
