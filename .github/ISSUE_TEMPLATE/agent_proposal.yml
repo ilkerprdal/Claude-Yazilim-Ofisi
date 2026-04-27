@@ -1,0 +1,76 @@
+name: New agent proposal
+description: Propose a new specialized agent for the team
+labels: ["agent-proposal", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Adding a new agent expands the team. Before proposing, ask: can an
+        existing agent's prompt be extended to cover this need? If yes, prefer
+        that. New agents add cognitive overhead.
+
+  - type: input
+    id: name
+    attributes:
+      label: Agent name (kebab-case)
+      placeholder: data-engineer, ml-researcher, accessibility-specialist
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Tier
+      options:
+        - Director (high-level decisions, conflicts)
+        - Lead (cross-functional ownership)
+        - Specialist (hands-on implementation)
+    validations:
+      required: true
+
+  - type: textarea
+    id: role
+    attributes:
+      label: Role description
+      description: One-paragraph: what does this agent do that no current agent does?
+    validations:
+      required: true
+
+  - type: textarea
+    id: triggers
+    attributes:
+      label: Trigger conditions
+      description: What user inputs / situations should engage this agent?
+      placeholder: |
+        - User says "design the database schema"
+        - Story has type=Data
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: What this agent will NOT do
+      description: Explicit boundaries prevent overlap with existing agents.
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Output format
+      description: Proposed STATUS / X / Y block.
+      render: yaml
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirms
+    attributes:
+      label: Confirmations
+      options:
+        - label: I checked existing agents and none covers this
+          required: true
+        - label: This agent has clear, non-overlapping boundaries
+          required: true

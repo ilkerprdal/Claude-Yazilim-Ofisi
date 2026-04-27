@@ -71,6 +71,7 @@ WORKFLOW:
 | `/retro` | Sprint retrospective | scrum-master |
 | **Development** | | |
 | `/develop-story` | Implement a story | backend/frontend |
+| `/quick-fix` | Lightweight fix (no sprint) | backend/frontend/devops |
 | `/code-review` | Code review | engineering-lead |
 | **QA & Security** | | |
 | `/qa-plan` | Test plan | qa-lead |

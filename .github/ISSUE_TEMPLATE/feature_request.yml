@@ -1,0 +1,55 @@
+name: Feature request
+description: Suggest a new capability or improvement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening, check the README's "Why Not" section — some features
+        are intentionally out of scope.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What pain point would this solve? Who has it?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Concretely, what should change? New command? New agent? Existing one extended?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches did you think about? Why this one?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Tweak (one-line change)
+        - Small (single agent or command)
+        - Medium (cross-cutting, multiple files)
+        - Large (architectural change)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirms
+    attributes:
+      label: Confirmations
+      options:
+        - label: I checked the README's "Why Not" section
+          required: true
+        - label: I searched existing issues for duplicates
+          required: true

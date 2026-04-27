@@ -4,6 +4,27 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
 
 ## [Unreleased]
 
+### Added
+
+- **`/quick-fix` command** — scale-adaptive lightweight fix path. Skips
+  story / sprint / ceremonies for changes <50 LOC, single-purpose, no
+  architectural impact. Refuses to be the security-fix path
+  (delegates to `security-reviewer`).
+- **FAQ + Troubleshooting** sections in README covering common questions
+  (other AI tools, language detection, install errors, validator usage).
+- **CONTRIBUTING.md** — agent / command authoring format, validation,
+  commit conventions, code-of-conduct expectations.
+- **Issue templates** (`.github/ISSUE_TEMPLATE/`):
+  - `bug_report.yml`
+  - `feature_request.yml`
+  - `agent_proposal.yml`
+- **PR template** (`.github/PULL_REQUEST_TEMPLATE.md`).
+- GitHub Discussions linked from issue config (questions go there, not issues).
+
+### Changed
+
+- Total commands: 20 → 21 (added `/quick-fix`).
+
 ## [0.1.0] — 2026-04-27
 
 The first tagged release. The project is functional and usable, but APIs

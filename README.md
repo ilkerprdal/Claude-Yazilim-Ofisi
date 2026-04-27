@@ -1,7 +1,7 @@
 # Software Office
 
 Turn your Claude Code session into a small, organized software office.
-**11 agents. 20 slash commands. A simple Agile team. Multilingual.**
+**11 agents. 21 slash commands. A simple Agile team. Multilingual.**
 
 > Inspired by Claude Code Game Studios + BMAD-METHOD, targeted at general
 > software development. Agents detect your language and respond in it.
@@ -240,6 +240,7 @@ Specialists (Sonnet)
 | `/retro` | Sprint retrospective | scrum-master |
 | **Development** | | |
 | `/develop-story` | Implement a story end-to-end | backend/frontend |
+| `/quick-fix` | Lightweight fix path (no sprint ceremonies) | backend/frontend/devops |
 | `/code-review` | Code quality / architecture / test review | engineering-lead |
 | **QA & Security** | | |
 | `/qa-plan` | Test plan for sprint or feature | qa-lead |
@@ -386,6 +387,116 @@ This is a **template**, not a locked framework.
 - **Permissions**: `.claude/settings.json`
 
 After adding a file, restart your Claude session (so new files load).
+
+---
+
+## FAQ
+
+**Q: Does this work with Cursor / Copilot / Windsurf?**
+A: The framework is built for **Claude Code** (`@anthropic-ai/claude-code`).
+Other AI tools may pick up `CLAUDE.md` partially, but agent delegation, slash
+commands, and `Task` calls are Claude Code features. If you're migrating from
+Cursor / Copilot / Windsurf, `/takeover` imports their context files into our
+memory layer.
+
+**Q: Do I have to use all 20 commands?**
+A: No. Even with zero commands, ~60% of the value applies passively:
+agents auto-trigger on natural questions ("review this code", "fix the bug"),
+`CLAUDE.md` enforces the collaboration protocol, memory persists across
+sessions. Commands add explicit workflow discipline (sprint, retro, etc.).
+
+**Q: What if I just want a quick fix, not a full sprint?**
+A: Use `/quick-fix [description]` — it skips story creation, sprint planning,
+and ceremonies. Goes straight to code + test.
+
+**Q: My language isn't English. Will it still work?**
+A: Yes. Each agent has a Language Protocol — it detects your language and
+responds in it. Code stays English (industry convention), but docs, comments,
+and chat all follow your language. Tested with English and Turkish.
+
+**Q: Can I add my own agents or commands?**
+A: Yes. Drop new `.md` files in `.claude/agents/` or `.claude/commands/`.
+Restart your Claude session to load them. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for the format.
+
+**Q: Will it conflict with my company's existing process?**
+A: Likely yes for 20+ person orgs with established Jira/ADRs/retros — see
+"Why Not" above. For solo / small teams, this is the process; it doesn't
+fight an existing one.
+
+**Q: Does it call out to external services?**
+A: No. Everything is local files + your existing Claude Code session.
+No telemetry, no analytics. The only network calls are git operations
+you control.
+
+**Q: How do I update to a newer version?**
+A: Re-run the installer (`curl|bash` or `irm|iex`). Your `CLAUDE.md` is
+backed up as `CLAUDE.legacy.md`; `.gitignore` is merged. Custom files in
+`.claude/agents/` you added stay; standard files get refreshed.
+
+**Q: Can multiple developers share `.claude/memory/`?**
+A: Yes — it's just markdown files. Treat them like any other project doc:
+commit, review, merge in PRs. Conflicts are markdown line conflicts.
+
+---
+
+## Troubleshooting
+
+### "Unknown command: /start"
+
+You typed it before installing, or in a different folder than where you ran
+the installer. Check that `.claude/commands/start.md` exists in the project
+root, then restart Claude Code.
+
+### "Agent responds in the wrong language"
+
+The Language Protocol detects from recent messages. Send 1-2 messages in your
+language, the agent will switch. If it doesn't, check that the
+`### Language Protocol` section exists in the agent's `.md` file.
+
+### "Permission denied" on Linux/Mac when running install.sh
+
+```bash
+chmod +x install.sh
+bash install.sh
+```
+
+Or run directly via `bash install.sh` without making it executable.
+
+### "Execution policy" error on Windows
+
+If `install.ps1` refuses to run:
+```powershell
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
+
+This is fine — the installer doesn't change system state.
+
+### "Existing CLAUDE.md was overwritten"
+
+Check for `CLAUDE.legacy.md` in your project root — that's your previous
+version, automatically backed up. Re-merge what you need into `CLAUDE.md`.
+
+### "No agent triggers when I describe my work"
+
+Agent auto-triggering depends on Claude Code version. On older versions,
+agents only run when explicitly invoked via `Task` or slash command.
+Update Claude Code: `npm update -g @anthropic-ai/claude-code` (npm) or
+re-run the platform installer.
+
+### "Pre-commit hook says frontmatter invalid"
+
+Run the validator:
+```bash
+python scripts/validate.py
+```
+
+It tells you which file and what's missing. Common fixes: missing
+`description:` field, wrong `model` value (must be opus/sonnet/haiku/inherit).
+
+### Something else?
+
+Open an issue with the [Bug report template](https://github.com/ilkerprdal/Claude-Software-Office/issues/new?template=bug_report.yml).
 
 ---
 
