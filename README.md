@@ -1,7 +1,7 @@
 # Yazılım Ofisi
 
 Claude Code oturumunu küçük ve düzenli bir yazılım ofisine dönüştürür.
-**9 ajan. 11 slash komut. Sade bir ekip.**
+**10 ajan. 17 slash komut. Sade ve Agile bir ekip.**
 
 
 ---
@@ -132,7 +132,8 @@ Liderler (Sonnet modeli)
 ├── yazilim-lideri        → kod yapısı, API, kod review
 ├── qa-lideri             → test stratejisi, kalite kapısı
 ├── tasarim-lideri        → UX, ekran tasarımı, kullanıcı akışı
-└── is-analisti           → gereksinim, mevcut sistem analizi, süreç
+├── is-analisti           → gereksinim, mevcut sistem analizi, süreç
+└── scrum-master          → sprint, standup, retro, backlog yönetimi
 
 Uzmanlar (Sonnet modeli)
 ├── backend-gelistirici   → API, servis, DB, iş mantığı
@@ -156,17 +157,30 @@ Uzmanlar (Sonnet modeli)
 
 | Komut | Ne Yapar | Hangi Ajan |
 |-------|----------|------------|
-| `/basla` | Projenin aşamasını tespit et + yönlendir | — |
+| **Onboarding** | | |
+| `/basla` | Akıllı: aşama + tech stack tespit, yönlendir | — |
+| `/yardim` | Bağlamlı yardım: en mantıklı sonraki komutu öner | — |
+| **Tasarım** | | |
 | `/fikir` | Proje/özellik fikrini konsept dokümanına çevir | urun-yoneticisi |
 | `/analiz` | Gereksinim toplama / mevcut sistem analizi | is-analisti |
-| `/mimari` | Teknik mimari dokümanı yaz | teknik-direktor |
+| `/mimari` | Teknik mimari + ADR | teknik-direktor |
+| **Sprint (Agile)** | | |
 | `/hikaye-olustur` | Mimariden uygulanabilir hikayelere böl | urun-yoneticisi |
+| `/backlog` | Backlog refinement | scrum-master |
+| `/sprint-plan` | Sprint planlama (kapasite + hikaye seçimi) | scrum-master |
+| `/standup` | Günlük durum + engel raporu | scrum-master |
+| `/retro` | Sprint retrospektifi | scrum-master |
+| **Geliştirme** | | |
 | `/hikaye-gelistir` | Bir hikayeyi uçtan uca uygula | backend/frontend |
 | `/kod-inceleme` | Kod kalite/mimari/test incelemesi | yazilim-lideri |
+| **QA** | | |
 | `/qa-plan` | Sprint veya özellik için test planı | qa-lideri |
 | `/hata-raporu` | Yapılandırılmış bug raporu | qa-lideri |
+| `/hata-duzelt` | QA→Dev→QA bug fix döngüsü | bug sahibi |
+| **Karar / Bilgi** | | |
+| `/danisma` | Çoklu ajan paralel danışma (party mode) | (panel) |
+| `/memory` | Proje öğrenmelerini yönet | — |
 | `/surum-kontrol` | Sürüm öncesi go/no-go kontrol listesi | teknik-direktor |
-| `/yardim` | Bu listeyi göster | — |
 
 Her komut çağrıldığında Claude:
 
@@ -247,10 +261,23 @@ projen/
 │   ├── adr/                        # Architecture Decision Records
 │   └── ux/                         # Ekran spec'leri (tasarim-lideri)
 └── production/
+    ├── backlog.md                  # Sıralı hikaye listesi
     ├── stories/                    # Hikaye/task dosyaları
-    ├── qa/                         # Test planları, hata raporları
+    ├── sprints/                    # Sprint planları (SXX-yyyy-mm-dd.md)
+    ├── retros/                     # Sprint retrospektifleri
+    ├── qa/
+    │   ├── hatalar/                # Bug raporları
+    │   └── plan-*.md               # Test planları
+    ├── standup-log.md              # Günlük durum kayıtları
     └── session-state/
-        └── active.md               # Oturum bağlamı (compaction için)
+        └── active.md               # Oturum bağlamı
+
+.claude/memory/                     # Birikmiş proje öğrenmeleri (CLAUDE.md ile yüklenir)
+├── teknik.md                       # Kütüphane, pattern tercihleri
+├── kacinilacak.md                  # Yapılmaması gerekenler
+├── surec.md                        # İş süreci kuralları
+├── domain.md                       # Alana özel terim/kural
+└── araclar.md                      # Kullanılan araçlar
 ```
 
 ---

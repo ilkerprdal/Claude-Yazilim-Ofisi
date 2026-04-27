@@ -51,6 +51,18 @@ Detay: @.claude/docs/koordinasyon.md
 - Belgeleri bölüm bölüm yaz; her onaydan sonra dosyaya işle.
 - Compaction sonrası önce `active.md`'yi oku.
 
+## Proje Öğrenmeleri (Memory)
+
+Aşağıdaki dosyalar varsa otomatik yüklenir — ajanlar bunlara göre tutarlı davranır:
+
+@.claude/memory/teknik.md
+@.claude/memory/kacinilacak.md
+@.claude/memory/surec.md
+@.claude/memory/domain.md
+@.claude/memory/araclar.md
+
+Yeni öğrenme `/memory ekle [kategori] [not]` ile eklenir.
+
 ## İlk Oturum
 
 Proje taze ise `/basla` ile başlayın.
