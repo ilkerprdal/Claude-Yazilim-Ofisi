@@ -72,19 +72,20 @@ WORKFLOW:
 | **Development** | | |
 | `/develop-story` | Implement a story | backend/frontend |
 | `/code-review` | Code review | engineering-lead |
-| **QA** | | |
+| **QA & Security** | | |
 | `/qa-plan` | Test plan | qa-lead |
 | `/bug-report` | Create structured bug report | qa-lead |
 | `/bug-fix` | QA→Dev→QA bug fix loop | bug owner |
+| `/security-review` | STRIDE + OWASP audit | security-reviewer |
 | **Decision / Knowledge** | | |
 | `/consult` | Multi-agent consultation (party mode) | (panel) |
 | `/memory` | Manage project learnings | — |
 | `/release-check` | Pre-release readiness | tech-director |
 
-### Agents (10)
+### Agents (11)
 
 **Directors**: tech-director, product-manager
-**Leads**: engineering-lead, qa-lead, design-lead, business-analyst, scrum-master
+**Leads**: engineering-lead, qa-lead, design-lead, business-analyst, scrum-master, security-reviewer
 **Specialists**: backend-developer, frontend-developer, devops
 
 ### Output

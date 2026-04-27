@@ -1,10 +1,19 @@
 # Software Office
 
 Turn your Claude Code session into a small, organized software office.
-**10 agents. 19 slash commands. A simple Agile team.**
+**11 agents. 20 slash commands. A simple Agile team. Multilingual.**
 
-> A simplified, multilingual fork inspired by Claude Code Game Studios + BMAD-METHOD,
-> targeted at general software (not games). Agents speak whatever language you do.
+> Inspired by Claude Code Game Studios + BMAD-METHOD, targeted at general
+> software development. Agents detect your language and respond in it.
+
+## ▶ Demo
+
+![Software Office workflow](demo/workflow.svg)
+
+A 30-second walk-through: `/start` → `/idea` → `/architecture` →
+`/develop-story` → `/code-review`. The team picks the right agent at each
+step, applies quality bars (security/performance/tests), and lets you
+approve every change.
 
 ---
 
@@ -140,12 +149,13 @@ Directors (Opus)
 ├── tech-director         → architecture, tech selection, technical conflicts
 └── product-manager       → scope, priority, product decisions
 
-Leads (Sonnet)
+Leads (Sonnet, security-reviewer Opus)
 ├── engineering-lead      → code structure, API, code review
 ├── qa-lead               → test strategy, quality gate
 ├── design-lead           → UX, screen design, user flow
 ├── business-analyst      → requirements, existing system analysis, process
-└── scrum-master          → sprint, standup, retro, backlog management
+├── scrum-master          → sprint, standup, retro, backlog management
+└── security-reviewer     → STRIDE threat model, OWASP audit, compliance
 
 Specialists (Sonnet)
 ├── backend-developer     → APIs, services, DB, business logic
@@ -186,10 +196,11 @@ Specialists (Sonnet)
 | **Development** | | |
 | `/develop-story` | Implement a story end-to-end | backend/frontend |
 | `/code-review` | Code quality / architecture / test review | engineering-lead |
-| **QA** | | |
+| **QA & Security** | | |
 | `/qa-plan` | Test plan for sprint or feature | qa-lead |
 | `/bug-report` | Structured bug report | qa-lead |
 | `/bug-fix` | QA→Dev→QA bug fix loop | bug owner |
+| `/security-review` | STRIDE + OWASP Top-10 audit | security-reviewer |
 | **Decision / Knowledge** | | |
 | `/consult` | Multi-agent parallel consultation (party mode) | (panel) |
 | `/memory` | Manage project learnings | — |

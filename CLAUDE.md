@@ -1,7 +1,7 @@
 # Software Office — Agent Configuration
 
 A small software office living inside a Claude Code session.
-10 agents, 19 commands, minimal noise.
+11 agents, 20 commands, minimal noise.
 
 ## Language
 
