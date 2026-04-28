@@ -4,6 +4,33 @@ All notable changes to this project follow [Keep a Changelog](https://keepachang
 
 ## [Unreleased]
 
+### Performance
+
+- **Speed mode** (default for solo / small team) — collapses the
+  `Question → Options → Decision → Draft → Approval` loop to a single
+  scope-batched approval. Agents proceed without per-file gates after
+  the user OKs the planned set, until scope expands. Cuts typical
+  round-trips per task from 5+ to 1-2.
+- **Brief output default** — agents end with 1-3 lines (`STATUS: ... — next: ...`).
+  Full structured output block only on `BLOCKED`, `FAIL`, or `CONCERNS`,
+  or when verbose mode is invoked. Was previously 8-15 lines every reply.
+- **Lazy memory / docs loading** — `CLAUDE.md` no longer auto-imports five
+  memory files and three docs files on every session. Files are listed
+  with paths; agents `Read` them only when the task touches their content.
+  Saves ~10-15 KB context per session start.
+- **Hook scope narrowed** — `post-edit-validate.sh` now early-exits when
+  the edited file isn't under `.claude/agents/` or `.claude/commands/`.
+  Previously ran Python startup + frontmatter scan after every `src/` /
+  `tests/` write, ~1-2 s wasted per edit on Windows.
+- **Hard gates explicit** — speed mode does NOT bypass: destructive ops
+  (`rm`, force-push), schema migrations, secret-file reads/writes,
+  breaking public API changes, production deploys, git history rewrites.
+  These always require per-op approval.
+- **Solo delegation shortcut** — orchestrator may go directly to specialist
+  for routine work in speed mode. Lead consultation required only for
+  architecture changes, breaking API changes, auth/PII/payments/files,
+  cross-cutting concerns. Cuts typical 3-hop chain to 2.
+
 ### Added
 
 - **`technical-writer` agent** (Lead-tier, sonnet) — owns README freshness,

@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # post-edit-validate.sh
 #
-# Runs after Write/Edit/MultiEdit. If the project is a Software Office
-# install, validate frontmatter. WARN ONLY — never blocks.
+# Runs after Write/Edit/MultiEdit. WARN ONLY — never blocks.
+#
+# Performance: early-exits if the edit isn't under .claude/agents or
+# .claude/commands. Validator only checks frontmatter in those dirs anyway,
+# so running it after every src/ edit was wasted CPU.
 #
 # Defensive design:
 #   - No working Python? Skip silently.
@@ -13,8 +16,22 @@
 
 set -u
 
-# Read but ignore stdin
-cat >/dev/null 2>&1 || true
+# Read tool event JSON from stdin (best-effort; ignore if missing)
+EVENT_JSON=""
+if [ ! -t 0 ]; then
+    EVENT_JSON="$(cat 2>/dev/null || true)"
+fi
+
+# Fast path: skip if the edit clearly isn't a framework file.
+# Check for .claude/agents or .claude/commands in the event payload.
+# If we can't tell (weird payload, empty stdin), fall through and let the
+# validator decide — it's still cheap when there's nothing to validate.
+if [ -n "$EVENT_JSON" ]; then
+    if ! echo "$EVENT_JSON" | grep -qE '\.claude[/\\](agents|commands)[/\\]'; then
+        # Edit isn't to an agent/command file — nothing for us to do.
+        exit 0
+    fi
+fi
 
 # Find a working Python — verify with --version, not just `command -v`,
 # because Windows Store ships a stub for `python3`.
