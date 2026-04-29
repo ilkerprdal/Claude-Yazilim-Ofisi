@@ -1,125 +1,106 @@
 ---
-description: "Mid-tier scale-adaptive path — story + AC + implementation, but no sprint ceremonies. Use for self-contained features (50-500 LOC, ~1-3 days). Triggers on 'add feature', 'new feature', 'implement X', 'feature ekle', 'yeni özellik'."
+description: "Default flow for any non-trivial change: researcher → qa → tech-lead → developer(s) → tech-lead review → qa validation. No sprint, no retro, no standup. Triggers on 'add feature', 'new feature', 'implement X', 'feature ekle', 'yeni özellik'."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task
 argument-hint: "[short feature description]"
 ---
 
 # /feature
 
-The middle tier between `/quick-fix` and a full sprint cycle. For changes
-too big to be a one-off fix, but too small to deserve sprint planning, retro,
-and ceremony overhead.
-
-### Scale-Adaptive Routing
-
-| Change size | Use this command | Why |
-|---|---|---|
-| < 50 LOC, no design impact | `/quick-fix` | No process needed |
-| 50–500 LOC, single feature, ~1–3 days | **`/feature`** *(this)* | Story + AC, no ceremony |
-| > 500 LOC, multi-story, > 3 days | `/sprint-plan` + `/develop-story` | Full sprint loop |
-
-If unsure, ask: *"Does this need sprint-level coordination?"* If no, use `/feature`.
+The main flow. For anything bigger than a one-line fix and smaller than
+a new system. Five steps, linear, no ceremonies.
 
 ### When to use
 
-Use when ALL of these are true:
-- Single, coherent feature (one user-visible capability)
-- Estimated 50–500 lines of code total
-- Spans 1–3 days of focused work
-- Architectural shape is already clear (no new service, no new DB)
-- Doesn't conflict with in-flight sprint work
-- One specialist (or two consulting horizontally) can deliver it
+Default for almost everything. Use ALL of these as a sanity check:
 
-If any item is false → either use `/quick-fix` (smaller) or `/sprint-plan`
-+ `/develop-story` (bigger).
+- One coherent thing the user can describe in a sentence
+- Architectural shape is clear (no new service, no new framework)
+- Doesn't conflict with in-flight work
+- Won't span a week of focused work
 
-### Examples
+If it's < ~50 LOC and trivially scoped → `/quick-fix`.
+If it's a new service / new framework / new auth model → talk to **cto** first.
 
-- "Add CSV export to the orders list"
-- "Add password reset email flow" (existing email infra)
-- "Add filter by date range to dashboard"
-- "Add rate limiting to public endpoints" (lib already chosen)
-- "Implement search-as-you-type on user list"
+### Flow
 
-### Anti-examples
+```
+researcher → qa (analysis) → tech-lead (tasks) → developer(s) → tech-lead (review) → qa (validation) → done
+```
 
-- New service / new database / new auth provider → `/architecture` first
-- "Rebuild the dashboard" → multi-story, use sprint
-- Cross-team API breaking change → needs full ceremony for coordination
-- Anything touching billing / payments / PII model → `/develop-story` + security review
+cto, security-reviewer, devops are **on-call only** — pulled in when their
+trigger fires, never as default steps.
 
 ### Steps
 
-1. **Acknowledge scope** to user:
-   > "This will be a feature path: lightweight story + AC + implementation
-   > + code review. Skipping sprint planning and retro.
-   > Estimated size: 50–500 LOC. Confirm? (y/n)"
+1. **Acknowledge scope** — one line:
+   > "Running /feature: researcher → qa → tech-lead → developer. No sprint, no retro. cto/security/devops only if a trigger fires."
 
-2. **Quick product framing** (delegate to `product-manager`)
-   - Hypothesis (one line: who/what/why)
-   - User segment named
-   - 3–7 acceptance criteria in Given/When/Then
-   - INVEST check — if it fails (not Independent, too Big), surface and offer split
+2. **researcher** (Task: subagent_type=researcher)
+   - Investigates the topic against the codebase + relevant docs
+   - Returns evidence (files, line numbers, prior art) and open questions
+   - Does NOT recommend an approach
 
-3. **Lightweight story file**
-   - Write to `production/stories/F-<short-slug>.md` (F prefix = feature, no sprint ID)
-   - Includes: hypothesis, AC, rough size estimate, specialist routing
-   - **Skip**: sprint assignment, story-points scoring, dependency graph
+3. **qa** — Mode A analysis (Task: subagent_type=qa)
+   - Reads researcher's brief + user's ask
+   - Produces hypothesis + AC + test plan + out-of-scope + risk flags
+   - Writes `production/qa/spec-<slug>.md`
+   - **Risk flag fires?** (auth / PII / payments / files / migration) → also invoke `security-reviewer` before tech-lead
 
-4. **Route to specialist** (delegate to `engineering-lead` for routing decision)
-   - Backend → `backend-developer`
-   - Frontend → `frontend-developer`
-   - Both → run sequentially with API-contract handoff
-   - Infra/CI → `devops`
+4. **tech-lead** — task breakdown (Task: subagent_type=tech-lead)
+   - Reads qa's spec
+   - Splits into independent, named-files, AC-mapped tasks
+   - Notes which can run in parallel
+   - Writes `production/stories/<slug>.md`
 
-5. **Design check** (only if user-facing)
-   - If story affects UI: brief `design-lead` consult — wireframe + a11y check
-   - If purely backend / infra: skip
+5. **developer(s)** (Task: subagent_type=developer — may run multiple in parallel for parallelizable tasks)
+   - Each picks a task; implements code + tests; runs them; reports
+   - Stays inside named files; surfaces if scope leaks
 
-6. **Implement**
-   - Specialist proposes file list before writing
-   - Approval → code + tests together
-   - All AC must be checkbox-checked off before moving to review
+6. **tech-lead** — review (Task: subagent_type=tech-lead)
+   - Quality bars, AC coverage, security smoke
+   - Verdict: APPROVE / APPROVE_WITH_NITS / REQUEST_CHANGES / BLOCK
+   - REQUEST_CHANGES → loop back to developer
+   - BLOCK → escalate to cto
 
-7. **Code review**
-   - `engineering-lead` does a full `/code-review` pass (not the 60s skim)
-   - Quality bars, OWASP basics, test coverage, performance sanity
+7. **qa** — Mode B validation (Task: subagent_type=qa)
+   - Runs the full test suite, walks each AC against evidence
+   - GATE: PASS / CONCERNS / FAIL
+   - Writes `production/qa/validation-<slug>.md`
+   - FAIL → loop back to developer
 
-8. **Security check** (conditional)
-   - If feature touches auth, PII, payments, file upload, external API:
-     also run `security-reviewer` STRIDE pass
-   - Otherwise skip
+8. **Done** — feature is "done" when qa GATE = PASS.
 
-9. **Output**
-   - Patch summary, files, test result
-   - Story file marked DONE with AC pass status
-   - **No retro** triggered automatically — feature is "done" when AC pass
-   - **Recommend** to add learnings to `/memory` if anything notable
+### Conditional Steps
+
+- **Infra / pipeline / Dockerfile changes** in the task list → invoke `devops` for that task only.
+- **Risk-flagged feature** (qa flagged auth/PII/payments/files/migration) → invoke `security-reviewer` between qa-analysis and tech-lead breakdown.
+- **API contract change with consumers / new dependency / new auth model** → invoke `cto` for the call before tech-lead breaks tasks.
 
 ### Rules
 
-- **One story file** is created (lightweight, no sprint assignment)
-- **No sprint update** unless user explicitly asks
-- **No retro** triggered (retro is sprint-scoped)
-- If during implementation scope balloons past 500 LOC or > 3 days:
-  STOP, surface it, suggest splitting or moving to `/develop-story` flow
-- **Security exception**: any feature touching auth/PII/payments/files →
-  mandatory `security-reviewer` pass, never optional
+- One spec file (qa) + one task list (tech-lead) per feature. No sprint assignment, no story points, no retro.
+- If during implementation the developer surfaces "this is bigger than I thought" → STOP, send back to qa to re-spec or to cto if architecture is the issue.
+- Security exception: any feature touching auth / PII / payments / files **must** go through `security-reviewer` — never optional.
+- Don't skip qa validation. "tech-lead approved" is not the same as "qa says it works".
 
 ### Output Format
 
 ```
 STATUS: COMPLETED | BLOCKED | SCOPE_TOO_BIG
 SCOPE: FEATURE
-STORY_FILE: [path]
+SPEC_FILE: [qa spec path]
+TASK_FILE: [tech-lead task list path]
+VALIDATION_FILE: [qa validation path]
 HYPOTHESIS: [one-line]
 AC_TOTAL: [count]
-AC_MET: [count] / [total]
+AC_MET: [met / total]
+TASKS: [count] — [parallelizable count]
 FILES_CHANGED: [list]
-LINES_CHANGED: [count]
-TEST: PASS | FAIL | UPDATED
-CODE_REVIEW: APPROVED | REVISION | MAJOR_REVISION
-SECURITY_CHECK: PASS | CONCERNS | NOT_APPLICABLE
-DEVIATIONS: [if any from original AC]
-NEXT: [usually nothing — feature is done; or "split into sprint stories"]
+LOC_CHANGED: [count]
+TECH_LEAD_VERDICT: APPROVE | APPROVE_WITH_NITS | REQUEST_CHANGES | BLOCK
+QA_GATE: PASS | CONCERNS | FAIL
+SECURITY_INVOKED: YES | NO | NOT_REQUIRED
+DEVOPS_INVOKED: YES | NO | NOT_REQUIRED
+CTO_INVOKED: YES | NO | NOT_REQUIRED
+NEXT: [usually nothing — feature done; or "fix flagged AC" / "scope split"]
 ```

@@ -1,40 +1,65 @@
-# Software Office — Agent Configuration
+# Software Office — Lean Mode
 
 A small software office living inside a Claude Code session.
-13 agents, 24 commands, minimal noise.
+**7 agents. 9 commands. No sprint, no retro, no standup. Linear flow.**
 
-## Speed Mode (default ON for solo / small team)
+## The Flow
 
-This config is tuned for **fast iteration**:
+```
+researcher → qa (analysis) → tech-lead (tasks) → developer(s) → tech-lead (review) → qa (validation) → done
+```
 
-- **Batch approvals**: list ALL planned files in ONE approval at the start of a
-  task; proceed without per-file gates after that. Re-approve only if scope
-  changes mid-stream.
-- **Brief output**: agents end with 1-3 lines (status + next). Full structured
-  block only on `BLOCKED`, `FAIL`, or `CONCERNS`.
-- **Skip ceremonies for small work**: `/quick-fix` (< 50 LOC) and `/feature`
-  (50–500 LOC) bypass sprint planning, retro, and full review chain.
-- **Solo delegation shortcut**: orchestrator may go directly to specialist for
-  routine work. Lead consultation required only for: architecture changes,
-  breaking API changes, auth/PII/payments/files, cross-cutting concerns.
+That's `/feature` — the default path. `/quick-fix` skips researcher and qa
+analysis. `/bug-fix` runs researcher → developer → qa.
+
+cto, security-reviewer, devops are **on-call only** — pulled in when their
+trigger fires, never as default steps.
+
+## The 7 Agents
+
+| Tier | Agent | Role |
+|---|---|---|
+| Top (on-call) | **cto** | Stack pick, architecture, breaking change, scope conflict, release sign-off |
+| Flow | **researcher** | Investigates topic, returns evidence (no opinion) |
+| Flow | **qa** | Spec + AC + test plan, then validates the developer's output |
+| Flow | **tech-lead** | Splits qa's spec into tasks, reviews developer's code |
+| Flow | **developer** | Implements end-to-end (backend, frontend, tests) — multiple in parallel allowed |
+| On-call | **security-reviewer** | STRIDE / OWASP audit when qa flags risk or release demands it |
+| On-call | **devops** | CI/CD / Docker / deploy / observability when needed |
+
+## The 9 Commands
+
+| Command | Purpose |
+|---|---|
+| `/start` | Detect stack, suggest next |
+| `/takeover` | Import prior AI context (Cursor/Copilot/etc.) |
+| `/help` | Smart suggestion + command list |
+| `/feature` | Default flow for any change |
+| `/quick-fix` | Tiny change — skip the flow |
+| `/bug-fix` | researcher → developer → qa loop |
+| `/security-review` | On-demand security audit |
+| `/release-check` | Pre-release GO/NO-GO (cto signs off) |
+| `/memory` | View / add project learnings |
+
+## Speed Mode (always on)
+
+- **Batch approvals**: list all planned files in ONE approval; proceed without per-file gates after that.
+- **Brief output**: agents end with 1–3 lines (status + next). Full structured block only on `BLOCKED` / `FAIL` / `CONCERNS`.
+- **Parallel developers**: tech-lead marks tasks parallelizable; multiple developer instances run simultaneously.
 - **Lazy load**: memory and docs files load on demand, not auto-imported.
 
-Override per-session by saying "verbose mode" or "full ceremony".
-
-## Hard Gates (always apply, even in speed mode)
-
-These NEVER auto-approve, regardless of mode:
+## Hard Gates (never auto-approve)
 
 - **Destructive ops**: `rm -rf`, `DROP TABLE`, force-push, delete branch
 - **Secret-touching**: writing or reading `.env`, key files, credentials
 - **DB migrations**: schema changes (forward + rollback both gated)
 - **Public API breaking changes**: must produce migration guide
-- **Production deploy**: explicit user confirm + release-check pass
+- **Production deploy**: explicit user confirm + `/release-check` pass
 
 ## Language
 
-Agents detect the user's language and respond in it.
-Default: English. Tech terms (API, REST, ADR, Docker) stay in English.
+Agents detect the user's language and respond in it. Default: English.
+Tech terms (API, REST, ADR, Docker) and code stay in English.
 
 ## Tech Stack
 
@@ -46,42 +71,37 @@ Default: English. Tech terms (API, REST, ADR, Docker) stay in English.
 ## Folder Layout
 
 ```
-src/         # Source code
-tests/       # Unit + integration tests
+src/                  # Source code
+tests/                # Unit + integration tests
 docs/
-  product/        # Product vision, concept (product-manager)
-  analysis/       # Requirements, existing system (business-analyst)
-  architecture/   # Architecture (tech-director)
-  adr/            # Architecture Decision Records
-  ux/             # Screen specs, DESIGN.md, tokens (design-lead)
-  api/            # OpenAPI / GraphQL SDL / .proto (engineering-lead)
+  architecture/       # cto's architecture docs
+  adr/                # Architecture Decision Records
+  api/                # OpenAPI / GraphQL SDL / .proto (when contract change)
+  security/           # security-reviewer threat models
 production/
-  backlog.md           # Ordered story list
-  stories/             # Story / task files
-  sprints/             # Sprint plans
-  retros/              # Sprint retrospectives
-  qa/                  # Test plans, bug reports
-  session-state/       # active.md (session context)
+  qa/
+    spec-*.md         # qa Mode A specs
+    validation-*.md   # qa Mode B validations
+    bugs/             # bug reports
+    security-review-*.md
+  stories/            # tech-lead task breakdowns
+  releases/           # cto GO/NO-GO decisions
+  session-state/
+    active.md         # session context (read after compaction)
 ```
 
 ## Coordination (one-line summary)
 
-**Director → Lead → Specialist** (vertical). Same-tier may consult but not
-decide for each other (horizontal). Conflicts: design/scope → product-manager;
-technical → tech-director; quality → qa-lead.
-
-In speed mode, orchestrator may skip Lead for routine specialist work
-(see Speed Mode above).
+Linear flow: researcher → qa → tech-lead → developer → tech-lead → qa.
+On-call: cto (decisions), security-reviewer (risk), devops (infra).
+Conflicts: tech/scope → cto; test sufficiency → qa; code quality → tech-lead.
 
 Full rules: load `.claude/docs/coordination.md` on demand.
 
 ## Project References (load when relevant, NOT auto-loaded)
 
-The following live under `.claude/` — load only when the current task needs them:
-
-- `.claude/docs/collaboration.md` — full Q→O→D→D→A protocol (only needed
-  when verbose mode is invoked or user explicitly disables speed mode)
 - `.claude/docs/coordination.md` — full delegation rules
+- `.claude/docs/collaboration.md` — speed/verbose mode + hard gates
 - `.claude/docs/coding-standards.md` — code conventions
 - `.claude/memory/technical.md` — accumulated tech learnings
 - `.claude/memory/avoid.md` — patterns to avoid
@@ -89,8 +109,7 @@ The following live under `.claude/` — load only when the current task needs th
 - `.claude/memory/domain.md` — domain knowledge
 - `.claude/memory/tools.md` — tool quirks
 
-Read these via Read tool when the topic comes up. Do NOT preload all of
-them every turn — wastes tokens.
+Read these via Read tool when the topic comes up. Don't preload all of them.
 
 ## Context Management
 

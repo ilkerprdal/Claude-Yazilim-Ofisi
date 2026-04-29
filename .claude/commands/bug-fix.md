@@ -1,68 +1,70 @@
 ---
-description: "End-to-end QA→Dev→QA bug fix loop, regression test required. Triggers on 'fix bug X', 'resolve bug 042', 'fix this report'."
+description: "End-to-end bug fix loop with regression test required. Researcher locates the bug, developer fixes it, qa validates. Triggers on 'fix bug X', 'resolve bug 042', 'fix this report'."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task
 argument-hint: "[bug-id or path to report, e.g. 042 or production/qa/bugs/042-login-crash.md]"
 ---
 
 # /bug-fix
 
-QA → Dev → QA closed loop.
+researcher → developer → qa loop. Regression test is non-negotiable.
 
 ### Flow
 
 1. **Load context**
-   - `production/qa/bugs/[id]-*.md`
-   - Find related story (if any)
+   - `production/qa/bugs/[id]-*.md` (or the path the user passed)
    - Identify affected code files
 
-2. **Form hypothesis**
-   - Match repro steps to code
-   - List 1-3 possible causes
-   - Present to user: "Most likely: [X]. Correct?"
+2. **researcher** (Task: subagent_type=researcher)
+   - Reproduce in the code: walk repro steps, find the path
+   - Form 1–3 candidate causes with evidence (file:line)
+   - Note any prior incidents on the same area
+   - Does NOT propose a fix — just facts
 
-3. **Route to right agent**
-   - Backend bug → `backend-developer`
-   - Frontend bug → `frontend-developer`
-   - Infrastructure / CI bug → `devops`
+3. **Validate hypothesis with user**
+   > "Most likely: [X] (evidence: file:line). Correct?"
+   - User confirms → continue
+   - User pushes back → researcher digs again
 
-4. **Fix** (on agent side)
-   - Present fix, get approval
-   - **Write regression test** (so this bug doesn't recur)
+4. **developer** (Task: subagent_type=developer)
+   - Implement the fix on the validated cause
+   - **Write a regression test** that reproduces the bug pre-fix
    - Verify existing tests still pass
+   - Surface if scope is bigger than expected
 
-5. **QA gate**
-   - `qa-lead` agent:
-     - Run repro steps → bug gone?
-     - Regression test present and passing?
-     - No side effects?
-   - GATE: PASS → mark bug `Resolved`
-   - GATE: FAIL → loop back to step 4
+5. **qa gate** (Task: subagent_type=qa, Mode B)
+   - Run repro steps → bug gone?
+   - Regression test present and passing?
+   - No side effects in adjacent tests?
+   - GATE: PASS → mark bug Resolved
+   - GATE: FAIL → loop to step 4
 
-6. **Closure**
-   - Add `Resolution` section to bug report:
-     ```
-     ## Resolution
-     **Date**: yyyy-mm-dd
-     **Files changed**: [list]
-     **Regression test**: tests/regression/bug-042.test.js
-     **Commit**: [hash if any]
-     ```
-   - Note in `production/standup-log.md`
+6. **Closure** — append to the bug report:
+   ```
+   ## Resolution
+   **Date**: yyyy-mm-dd
+   **Root cause**: [one sentence]
+   **Files changed**: [list]
+   **Regression test**: tests/regression/bug-<id>.test.*
+   **Commit**: [hash if any]
+   ```
 
 ### Rules
 
-- Don't close without a test
-- "Don't know the cause but I fixed it" → reject, validate hypothesis
-- After 3 attempts unresolved → `STATUS: BLOCKED`, return to user
+- Don't close without a regression test.
+- "Don't know the cause but I fixed it" → reject; researcher digs again.
+- 3 attempts unresolved → `STATUS: BLOCKED`, return to user.
+- Bug touches auth / PII / payments / files → invoke `security-reviewer` after the fix and before closure.
+- Bug is in CI / pipeline / Dockerfile → use `devops` instead of `developer`.
 
 ### Output
 
 ```
 STATUS: COMPLETED | BLOCKED
 BUG_ID: [id]
-ROOT_CAUSE: [one-sentence actual cause]
+ROOT_CAUSE: [one sentence — the actual cause]
 FILES_CHANGED: [list]
 REGRESSION_TEST: [file path]
 QA_GATE: PASS | FAIL
+SECURITY_INVOKED: YES | NO | NOT_REQUIRED
 NEXT: [if any]
 ```

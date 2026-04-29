@@ -1,58 +1,62 @@
 ---
-description: "Full security audit — STRIDE threat model, OWASP Top-10, sensitive data inventory, compliance checks. Triggers on 'security audit', 'security review', 'check vulnerabilities', 'before release security check'."
-allowed-tools: Read, Glob, Grep, Bash, Write, Edit
+description: "On-demand security audit — STRIDE, OWASP Top-10, sensitive-data inventory, compliance smoke. Drives security-reviewer. Triggers on 'security audit', 'security review', 'check vulnerabilities', 'before release security check'."
+allowed-tools: Read, Glob, Grep, Bash, Write, Edit, Task
 argument-hint: "[scope: 'release' | 'feature [name]' | 'file [path]']"
 ---
 
 # /security-review
 
-Engage `security-reviewer`.
+On-demand. Engages `security-reviewer`. The default flow does NOT run this — it
+only fires when:
+- A feature is risk-flagged by qa (auth / PII / payments / files / migration)
+- `/release-check` requires it
+- The user explicitly invokes it
 
 ### Modes
 
-#### Pre-release audit
-Default if no argument. Full sweep:
+#### Pre-release audit (default if no argument)
+
+Full sweep:
 - STRIDE threat model on architecture
 - OWASP Top-10 audit
 - Sensitive data inventory
-- Compliance checks (if applicable)
+- Compliance smoke (GDPR / PCI / HIPAA — high-level only)
 - Dependency CVE scan
 
-Output: `production/qa/security-review-[release].md`
+Output: `production/qa/security-review-<release>.md`
 
 #### Feature-scoped review
+
 `/security-review feature payment-flow`
 - STRIDE on the feature
 - OWASP relevant items
 - Specific data handled
 
-Output: `docs/security/threat-model-payment-flow.md`
+Output: `docs/security/threat-model-<feature>.md`
 
 #### Code-scoped review
+
 `/security-review file src/auth/login.ts`
 - OWASP-targeted code review for that file
-- Authentication/authorization specific checks
+- Auth / authz specific checks
 
-Output: inline findings + summary report
+Output: inline findings + summary
 
 ### Workflow
 
-1. Determine scope from argument
-2. Engage `security-reviewer` with the scope
-3. Agent walks through STRIDE / OWASP / compliance as relevant
-4. Each finding tagged with severity (CRITICAL / HIGH / MEDIUM / LOW)
-5. Recommendations prioritized
-6. User approval before writing report
+1. Determine scope from the argument
+2. Invoke `security-reviewer` (Task: subagent_type=security-reviewer) with that scope
+3. Agent walks STRIDE / OWASP / compliance as relevant
+4. Each finding tagged severity: CRITICAL / HIGH / MEDIUM / LOW
+5. User approval before writing report
 
 ### Rules
 
-- Don't gloss over `NOT_APPLICABLE` — explain why
-- Critical findings BLOCK release (cannot be marked PASS without fix)
-- Reports include evidence (file:line, command output, screenshot path)
-- Compliance scope: high-level only — for legal compliance, recommend
-  a real auditor
+- Don't gloss over `NOT_APPLICABLE` — explain why.
+- Critical findings BLOCK release. They cannot be marked PASS without a fix.
+- Reports include evidence (file:line, command output, screenshot path).
+- Compliance scope is high-level. For real legal compliance, recommend a real auditor.
 
 ### Output
 
-`security-reviewer` standard output format. Plus a release/feature
-markdown report.
+`security-reviewer` standard output + the markdown report at the path above.

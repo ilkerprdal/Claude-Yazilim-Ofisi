@@ -1,37 +1,31 @@
 ---
-description: "Smart help — looks at project state and suggests the most logical next command + lists all commands. Triggers on 'help', 'what can I do', 'what's next', 'yardim', 'yardım'."
+description: "Smart help — looks at project state and suggests the next logical command + lists all commands. Triggers on 'help', 'what can I do', 'what's next', 'yardim', 'yardım'."
 allowed-tools: Read, Glob, Grep
 ---
 
 # /help
 
-Two parts: **smart suggestion** + **all commands**.
+Two parts: smart suggestion + the full command list.
 
-### Part 1: Smart Suggestion (priority)
+### Part 1: Smart Suggestion
 
-Look at project state and suggest **1-3 most logical commands**:
+Look at project state and suggest 1–2 commands:
 
 | State | Suggestion |
-|-------|------------|
-| Prior AI context files exist (context.md, .cursorrules, etc.) | `/takeover` (first) |
-| Empty project | `/start` or `/idea` |
-| Concept exists, no analysis | `/analyze` |
-| No architecture | `/architecture` |
-| No stories | `/create-stories` |
-| No sprint | `/sprint-plan` |
-| Sprint active, half stories in progress | `/standup` or `/develop-story [next]` |
-| Sprint active, most stories in `Review` | `/code-review` |
-| Code exists, no tests | `/qa-plan` |
-| Open bugs (`production/qa/bugs/*.md`) | `/bug-fix` |
-| Sprint nearing end | `/retro` or `/standup` |
+|---|---|
+| Prior AI context files exist (context.md, .cursorrules, etc.) | `/takeover` |
+| Empty / new project | `/start` |
+| Open bug reports in `production/qa/bugs/` | `/bug-fix [id]` |
+| Active feature in progress (`production/qa/spec-*.md` recent) | resume `/feature` for that slug |
 | Release approaching | `/release-check` |
-| Multiple conflicting opinions | `/consult` |
+| Small change wanted | `/quick-fix` |
+| Anything else | `/feature` |
 
 Format:
 ```
-📍 Project state: [summary]
+Project state: [summary]
 
-💡 Recommended next step:
+Recommended:
    /command [args] — [why]
 
 Alternative:
@@ -41,53 +35,41 @@ Alternative:
 ### Part 2: All Commands
 
 ```
-WORKFLOW:
-/start → /idea → /analyze → /architecture → /create-stories
-                                                ↓
-                                         /sprint-plan
-                                                ↓
-                              /develop-story → /code-review
-                                                ↓
-                                            /qa-plan
-                                                ↓
-                                         /release-check
+DEFAULT FLOW (most work):
+/feature → researcher → qa → tech-lead → developer(s) → tech-lead → qa → done
+
+LIGHT PATH:
+/quick-fix → developer + tech-lead glance
+
+BUG FLOW:
+/bug-fix → researcher → developer → qa
 ```
 
-| Command | What It Does | Agent |
-|---------|--------------|-------|
+| Command | What | Drives |
+|---|---|---|
 | **Onboarding** | | |
-| `/takeover` | Import existing project context (context.md, .cursorrules, etc.) | — |
-| `/start` | Stage + tech stack detection, route | — |
-| `/help` | This screen (with context-aware suggestion) | — |
-| **Design** | | |
-| `/idea` | Concept doc | product-manager |
-| `/analyze` | Requirements / existing system analysis | business-analyst |
-| `/architecture` | Technical architecture + ADRs | tech-director |
-| **Sprint** | | |
-| `/create-stories` | Generate stories | product-manager |
-| `/backlog` | Backlog refinement | scrum-master |
-| `/sprint-plan` | Sprint planning | scrum-master |
-| `/standup` | Daily status | scrum-master |
-| `/retro` | Sprint retrospective | scrum-master |
-| **Development** | | |
-| `/develop-story` | Implement a story | backend/frontend |
-| `/quick-fix` | Lightweight fix (no sprint) | backend/frontend/devops |
-| `/code-review` | Code review | engineering-lead |
-| **QA & Security** | | |
-| `/qa-plan` | Test plan | qa-lead |
-| `/bug-report` | Create structured bug report | qa-lead |
-| `/bug-fix` | QA→Dev→QA bug fix loop | bug owner |
-| `/security-review` | STRIDE + OWASP audit | security-reviewer |
-| **Decision / Knowledge** | | |
-| `/consult` | Multi-agent consultation (party mode) | (panel) |
-| `/memory` | Manage project learnings | — |
-| `/release-check` | Pre-release readiness | tech-director |
+| `/start` | Detect stack + state, suggest next | — |
+| `/takeover` | Import prior AI context files | — |
+| `/help` | This screen | — |
+| **Build** | | |
+| `/feature` | Default flow for any change | researcher → qa → tech-lead → developer |
+| `/quick-fix` | Tiny change, skip the flow | developer + tech-lead |
+| `/bug-fix` | Locate, fix, regression-test | researcher → developer → qa |
+| **Gates** | | |
+| `/security-review` | On-demand security audit | security-reviewer |
+| `/release-check` | Pre-release GO/NO-GO | cto |
+| **Knowledge** | | |
+| `/memory` | View / add project learnings | — |
 
-### Agents (11)
+### Agents (7)
 
-**Directors**: tech-director, product-manager
-**Leads**: engineering-lead, qa-lead, design-lead, business-analyst, scrum-master, security-reviewer
-**Specialists**: backend-developer, frontend-developer, devops
+**Top:** cto (decisions, on-call)
+**Flow:** researcher → qa → tech-lead → developer
+**On-call:** security-reviewer, devops
+
+The flow runs without cto / security / devops by default. They're invoked
+only when their trigger fires (architectural call, risk flag, infra change,
+release sign-off).
 
 ### Output
 

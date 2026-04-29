@@ -1,39 +1,55 @@
 ---
-description: "Pre-release readiness checklist — code, tests, deployment, docs. Triggers on 'are we release ready', 'release checklist', 'check before launch', 'go/no-go'."
-allowed-tools: Read, Glob, Grep, Bash
+description: "Pre-release GO / NO-GO sign-off. Drives cto for the final call. Triggers on 'are we release ready', 'release checklist', 'check before launch', 'go/no-go'."
+allowed-tools: Read, Glob, Grep, Bash, Task
 ---
 
 # /release-check
 
-Validate every item before going to release. BLOCKING items must pass — no
-release otherwise.
+Pre-release readiness. cto signs off. BLOCKING items must pass — no release otherwise.
 
-### Code
-- [ ] All stories `Done`
+### Flow
+
+1. Walk the checklist below, gather evidence per item.
+2. Invoke `cto` (Task: subagent_type=cto) with the evidence.
+3. cto returns GO or NO-GO with rationale.
+4. Write `production/releases/<version>-decision.md`.
+
+### Checklist
+
+**Code (BLOCKING marked)**
+- [ ] All in-flight features have qa GATE = PASS
+- [ ] No open critical / high bugs **(BLOCKING)**
 - [ ] Expected commits on `main`
-- [ ] No open critical/high bugs **(BLOCKING)**
 
-### Tests
+**Tests (BLOCKING)**
 - [ ] CI pipeline green **(BLOCKING)**
-- [ ] Smoke test passing **(BLOCKING)**
-- [ ] QA sign-off
+- [ ] Smoke test passing on stage **(BLOCKING)**
 
-### Deployment
+**Deployment (BLOCKING)**
 - [ ] `.env.example` up to date
-- [ ] Migration scripts tested
-- [ ] Rollback plan documented **(BLOCKING)**
-- [ ] Monitoring / alarms active
+- [ ] Migration scripts tested forward + rollback
+- [ ] Rollback plan documented and tested **(BLOCKING)**
+- [ ] Monitoring + alerts active **(BLOCKING)**
 
-### Docs
+**Security (conditional BLOCKING)**
+- [ ] If release touches auth / PII / payments / files: `security-reviewer` ran, no FAIL items **(BLOCKING when conditional triggers)**
+- [ ] Dependency CVE scan run; no unpatched critical / high
+
+**Docs (non-blocking but flagged)**
 - [ ] CHANGELOG up to date
 - [ ] README reflects changes
 - [ ] API change communicated (if any)
 
-### Release Notes
-- [ ] User-facing notes ready
-- [ ] Changes ordered by priority
-
 ### Output
 
-**GO / NO-GO** decision + missing-item list.
-Save to `production/releases/[version]-check.md`.
+GO / NO-GO + missing-item list. Save to `production/releases/<version>-decision.md`.
+
+```
+STATUS: COMPLETED
+VERDICT: GO | NO_GO
+BLOCKING_FAILS: [list]
+NON_BLOCKING_GAPS: [list]
+SECURITY_INVOKED: YES | NO | NOT_REQUIRED
+WROTE: production/releases/<version>-decision.md
+NEXT: ship | fix [item] then re-run
+```

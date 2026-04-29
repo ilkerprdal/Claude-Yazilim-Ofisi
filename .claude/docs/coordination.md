@@ -1,61 +1,51 @@
 # Coordination Rules
 
-## Vertical Delegation
+## The Flow
 
 ```
-Directors → Leads → Specialists
+researcher → qa (analysis) → tech-lead (tasks) → developer(s) → tech-lead (review) → qa (validation) → done
 ```
 
-- Directors don't delegate directly to specialists (go through leads)
-- Specialists don't escalate directly to directors (go through leads)
-- Exception: lead absent or emergency
+This is the default for `/feature` and `/bug-fix`. Linear, no ceremonies.
 
-## Horizontal Consultation
+`/quick-fix` short-circuits: developer + tech-lead glance.
 
-Same-tier agents can consult, but cannot decide for each other:
+## On-Call Roles
 
-- backend-developer ↔ frontend-developer (API contract)
-- engineering-lead ↔ qa-lead (test strategy)
-- design-lead ↔ frontend-developer (feasibility, animation cost, browser support)
-- frontend-developer → design-reviewer (UI is shipped; review runs after)
+These three are **NOT** in the default flow. They run only when their trigger fires:
 
-## UI Pipeline (the design → dev → review loop)
+| Role | Trigger |
+|---|---|
+| **cto** | Stack pick, architectural change, breaking API, scope conflict, release sign-off |
+| **security-reviewer** | qa flagged risk (auth / PII / payments / files / migration), pre-release audit, explicit `/security-review` |
+| **devops** | Pipeline / Dockerfile / deployment / observability work in the task list |
 
-For any user-facing change:
-
-```
-design-lead → frontend-developer → design-reviewer
-   (spec)        (implementation)      (audit)
-```
-
-- **design-lead** emits: `docs/ux/<screen>.md`, `docs/ux/DESIGN.md`, `tokens/*.tokens.json`, `docs/ux/components-diff.md`.
-- **frontend-developer** consumes the spec, ships code + Storybook stories + tests, reports residual debt severity-tagged.
-- **design-reviewer** runs the 7-phase Playwright audit and returns severity-tagged findings. Frontend-developer fixes; review iterates.
-
-design-reviewer is **non-negotiable** before merging UI. It's not a code review (engineering-lead) — it's a product review.
+If qa or tech-lead pulls one of these in for routine work, that role returns it.
 
 ## Conflict Resolution
 
-| Conflict Type | Resolved By |
-|---------------|-------------|
-| Design / scope | product-manager |
-| Technical / architectural | tech-director |
-| Quality / test sufficiency | qa-lead |
-| UI spec vs implementation drift | design-lead (spec authoritative unless infeasible — then escalate) |
+| Conflict | Resolved by |
+|---|---|
+| Tech / architecture / scope / breaking change | cto |
+| Test sufficiency / AC interpretation | qa |
+| Code structure / quality / review verdict | tech-lead |
 
 ## Parallel Execution
 
-- **Maximum 2 agents in parallel** (avoid race conditions on file writes)
-- Agents writing to the same file MUST run sequentially
-- Independent reads can be parallel
+- Multiple developers can run in parallel against tech-lead's task list as long as the tasks are independent (no shared files).
+- Tech-lead marks parallelizable tasks explicitly. If two tasks touch the same file, they run sequentially.
+- researcher, qa-analysis, tech-lead-breakdown are sequential — each consumes the previous step's output.
 
 ## Model Assignments
 
 | Model | Usage |
-|-------|-------|
+|---|---|
 | Haiku | Read-only, formatting, simple listing |
-| Sonnet | Implementation, review, single-system analysis (default) |
-| Opus | Multi-document synthesis, high-stakes decision |
+| Sonnet | Default — researcher, qa, tech-lead, developer, devops, security-reviewer |
+| Opus | cto only (high-stakes decisions, multi-document synthesis) |
 
-Commands default to Sonnet. `/help` is Haiku, `/architecture` and
-`/release-check` are Opus.
+## What's NOT Here
+
+No sprint, no retro, no standup, no backlog refinement, no story points. If you
+miss those, you're using the wrong tool — pick a heavier framework. This setup
+is for solo / small teams that want flow over ceremony.

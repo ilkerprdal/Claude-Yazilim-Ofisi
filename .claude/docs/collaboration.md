@@ -58,9 +58,7 @@ Speed mode does NOT bypass these:
 
 ## Inter-Agent
 
-- Specialists stay in their domain (backend → no UI files; frontend → no DB)
-- When unsure: skip a level, ask the lead
-- Conflicts: escalate to common parent (lead → director)
-- In speed mode, orchestrator may go directly specialist → specialist for
-  contract handoffs (e.g., backend → frontend) without lead in the loop,
-  unless the change is architecturally significant
+- The flow is linear: researcher → qa → tech-lead → developer → tech-lead → qa.
+- developer doesn't decide architecture (cto) or test sufficiency (qa) — surface and route.
+- When in doubt, push up: developer → tech-lead → cto.
+- On-call roles (cto, security-reviewer, devops) return work to the flow if pulled in for routine tasks that don't need them.
