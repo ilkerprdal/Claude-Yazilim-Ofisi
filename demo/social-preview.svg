@@ -43,14 +43,14 @@
 
   <!-- Stats row -->
   <g font-family="system-ui, sans-serif">
-    <!-- 12 agents -->
+    <!-- 7 agents -->
     <rect x="80" y="300" width="180" height="100" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-    <text x="170" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">12</text>
+    <text x="170" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">7</text>
     <text x="170" y="380" text-anchor="middle" font-size="18" fill="#8b949e">agents</text>
 
-    <!-- 23 commands -->
+    <!-- 9 commands -->
     <rect x="280" y="300" width="180" height="100" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-    <text x="370" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">23</text>
+    <text x="370" y="345" text-anchor="middle" font-size="42" font-weight="700" fill="url(#accent)">9</text>
     <text x="370" y="380" text-anchor="middle" font-size="18" fill="#8b949e">commands</text>
 
     <!-- Single-file -->
@@ -58,28 +58,28 @@
     <text x="620" y="345" text-anchor="middle" font-size="32" font-weight="700" fill="#3fb950">1 file</text>
     <text x="620" y="380" text-anchor="middle" font-size="18" fill="#8b949e">cross-platform installer</text>
 
-    <!-- Multilingual -->
+    <!-- Linear flow -->
     <rect x="780" y="300" width="220" height="100" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-    <text x="890" y="345" text-anchor="middle" font-size="32" font-weight="700" fill="#d29922">multilingual</text>
-    <text x="890" y="380" text-anchor="middle" font-size="18" fill="#8b949e">auto-detected</text>
+    <text x="890" y="345" text-anchor="middle" font-size="32" font-weight="700" fill="#d29922">linear flow</text>
+    <text x="890" y="380" text-anchor="middle" font-size="18" fill="#8b949e">no sprint, no retro</text>
   </g>
 
   <!-- Tagline -->
   <text x="80" y="465" font-family="system-ui, sans-serif" font-size="24" fill="#8b949e">
-    Directors. Leads. Specialists. Agile loop. STRIDE + OWASP. /takeover for existing projects.
+    researcher → qa → tech-lead → developer. cto on-call. /takeover for existing projects.
   </text>
 
   <!-- Workflow at bottom -->
   <g font-family="ui-monospace, 'SF Mono', Consolas, monospace" font-size="20" fill="#8b949e">
-    <text x="80" y="540">/idea</text>
+    <text x="80" y="540">/start</text>
     <text x="180" y="540">→</text>
-    <text x="220" y="540">/architecture</text>
-    <text x="400" y="540">→</text>
-    <text x="440" y="540">/develop-story</text>
-    <text x="640" y="540">→</text>
-    <text x="680" y="540">/code-review</text>
-    <text x="850" y="540">→</text>
-    <text x="890" y="540">/release-check</text>
+    <text x="220" y="540">/feature</text>
+    <text x="360" y="540">→</text>
+    <text x="400" y="540">/bug-fix</text>
+    <text x="540" y="540">→</text>
+    <text x="580" y="540">/security-review</text>
+    <text x="800" y="540">→</text>
+    <text x="840" y="540">/release-check</text>
   </g>
 
   <!-- Repo URL -->

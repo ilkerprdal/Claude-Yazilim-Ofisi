@@ -2,179 +2,93 @@
 
 All notable changes to this project follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased] — v0.2.0 lean flow restructure (BREAKING)
 
-### Performance
+The framework was 13 agents and 24 commands modeling full Scrum (sprints,
+retros, standups, story points). For solo / small teams that was overhead,
+not value. v0.2 collapses it into a tight linear flow.
 
-- **Speed mode** (default for solo / small team) — collapses the
-  `Question → Options → Decision → Draft → Approval` loop to a single
-  scope-batched approval. Agents proceed without per-file gates after
-  the user OKs the planned set, until scope expands. Cuts typical
-  round-trips per task from 5+ to 1-2.
-- **Brief output default** — agents end with 1-3 lines (`STATUS: ... — next: ...`).
-  Full structured output block only on `BLOCKED`, `FAIL`, or `CONCERNS`,
-  or when verbose mode is invoked. Was previously 8-15 lines every reply.
-- **Lazy memory / docs loading** — `CLAUDE.md` no longer auto-imports five
-  memory files and three docs files on every session. Files are listed
-  with paths; agents `Read` them only when the task touches their content.
-  Saves ~10-15 KB context per session start.
-- **Hook scope narrowed** — `post-edit-validate.sh` now early-exits when
-  the edited file isn't under `.claude/agents/` or `.claude/commands/`.
-  Previously ran Python startup + frontmatter scan after every `src/` /
-  `tests/` write, ~1-2 s wasted per edit on Windows.
-- **Hard gates explicit** — speed mode does NOT bypass: destructive ops
-  (`rm`, force-push), schema migrations, secret-file reads/writes,
-  breaking public API changes, production deploys, git history rewrites.
-  These always require per-op approval.
-- **Solo delegation shortcut** — orchestrator may go directly to specialist
-  for routine work in speed mode. Lead consultation required only for
-  architecture changes, breaking API changes, auth/PII/payments/files,
-  cross-cutting concerns. Cuts typical 3-hop chain to 2.
+### BREAKING
+
+- **The Scrum process is gone.** No more sprint planning, retrospectives,
+  standups, or backlog refinement. Stories no longer have story points.
+  If you used those features, this is a hard break — pin to v0.1.1 or
+  use a heavier framework (e.g. BMAD-METHOD).
+- **Agents removed (11):** `business-analyst`, `product-manager`,
+  `scrum-master`, `design-lead`, `design-reviewer`, `technical-writer`,
+  `frontend-developer`, `backend-developer`, `engineering-lead`,
+  `tech-director`, `qa-lead`. Their core scope merged into the new agents below.
+- **Commands removed (15):** `/idea`, `/analyze`, `/architecture`,
+  `/create-stories`, `/backlog`, `/sprint-plan`, `/standup`, `/retro`,
+  `/develop-story`, `/code-review`, `/api-design`, `/qa-plan`,
+  `/bug-report`, `/design-review`, `/consult`. The flow no longer needs them.
+- **Folder structure changed:** `production/sprints/`, `production/retros/`,
+  `production/standup-log.md`, `docs/product/`, `docs/analysis/`,
+  `docs/ux/` are no longer used by the default flow. Existing projects on
+  v0.1.x keep their files; v0.2 just doesn't write to those paths.
 
 ### Added
 
-- **`technical-writer` agent** (Lead-tier, sonnet) — owns README freshness,
-  CHANGELOG discipline, ADR hygiene, API docs (rendered from schema), user
-  help, drift detection. Closes the long-standing gap where project
-  documentation had no explicit owner. README freshness audit (counts,
-  badges, links, install instructions) is now a release-gate checklist.
-- **`/api-design` command** — schema-first API design path. Produces
-  OpenAPI / GraphQL SDL / `.proto` schemas before any implementation.
-  Engineering-lead drives, backend-developer reviews feasibility, qa-lead
-  reviews testability (contract tests), security-reviewer engaged for
-  auth/PII/payments/files. Includes mandatory OWASP API Security Top 10
-  pass at schema time. Closes the "API contract sahipsiz" gap raised in
-  reviewer feedback.
-- **`/feature` command** — mid-tier scale-adaptive path between `/quick-fix`
-  and full sprint cycle. Story + AC + implementation + code review, but no
-  sprint planning or retro. Designed for 50–500 LOC self-contained features
-  (~1–3 days of work). Mandatory `security-reviewer` pass when feature
-  touches auth/PII/payments/files.
-- **README "Differentiators" section** — explicitly calls out what this
-  project does differently from larger Agile-agent frameworks: brownfield-first
-  (`/takeover`), scale-adaptive workflow (three explicit tiers),
-  defensive infrastructure (fail-open hooks, three install paths),
-  explicit boundaries (anti-personas, vertical delegation, memory layer),
-  honest scope (single-maintainer, early-preview status).
-- **Total agents: 11 → 12** (added `technical-writer`).
-- **Total commands: 21 → 23** (added `/feature`, `/api-design`).
+- **`researcher` agent** — first in the flow. Investigates the topic
+  (codebase grep, library docs, prior incidents) and returns evidence
+  with file/line pointers. Does NOT recommend an approach. The qa step
+  turns evidence into a plan.
+- **`qa` agent** (replaces `qa-lead` + `business-analyst`) — two modes:
+  - Mode A (analysis): hypothesis + AC + test plan + risk flags
+  - Mode B (validation): walks each AC against evidence after the developer ships
+- **`tech-lead` agent** (replaces `engineering-lead`) — splits qa's spec
+  into independent, named-files, AC-mapped tasks (parallelizable where
+  possible), then reviews developer output against quality bars.
+- **`developer` agent** (replaces `backend-developer` + `frontend-developer`)
+  — implements end-to-end. One agent, full stack within the task.
+  Stack-detected per project. Multiple instances run in parallel for
+  parallelizable tasks.
+- **`cto` agent** (replaces `tech-director` + `product-manager`) — top-tier,
+  on-call. Stack pick, architectural change, breaking API, scope conflict,
+  release sign-off. NOT in the default flow.
+- **On-call scope** explicitly added to `security-reviewer` and `devops` —
+  they're invoked only when their trigger fires (qa risk flag, infra task,
+  release audit). Routine work routed to either is returned to the flow.
 
 ### Changed
 
-- **`business-analyst` agent deepened** (2.5 KB → ~10 KB) with concrete
-  elicitation methodology: 5 Whys / Jobs-to-be-Done / Event Storming /
-  User Story Mapping / Stakeholder Interview / Document Mining / System
-  Walkthrough — with "when to use which" guidance. Added ambiguity
-  reduction protocol (Subject/Action/Object/Quantifier/Conditions/Negation),
-  requirement categorization with mandatory source attribution, BPMN
-  notation guidance, compliance discovery checklist (KVKK/GDPR/HIPAA/PCI/
-  COPPA), stakeholder conflict resolution framing, brownfield existing-system
-  analysis protocol, and a Definition of Done.
-- **`scrum-master` agent deepened** (2.5 KB → ~10 KB) with operational
-  rigor: velocity calculation (median over 3-5 sprints, not single
-  number), capacity formula with focus-factor (typical 0.6-0.7 for
-  solo / small team), sprint-goal one-sentence discipline, planning poker
-  process, blocker escalation SLA (24h owner / 24-48h Lead / 48-72h
-  Director / 72h+ User), burn-down / burn-up tracking, structured retro
-  template with mandatory experiments-with-owner-and-checkpoint, backlog
-  refinement rules (90-day stale, 13+ point split, vague-AC bounce-back),
-  cross-team coordination guidance, and per-ceremony Definitions of Done.
-- **`tech-director` cross-cutting concerns extended** with two new axes:
-  - **Cost / FinOps**: cloud spend at MVP scale, cost drivers, egress,
-    third-party API quotas (LLM tokens, payments, SMS), auto-scaling caps,
-    storage tiering, build-vs-buy, vendor lock-in, reserved/savings plans,
-    unit economics check.
-  - **Data Architecture**: schema evolution / migration strategy,
-    backward-compatibility windows, partitioning / sharding,
-    read/write split + replication lag, backup RTO/RPO targets.
-  Output format updated to surface all 7 cross-cutting axes (was 4).
-- **`qa-lead` agent deepened** with full test discipline:
-  - **Test pyramid** (70/20/10 unit/integration/E2E) with anti-pattern
-    callouts (ice cream cone, hourglass, single-tier).
-  - **Contract testing** guidance per stack (Pact, OpenAPI+Schemathesis,
-    GraphQL schema diffing, gRPC `buf breaking`, in-repo contract suite).
-  - **Performance testing** taxonomy (smoke / load / stress / soak / spike)
-    with tool hints (k6, Locust, JMeter, Vegeta, wrk, Lighthouse CI).
-  - **Flaky test management**: detection (3-5 reruns), tracking by
-    failure rate, **48-hour fix-or-delete rule**, common causes ordered
-    by frequency.
-  - **Mutation testing** guidance (Stryker / mutmut / cosmic-ray / PIT)
-    for critical-path modules, > 70% mutation score target.
-  - **Test data management** rules (no real PII, transaction-rolled-back
-    integration tests, builder/factory patterns).
-  - **Accessibility test automation** (axe-core, pa11y, lighthouse-ci)
-    paired with design-lead's WCAG checklist.
-  - Output format updated to surface pyramid distribution, contract
-    tests, perf detail, a11y, flaky queue.
-- **`engineering-lead` agent deepened**:
-  - **Review verdict granularity**: APPROVE / APPROVE_WITH_NITS /
-    REQUEST_CHANGES / BLOCK (was binary). Findings tagged
-    `nit` / `suggestion` / `concern` / `blocker`.
-  - **API design discipline**: schema-first preferred (OpenAPI / GraphQL
-    SDL / `.proto` / AsyncAPI), naming + envelope + pagination + versioning
-    conventions.
-  - **Breaking change policy**: explicit definition of what counts as
-    breaking, deprecation window (1+ minor version), mandatory migration
-    guide, CHANGELOG `[BREAKING]` flagging, semver bump rules.
-  - **Refactoring patterns** named (Strangler Fig, Branch by Abstraction,
-    Parallel Change / Expand-Migrate-Contract, Feature Toggle, Boy Scout,
-    Big Bang Rewrite) with when-to-use and trade-offs. Default to
-    Strangler Fig for live systems; Parallel Change for schema/API breaks;
-    avoid Big Bang.
-  - **Profiling & performance investigation**: tool categories (APM,
-    flame graphs, memory, DB EXPLAIN, frontend devtools), measurement-first
-    rule.
-- Slash command table updated (added `/api-design` under Development).
-- Team hierarchy diagram updated (added `technical-writer` under Leads).
-- **Count consistency**: 12 agents / 23 commands synced across README,
-  README.tr, CLAUDE.md, plugin.json, social-preview.svg, workflow.cast.
-- **README rewritten in response to reviewer feedback**:
-  - "How It Compares" table (with adjective-laden BMAD comparison) replaced
-    by a neutral "When to use what" routing table — points users to BMAD
-    explicitly when their need (50+ agents, enterprise greenfield) is a
-    better fit there.
-  - "Why Use This (and Why Not)" → "Who Is This For" — narrower, more
-    honest scope. Mid-size-project / mainstream-stack focus made explicit.
-  - Header tagline updated: dropped "Multilingual" as a primary
-    differentiator (it's mostly Claude's existing capability), added
-    "Brownfield-friendly. Scale-adaptive." which are project-specific.
-  - Added explicit **early-preview** status note (v0.1.x, APIs may change).
-  - "Multilingual" section renamed to **"Language Support"** and rewritten
-    honestly: leverages Claude's existing multilingual ability rather than
-    shipping localized templates. Localized story/sprint/retro templates
-    listed as roadmap, not as shipped feature.
-- **Badge cleanup** (reviewer-flagged manipulation):
-  - `tests-13/13_passing` (which tested the example, not the framework)
-    split into two: `frontmatter-validated` (framework) +
-    `example-13/13_passing` (example).
-  - `multilingual-EN|TR` badge removed — was overstating the feature.
-- **Count consistency** — `11 agents, 22 commands` synced across README
-  badges, header, FAQ, folder layout, `CLAUDE.md`, `plugin.json`, and
-  `demo/social-preview.svg`. Previously the same file had three different
-  numbers.
-- `plugin.json` keywords: dropped `multilingual`, added `brownfield`
-  and `scale-adaptive`.
-- **`design-lead` and `product-manager` agents deepened** with the same
-  framework rigor as backend-developer / security-reviewer. Previously these
-  two were thin (1.3–1.4 KB) compared to peers (4.6–6.6 KB) — now ~7.6 KB
-  each, with concrete frameworks instead of generic role prompts:
-  - `design-lead.md` now includes Discovery Questions, Nielsen's 10
-    Usability Heuristics review checklist, WCAG 2.1 Level AA mandatory
-    accessibility floor (11-point checklist), Atomic Design component
-    thinking (Atom/Molecule/Organism/Template), text-wireframe and
-    component-spec templates with examples, frontend handoff package
-    definition, and a Definition of Done.
-  - `product-manager.md` now includes mandatory hypothesis-driven framing
-    template, INVEST story criteria, Given/When/Then acceptance criteria
-    format with bad-vs-good examples, prioritization framework comparison
-    (MoSCoW, RICE, Kano, Cost of Delay, Opportunity Scoring) with
-    when-to-use guidance, Now/Next/Later roadmap horizons, user segment
-    discipline, separate Definition of Ready and Definition of Done
-    (product perspective, distinct from engineering's DoD), and a scope
-    control playbook.
-  - Output format blocks expanded to surface the new frameworks in
-    completion reports (e.g., `HEURISTICS`, `WCAG`, `INVEST_CHECK`,
-    `DOR_CHECK`, `HYPOTHESIS`).
+- **The default flow is now linear:**
+  ```
+  researcher → qa → tech-lead → developer(s) → tech-lead → qa → done
+  ```
+- **`/feature` rewritten** — drives the linear flow above. No longer a
+  "mid-tier" between quick-fix and sprint; it's the default for any change.
+- **`/quick-fix` rewritten** — short-circuits to developer + tech-lead glance.
+  Skips researcher, qa-analysis, task breakdown.
+- **`/bug-fix` rewritten** — researcher → developer → qa loop. Regression
+  test still required.
+- **`/release-check` rewritten** — drives `cto` for the GO/NO-GO call.
+- **`/security-review` rewritten** — explicitly on-demand; the default
+  flow only invokes it when qa flags risk.
+- **`/start` and `/help` rewritten** — reflect the smaller surface (no
+  stage-detection routing through `/idea` → `/analyze` → `/architecture`).
+- **`CLAUDE.md` rewritten** — describes the lean flow, the 7 agents, the
+  9 commands, hard gates.
+- **`.claude/docs/coordination.md` rewritten** — linear flow + on-call
+  triggers + conflict resolution. Replaces the old vertical/horizontal
+  delegation rules.
+- **`.claude/docs/collaboration.md` updated** — speed mode + hard gates
+  remain; "Inter-Agent" section trimmed to the linear flow.
+- **`README.md` and `README.tr.md` rewritten** — new badges (7 / 9), new
+  team section, new workflow walk-through (researcher → qa → tech-lead →
+  developer with the password-reset example).
+- **`plugin.json`** — version 0.1.1 → 0.2.0; description and keywords
+  updated; dropped `agile` / `scrum` / `scale-adaptive`; added `lean-flow`.
+- **`demo/social-preview.svg`** — counts and workflow updated.
+
+### Notes
+
+- `demo/workflow.cast` still references the old `/idea` → `/architecture`
+  → `/develop-story` → `/code-review` flow. The recording will be redone
+  with the new flow before v0.2.0 is tagged.
+- `examples/todo-cli/` artifacts (sprints, retros, code-review reports)
+  are historical snapshots from v0.1.x. They're left as-is — useful as a
+  before/after reference, not as a template for v0.2 work.
 
 ## [0.1.1] — 2026-04-27
 

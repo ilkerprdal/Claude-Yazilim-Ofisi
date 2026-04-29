@@ -16,8 +16,8 @@ prefer fewer, well-thought-out changes over many speculative ones.
 
 ```
 .claude/
-  agents/          # 12 agent definitions (markdown)
-  commands/        # 23 slash commands (markdown)
+  agents/          # 7 agent definitions (markdown)
+  commands/        # 9 slash commands (markdown)
   docs/            # Collaboration / coordination / standards
   memory/          # Project learning categories
   settings.json    # Permissions
@@ -31,6 +31,12 @@ demo/                 # Asciinema cast + SVG + social preview
 examples/             # Worked examples
 .github/              # Issue / PR templates
 ```
+
+The 7 agents are: **cto, researcher, qa, tech-lead, developer,
+security-reviewer, devops**. The 9 commands are: `/start`, `/takeover`,
+`/help`, `/feature`, `/quick-fix`, `/bug-fix`, `/security-review`,
+`/release-check`, `/memory`. Adding a new one is fine — adding one that
+overlaps an existing role is not.
 
 ## Adding or changing an agent
 
@@ -90,9 +96,13 @@ agent's prompt and prove yours is non-redundant.
 
 ### Tier
 
-- **Director** (Opus): high-stakes decisions, conflict resolution
-- **Lead** (Sonnet): cross-functional ownership, gate decisions
-- **Specialist** (Sonnet): hands-on implementation
+- **Top, on-call** (Opus): cto — stack / architecture / breaking change / release sign-off
+- **Flow** (Sonnet): researcher → qa → tech-lead → developer
+- **On-call** (Sonnet, security-reviewer Opus): security-reviewer, devops — invoked by trigger only
+
+If your new agent doesn't fit one of these and isn't a clear flow addition,
+open a discussion before opening a PR — overlap is the most common reason
+proposals get declined.
 
 ## Adding or changing a command
 
@@ -154,8 +164,8 @@ Should still be 13/13 passing.
 
 Plain prose, present tense, descriptive. No emoji prefix required.
 
-✅ `Add /quick-fix command for scale-adaptive bug fixing`
-✅ `Strengthen backend-developer with stack detection`
+✅ `Add /quick-fix command for lightweight changes`
+✅ `Strengthen developer with stack detection`
 ❌ `feat: stuff`
 ❌ `🚀 added cool thing`
 
