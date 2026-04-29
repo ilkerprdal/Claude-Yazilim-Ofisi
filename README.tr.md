@@ -5,10 +5,10 @@
 [![Release](https://img.shields.io/github/v/release/ilkerprdal/Claude-Software-Office)](https://github.com/ilkerprdal/Claude-Software-Office/releases)
 [![Validator](https://img.shields.io/badge/frontmatter-validated-brightgreen)](scripts/validate.py)
 ![Agents](https://img.shields.io/badge/agents-7-blueviolet)
-![Commands](https://img.shields.io/badge/commands-9-blue)
+![Commands](https://img.shields.io/badge/commands-10-blue)
 
 Claude Code oturumunu küçük ve düzenli bir yazılım ofisine dönüştürür.
-**7 ajan. 9 slash komutu. Tek doğrusal akış. Sprint, retro, standup yok.**
+**7 ajan. 10 slash komutu. Tek doğrusal akış. Sprint, retro, standup yok.**
 
 🇬🇧 **English version**: [README.md](README.md)
 
@@ -192,6 +192,7 @@ On-call (Sonnet, security-reviewer Opus)
 | `/takeover` | Önceki AI context'i (Cursor / Copilot / Windsurf / Aider) import et | — |
 | `/help` | Akıllı öneri + komut listesi | — |
 | **Build** | | |
+| `/research` | Bağımsız keşif — sadece kanıt, build başlatmaz | researcher |
 | `/feature` | Herhangi bir değişim için varsayılan akış | researcher → qa → tech-lead → developer |
 | `/quick-fix` | Ufak değişim, akışı atla | developer + tech-lead |
 | `/bug-fix` | Bul, düzelt, regresyon testi yaz | researcher → developer → qa |
@@ -200,6 +201,10 @@ On-call (Sonnet, security-reviewer Opus)
 | `/release-check` | Release öncesi GO / NO-GO | cto |
 | **Bilgi** | | |
 | `/memory` | Proje öğrenmelerini gör / ekle | — |
+
+`/research` build akışını başlatmadan researcher'ı çağıran tek komut.
+Bir problemin `/feature` mi, `/quick-fix` mi, yoksa hiç mi hak ettiğine
+karar vermeden önce scope'lamak için kullan.
 
 ---
 

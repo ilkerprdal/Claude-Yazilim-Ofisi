@@ -33,6 +33,11 @@ not value. v0.2 collapses it into a tight linear flow.
   (codebase grep, library docs, prior incidents) and returns evidence
   with file/line pointers. Does NOT recommend an approach. The qa step
   turns evidence into a plan.
+- **`/research` command** — standalone investigation. Drives the
+  `researcher` agent without kicking off the build flow. Use it to
+  scope a problem (where does X live? does library Y support Z?) before
+  deciding whether it deserves a `/feature`, `/quick-fix`, or nothing.
+  Returns evidence + open questions; the next step is the user's call.
 - **`qa` agent** (replaces `qa-lead` + `business-analyst`) — two modes:
   - Mode A (analysis): hypothesis + AC + test plan + risk flags
   - Mode B (validation): walks each AC against evidence after the developer ships

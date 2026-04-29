@@ -5,10 +5,10 @@
 [![Release](https://img.shields.io/github/v/release/ilkerprdal/Claude-Software-Office)](https://github.com/ilkerprdal/Claude-Software-Office/releases)
 [![Validator](https://img.shields.io/badge/frontmatter-validated-brightgreen)](scripts/validate.py)
 ![Agents](https://img.shields.io/badge/agents-7-blueviolet)
-![Commands](https://img.shields.io/badge/commands-9-blue)
+![Commands](https://img.shields.io/badge/commands-10-blue)
 
 Turn your Claude Code session into a small, organized software office.
-**7 agents. 9 slash commands. One linear flow. No sprint, no retro, no standup.**
+**7 agents. 10 slash commands. One linear flow. No sprint, no retro, no standup.**
 
 🇹🇷 **Türkçe**: [README.tr.md](README.tr.md)
 
@@ -192,6 +192,7 @@ On-call (Sonnet, security-reviewer Opus)
 | `/takeover` | Import prior AI context (Cursor / Copilot / Windsurf / Aider) | — |
 | `/help` | Smart suggestion + command list | — |
 | **Build** | | |
+| `/research` | Standalone investigation — facts only, no build | researcher |
 | `/feature` | Default flow for any change | researcher → qa → tech-lead → developer |
 | `/quick-fix` | Tiny change, skip the flow | developer + tech-lead |
 | `/bug-fix` | Locate, fix, regression-test | researcher → developer → qa |
@@ -200,6 +201,10 @@ On-call (Sonnet, security-reviewer Opus)
 | `/release-check` | Pre-release GO / NO-GO | cto |
 | **Knowledge** | | |
 | `/memory` | View / add project learnings | — |
+
+`/research` is the only command that drives the researcher *without* kicking
+off the build flow. Use it when you want to scope a problem before deciding
+whether it deserves a `/feature`, `/quick-fix`, or nothing at all.
 
 ---
 

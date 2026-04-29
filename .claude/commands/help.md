@@ -15,6 +15,7 @@ Look at project state and suggest 1–2 commands:
 |---|---|
 | Prior AI context files exist (context.md, .cursorrules, etc.) | `/takeover` |
 | Empty / new project | `/start` |
+| Want to scope something before deciding | `/research [topic]` |
 | Open bug reports in `production/qa/bugs/` | `/bug-fix [id]` |
 | Active feature in progress (`production/qa/spec-*.md` recent) | resume `/feature` for that slug |
 | Release approaching | `/release-check` |
@@ -52,6 +53,7 @@ BUG FLOW:
 | `/takeover` | Import prior AI context files | — |
 | `/help` | This screen | — |
 | **Build** | | |
+| `/research` | Standalone investigation — facts only, no build | researcher |
 | `/feature` | Default flow for any change | researcher → qa → tech-lead → developer |
 | `/quick-fix` | Tiny change, skip the flow | developer + tech-lead |
 | `/bug-fix` | Locate, fix, regression-test | researcher → developer → qa |

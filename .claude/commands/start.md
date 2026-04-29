@@ -65,7 +65,7 @@ If `production/session-state/active.md` exists, summarize last state.
 | State | Suggestion |
 |---|---|
 | Empty repo, no code | Describe what you want to build → cto picks stack |
-| Existing code, no docs | `/feature` for the next change you want |
+| Existing code, no docs | `/research [area]` to scope, then `/feature` |
 | Open bug reports in `production/qa/bugs/` | `/bug-fix [id]` |
 | About to release | `/release-check` |
 | Just want a one-liner change | `/quick-fix` |

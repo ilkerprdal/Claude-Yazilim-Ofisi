@@ -1,7 +1,7 @@
 {
   "name": "claude-software-office",
   "version": "0.2.0",
-  "description": "Turn Claude Code into a small, organized software office. 7 agents and 9 commands on a tight linear flow: researcher → qa → tech-lead → developer. No sprint, no retro, no standup.",
+  "description": "Turn Claude Code into a small, organized software office. 7 agents and 10 commands on a tight linear flow: researcher → qa → tech-lead → developer. No sprint, no retro, no standup.",
   "author": {
     "name": "ilkerprdal",
     "url": "https://github.com/ilkerprdal"

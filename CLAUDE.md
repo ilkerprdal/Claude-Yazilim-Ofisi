@@ -1,7 +1,7 @@
 # Software Office — Lean Mode
 
 A small software office living inside a Claude Code session.
-**7 agents. 9 commands. No sprint, no retro, no standup. Linear flow.**
+**7 agents. 10 commands. No sprint, no retro, no standup. Linear flow.**
 
 ## The Flow
 
@@ -27,13 +27,14 @@ trigger fires, never as default steps.
 | On-call | **security-reviewer** | STRIDE / OWASP audit when qa flags risk or release demands it |
 | On-call | **devops** | CI/CD / Docker / deploy / observability when needed |
 
-## The 9 Commands
+## The 10 Commands
 
 | Command | Purpose |
 |---|---|
 | `/start` | Detect stack, suggest next |
 | `/takeover` | Import prior AI context (Cursor/Copilot/etc.) |
 | `/help` | Smart suggestion + command list |
+| `/research` | Standalone investigation — facts only, no build |
 | `/feature` | Default flow for any change |
 | `/quick-fix` | Tiny change — skip the flow |
 | `/bug-fix` | researcher → developer → qa loop |
